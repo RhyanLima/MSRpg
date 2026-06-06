@@ -20,14 +20,21 @@
     <dependency>
         <groupId>io.javalin</groupId>
         <artifactId>javalin</artifactId>
-        <version>7.2.2</version>
+        <version>6.7.0</version>
     </dependency>
 
     <!-- JSON -->
     <dependency>
         <groupId>io.javalin</groupId>
         <artifactId>javalin-rendering</artifactId>
-        <version>7.2.2</version>
+        <version>6.7.0</version>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.21.4</version>
+        <scope>compile</scope>
     </dependency>
 
     <!-- SQLite -->
@@ -100,15 +107,15 @@
         <version>3.6.0</version>
         <executions>
           <execution>
-            <phase>packege</phase>
+            <phase>package</phase>
             <goals>
               <goal>shade</goal>
             </goals>
             <configuration>
-              <createDependenceReducedPom>false</createDependenceReducedPom>
+              <createDependencyReducedPom>false</createDependencyReducedPom>
               <transformers>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                  <mainClass>com.msrpg.Main</mainClass>
+                  <mainClass>com.rcl.msrpg.App</mainClass>
                 </transformer>
               </transformers>
             </configuration>

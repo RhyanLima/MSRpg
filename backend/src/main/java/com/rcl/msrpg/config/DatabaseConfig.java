@@ -1,6 +1,5 @@
 package com.rcl.msrpg.config;
 
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -17,7 +16,7 @@ public class DatabaseConfig {
     public static Jdbi create(String databasePath) {
         
         SQLiteDataSource dataSource = new SQLiteDataSource();
-        dataSource.setUrl("jdbc:sqlite: " + databasePath);
+        dataSource.setUrl("jdbc:sqlite:" + databasePath);
 
         Jdbi jdbi = Jdbi.create(dataSource);
         jdbi.installPlugin(new SqlObjectPlugin());
