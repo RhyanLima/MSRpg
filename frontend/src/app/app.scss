@@ -1,0 +1,31 @@
+.app-shell {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    background: #0a0806;
+    color: #f5ead6;
+    font-family: Georgia, serif;
+}
+
+.card {
+    width: min(720px, 90vw);
+    padding: 2rem;
+    border: 1px solid rgba(201, 146, 42, 0.25);
+    background: #15120d;
+    border-radius: 4px;
+}
+
+.eyebrow {
+    color: #c9922a;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    font-size: 0.75rem;
+}
+
+.error {
+    color: #e74c3c;
+}
+
+pre {
+    white-space: pre-wrap;
+}
