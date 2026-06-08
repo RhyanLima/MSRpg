@@ -1,26 +1,40 @@
 {
   "name": "msrpg",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Software de criação de sistemas de rpg.",
-  "main": "index.js",
+  "private": true,
+  "main": "electron/main.js",
+
   "directories": {
     "doc": "docs"
   },
+
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "backend:dev": "cd backend && mvn exec:java -Dexec.mainClass=com.msrpg.Main",
+    "backend:build": "cd backend && mvn clean package",
+    "frontend:dev": "cd frontend && ng serve",
+    "frontend:build": "cd frontend && ng build --configuration production",
+    "electron:dev": "concurrently \"npm run frontend:dev\" \"wait-on http://localhost:4200 && electron .\"",
+    "build": "npm run backend:build && npm run frontend:build",
+    "dist": "npm run build && electron-builder"
   },
+
   "repository": {
     "type": "git",
     "url": "git+https://github.com/RhyanLima/MSRpg.git"
   },
+
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
+
   "bugs": {
     "url": "https://github.com/RhyanLima/MSRpg/issues"
   },
+
   "homepage": "https://github.com/RhyanLima/MSRpg#readme",
+
   "devDependencies": {
     "concurrently": "^10.0.3",
     "electron": "^42.3.3",

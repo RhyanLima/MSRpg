@@ -1,0 +1,36 @@
+appId: com.msrpg.app
+productName: MSRpg
+
+directories:
+  output: release
+  buildResources: build
+
+files:
+  - electron/**/*
+  - package.json
+
+extraResources:
+  - from: backend/target/msrpg-backend.jar
+    to: backend/msrpg-backend.jar
+
+  - from: frontend/dist/frontend
+    to: frontend
+
+  - from: jre
+    to: jre
+
+win:
+  target: nsis
+  icon: build/icon.ico
+
+linux:
+  target: AppImage
+  icon: build/icon.png
+
+mac:
+  target: dmg
+  icon: build/icon.icns
+
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
