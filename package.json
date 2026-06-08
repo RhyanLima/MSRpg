@@ -1,0 +1,30 @@
+{
+  "name": "msrpg",
+  "version": "1.0.0",
+  "description": "Software de criação de sistemas de rpg.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RhyanLima/MSRpg.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/RhyanLima/MSRpg/issues"
+  },
+  "homepage": "https://github.com/RhyanLima/MSRpg#readme",
+  "devDependencies": {
+    "concurrently": "^10.0.3",
+    "electron": "^42.3.3",
+    "electron-builder": "^26.15.0",
+    "wait-on": "^9.0.10"
+  }
+}
