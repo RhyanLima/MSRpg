@@ -1,44 +1,17 @@
 {
   "name": "msrpg",
   "version": "0.1.0",
-  "description": "Software de criação de sistemas de rpg.",
-  "private": true,
+  "description": "MSRpg desktop application",
+  "author": "Rhyan Carlos",
   "main": "electron/main.js",
-
-  "directories": {
-    "doc": "docs"
-  },
-
   "scripts": {
-    "backend:dev": "cd backend && mvn exec:java -Dexec.mainClass=com.msrpg.Main",
+    "frontend:build": "cd frontend && ng build",
     "backend:build": "cd backend && mvn clean package",
-    "frontend:dev": "cd frontend && ng serve",
-    "frontend:build": "cd frontend && ng build --configuration production",
-    "electron:dev": "concurrently \"npm run frontend:dev\" \"wait-on http://localhost:4200 && electron .\"",
     "build": "npm run backend:build && npm run frontend:build",
     "dist": "npm run build && electron-builder"
   },
-
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/RhyanLima/MSRpg.git"
-  },
-
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-
-  "bugs": {
-    "url": "https://github.com/RhyanLima/MSRpg/issues"
-  },
-
-  "homepage": "https://github.com/RhyanLima/MSRpg#readme",
-
   "devDependencies": {
-    "concurrently": "^10.0.3",
-    "electron": "^42.3.3",
-    "electron-builder": "^26.15.0",
-    "wait-on": "^9.0.10"
+    "electron": "^30.0.0",
+    "electron-builder": "^26.15.0"
   }
 }

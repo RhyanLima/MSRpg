@@ -3,3 +3,5 @@
 docs
 backend/target/
 node_modules
+jre
+release
