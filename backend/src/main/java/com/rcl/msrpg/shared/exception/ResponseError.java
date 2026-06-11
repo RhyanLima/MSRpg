@@ -5,39 +5,39 @@ import java.util.Date;
 public class ResponseError {
 
     private Date timesTamp = new Date();
-    private Integer statusCode = 400;
-    private String code;
+    private Integer code = 400;
+    private String type;
     private String message;
 
     public ResponseError(String message) {
         this.message = message;
     }
 
-    public ResponseError(Integer statusCode, String message ) {
+    public ResponseError(Integer code, String message ) {
         this.message = message;
-        this.statusCode = statusCode;
+        this.code = code;
     }
 
-    public ResponseError(Integer statusCode, String code, String message ) {
+    public ResponseError(Integer code, String type, String message ) {
         this.message = message;
-        this.statusCode = statusCode;
         this.code = code;
+        this.type = type;
     }
 
     public Date timesTamp() {
         return timesTamp;
     }
 
-    public Integer statusCode() {
-        return statusCode;
+    public Integer code() {
+        return code;
     }
 
     public String message() {
         return message;
     }
 
-    public String code() {
-        return code;
+    public String type() {
+        return type;
     }
 
 }
