@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rcl.msrpg.shared.configuration.AppContainer;
+import com.rcl.msrpg.shared.exception.ResponseError;
 
 import io.javalin.Javalin;
 import io.javalin.json.JavalinJackson;
@@ -22,7 +23,7 @@ public class ServerBootstrap {
         int port = resolvePort();
 
         Javalin app = Javalin.create(config -> {
-            config.jsonMapper(new JavalinJackson(objectMapper()));
+            config.jsonMapper(new JavalinJackson(objectMapper(), true));
 
             config.bundledPlugins.enableCors(cors -> {
                 cors.addRule(rule -> {
@@ -67,19 +68,11 @@ public class ServerBootstrap {
 
             String path = ctx.path();
 
-            if (path.equals("/health")) {
-                return;
-            }
-
-            if (path.startsWith("/ws/")) {
-                return;
-            }
-
             String receivedToken = ctx.header("X-Session-Token");
 
             if (!sessionToken.equals(receivedToken)) {
                 ctx.status(401)
-                    .json(new ErrorResponse("UNAUTHORIZED", "Token local inválido."))
+                    .json(new ResponseError(401, "Token local inválido."))
                     .skipRemainingHandlers();
             }
         });
@@ -87,14 +80,14 @@ public class ServerBootstrap {
 
     private static void registerErrors(Javalin app) {
         app.exception(IllegalArgumentException.class, (exception, ctx) -> {
-            ctx.status(400).json(new ErrorResponse("BAD_REQUEST", exception.getMessage()));
+            ctx.status(400).json(new ResponseError(400, exception.getMessage()));
         });
 
         app.exception(Exception.class, (exception, ctx) -> {
             exception.printStackTrace();
 
             ctx.status(500).json(
-                new ErrorResponse("INTERNAL_ERROR", "Erro interno da aplicação.")
+                new ResponseError(500, "Erro interno da aplicação.")
             );
         });
     }

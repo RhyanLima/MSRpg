@@ -1,5 +1,7 @@
 package com.rcl.msrpg.bootstrap;
 
+import io.javalin.Javalin;
+
 public class ShutdownHook {
 
     private ShutdownHook() {}

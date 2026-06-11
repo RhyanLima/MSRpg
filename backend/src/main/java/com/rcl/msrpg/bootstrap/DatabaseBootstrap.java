@@ -41,7 +41,7 @@ public final class DatabaseBootstrap {
         return databasePath.toString();
     }
 
-    public static Jdbi createJdbi() {
+    public static Jdbi createJdbi(String databasePath) {
 
         SQLiteDataSource dataSource = new SQLiteDataSource();
 
