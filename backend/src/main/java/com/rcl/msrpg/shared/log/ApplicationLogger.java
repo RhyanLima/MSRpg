@@ -5,16 +5,15 @@ import org.slf4j.LoggerFactory;
 
 public class ApplicationLogger {
 
-
     private static final Logger log = LoggerFactory.getLogger("APPLICATION");
     private static final String LOGGER_NAME = "APPLICATION";
 
     public void info(String message) {
-        log.info(message);;
+        log.info(message);
     }
 
     public void debug(String message) {
-        log.debug(message);;
+        log.debug(message);
     }
 
     public void warn(String message) {
@@ -26,7 +25,7 @@ public class ApplicationLogger {
     }
 
     public void error(String message) {
-        log.error(message);;
+        log.error(message);
     }
 
     public void error(String message, Throwable throwable) {
