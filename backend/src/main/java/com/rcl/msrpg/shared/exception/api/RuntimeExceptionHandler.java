@@ -1,12 +1,9 @@
-package com.rcl.msrpg.shared.exception;
+package com.rcl.msrpg.shared.exception.api;
 
 import java.sql.SQLException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.rcl.msrpg.shared.exception.api.ApiErrorResponse;
-import com.rcl.msrpg.shared.exception.api.ApiException;
 
 import io.javalin.Javalin;
 

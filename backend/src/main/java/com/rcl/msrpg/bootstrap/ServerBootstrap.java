@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rcl.msrpg.shared.configuration.AppContainer;
 import com.rcl.msrpg.shared.exception.ResponseError;
+import com.rcl.msrpg.shared.exception.api.RuntimeExceptionHandler;
+import com.rcl.msrpg.shared.log.RuntimeLogHandler;
 
 import io.javalin.Javalin;
 import io.javalin.json.JavalinJackson;
@@ -35,7 +37,9 @@ public class ServerBootstrap {
         });
 
         registerSecurity(app, sessionToken);
-        registerErrors(app);
+        
+        RuntimeLogHandler.register(app);
+        RuntimeExceptionHandler.register(app);
 
         app.start(port);
 
@@ -75,20 +79,6 @@ public class ServerBootstrap {
                     .json(new ResponseError(401, "Token local inválido."))
                     .skipRemainingHandlers();
             }
-        });
-    }
-
-    private static void registerErrors(Javalin app) {
-        app.exception(IllegalArgumentException.class, (exception, ctx) -> {
-            ctx.status(400).json(new ResponseError(400, exception.getMessage()));
-        });
-
-        app.exception(Exception.class, (exception, ctx) -> {
-            exception.printStackTrace();
-
-            ctx.status(500).json(
-                new ResponseError(500, "Erro interno da aplicação.")
-            );
         });
     }
 
