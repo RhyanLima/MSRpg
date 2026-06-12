@@ -10,11 +10,11 @@ import com.rcl.msrpg.shared.exception.api.ApiException;
 
 import io.javalin.Javalin;
 
-public class RuntimeExeptionHandler {
+public class RuntimeExceptionHandler {
 
-    private static final Logger log = LoggerFactory.getLogger(RuntimeExeptionHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(RuntimeExceptionHandler.class);
 
-    private RuntimeExeptionHandler() {}
+    private RuntimeExceptionHandler() {}
 
     public static void register(Javalin app) {
         
