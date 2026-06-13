@@ -61,7 +61,8 @@ public abstract class Identifier<T extends Identifier<T>> {
 
     // Centralizar os tipos dos Ids aqui
     protected enum Type {
-        RPG_SYSTEM
+        RPG_SYSTEM,
+        RESOLUTION_POLICY
     }
 
 }

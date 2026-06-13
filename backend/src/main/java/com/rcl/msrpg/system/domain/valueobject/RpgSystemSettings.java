@@ -1,0 +1,189 @@
+package com.rcl.msrpg.system.domain.valueobject;
+
+import java.util.Objects;
+
+public record RpgSystemSettings(RuntimeSettings runtime, SnapshotSettings snapshots, LogSettings logs, ImportExportSettings importExport) {
+
+    public RpgSystemSettings {
+        runtime = Objects.requireNonNullElse(runtime, RuntimeSettings.defaults());
+        snapshots = Objects.requireNonNullElse(snapshots, SnapshotSettings.defaults());
+        logs = Objects.requireNonNullElse(logs, LogSettings.defaults());
+        importExport = Objects.requireNonNullElse(importExport, ImportExportSettings.defaults());
+    }
+
+    public static RpgSystemSettings defaults() {
+        return new RpgSystemSettings(
+            RuntimeSettings.defaults(),
+            SnapshotSettings.defaults(),
+            LogSettings.defaults(),
+            ImportExportSettings.defaults()
+        );
+    }
+
+    public record RuntimeSettings(
+        ModifierCommitStrategy modifierCommitStrategy,
+        CycleDetectionSettings cycleDetection,
+        MissingComponentPolicy missingComponentPolicy
+    ) {
+
+        public RuntimeSettings {
+            modifierCommitStrategy = Objects.requireNonNullElse(
+                modifierCommitStrategy,
+                ModifierCommitStrategy.BATCHED
+            );
+
+            cycleDetection = Objects.requireNonNullElse(
+                cycleDetection,
+                CycleDetectionSettings.defaults()
+            );
+
+            missingComponentPolicy = Objects.requireNonNullElse(
+                missingComponentPolicy,
+                MissingComponentPolicy.WARN_AND_SKIP_STEP
+            );
+        }
+
+        public static RuntimeSettings defaults() {
+            return new RuntimeSettings(
+                ModifierCommitStrategy.BATCHED,
+                CycleDetectionSettings.defaults(),
+                MissingComponentPolicy.WARN_AND_SKIP_STEP
+            );
+        }
+    }
+
+    public record CycleDetectionSettings(
+        boolean enabled,
+        int maxDepth,
+        CycleLimitBehavior onLimitReached
+    ) {
+
+        public CycleDetectionSettings {
+            if (maxDepth < 1) {
+                throw new IllegalArgumentException("maxDepth deve ser maior que zero.");
+            }
+
+            onLimitReached = Objects.requireNonNullElse(
+                onLimitReached,
+                CycleLimitBehavior.ABORT_AND_WARN
+            );
+        }
+
+        public static CycleDetectionSettings defaults() {
+            return new CycleDetectionSettings(
+                true,
+                20,
+                CycleLimitBehavior.ABORT_AND_WARN
+            );
+        }
+    }
+
+    public record SnapshotSettings(
+        boolean manualSnapshotsEnabled,
+        boolean automaticSnapshotsEnabled,
+        SnapshotFrequency automaticFrequency,
+        int maxSnapshotsToKeep
+    ) {
+
+        public SnapshotSettings {
+            automaticFrequency = Objects.requireNonNullElse(
+                automaticFrequency,
+                SnapshotFrequency.EVERY_SESSION_END
+            );
+
+            if (maxSnapshotsToKeep < 0) {
+                throw new IllegalArgumentException("maxSnapshotsToKeep não pode ser negativo.");
+            }
+        }
+
+        public static SnapshotSettings defaults() {
+            return new SnapshotSettings(
+                true,
+                true,
+                SnapshotFrequency.EVERY_SESSION_END,
+                10
+            );
+        }
+    }
+
+    public record LogSettings(
+        SessionLogLevel minimumSessionLogLevel,
+        int maxSessionLogsToKeep
+    ) {
+
+        public LogSettings {
+            minimumSessionLogLevel = Objects.requireNonNullElse(
+                minimumSessionLogLevel,
+                SessionLogLevel.INFO
+            );
+
+            if (maxSessionLogsToKeep < 0) {
+                throw new IllegalArgumentException("maxSessionLogsToKeep não pode ser negativo.");
+            }
+        }
+
+        public static LogSettings defaults() {
+            return new LogSettings(
+                SessionLogLevel.INFO,
+                1000
+            );
+        }
+    }
+
+    public record ImportExportSettings(
+        ConflictResolutionStrategy defaultConflictResolutionStrategy,
+        boolean includeDependenciesByDefault
+    ) {
+
+        public ImportExportSettings {
+            defaultConflictResolutionStrategy = Objects.requireNonNullElse(
+                defaultConflictResolutionStrategy,
+                ConflictResolutionStrategy.ASK_USER
+            );
+        }
+
+        public static ImportExportSettings defaults() {
+            return new ImportExportSettings(
+                ConflictResolutionStrategy.ASK_USER,
+                true
+            );
+        }
+    }
+
+    public enum ModifierCommitStrategy {
+        BATCHED,
+        IMMEDIATE
+    }
+
+    public enum MissingComponentPolicy {
+        WARN_AND_SKIP_STEP,
+        FAIL_EVENT,
+        IGNORE_SILENTLY
+    }
+
+    public enum CycleLimitBehavior {
+        ABORT_AND_WARN,
+        ABORT_AND_FAIL
+    }
+
+    public enum SnapshotFrequency {
+        DISABLED,
+        EVERY_TURN_END,
+        EVERY_COMBAT_END,
+        EVERY_SESSION_END
+    }
+
+    public enum SessionLogLevel {
+        DEBUG,
+        INFO,
+        WARN,
+        ERROR
+    }
+
+    public enum ConflictResolutionStrategy {
+        ASK_USER,
+        SKIP,
+        OVERWRITE,
+        CREATE_COPY
+    }
+}
