@@ -5,7 +5,7 @@ import java.util.UUID;
 public class RpgSystemId extends Identifier<RpgSystemId> {
 
     private RpgSystemId(UUID value) {
-        super(value, Identifier.Type.RPG_SYSTEM);
+        super(value);
     }
 
     public static RpgSystemId generate() {

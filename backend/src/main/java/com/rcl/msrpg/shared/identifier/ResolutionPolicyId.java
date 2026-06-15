@@ -5,7 +5,7 @@ import java.util.UUID;
 public class ResolutionPolicyId extends Identifier<ResolutionPolicyId> {
 
     public ResolutionPolicyId(UUID value) {
-        super(value, Type.RESOLUTION_POLICY);
+        super(value);
     }
 
     public static ResolutionPolicyId generate() {
