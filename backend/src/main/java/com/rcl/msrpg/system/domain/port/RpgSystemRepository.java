@@ -1,15 +1,21 @@
 package com.rcl.msrpg.system.domain.port;
 
+import java.util.Optional;
+
 import com.rcl.msrpg.shared.identifier.RpgSystemId;
 import com.rcl.msrpg.system.domain.model.RpgSystem;
 
 public interface RpgSystemRepository {
 
-    public RpgSystem create(RpgSystem rpgSystem);
+    RpgSystem save(RpgSystem rpgSystem);
 
-    public RpgSystem findById(RpgSystemId id);
+    Optional<RpgSystem> findById(RpgSystemId id);
 
-    public RpgSystem update(RpgSystem rpgSystem);
+    boolean existsById(RpgSystemId id);
 
-    public void delete(RpgSystemId id);
+    boolean existsByName(String name);
+
+    RpgSystem update(RpgSystem rpgSystem);
+
+    void delete(RpgSystemId id);
 }
