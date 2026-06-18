@@ -19,7 +19,7 @@ public class RpgSystem {
     private final Instant createdAt;
     private Instant updatedAt;
 
-    private RpgSystem(RpgSystemId id, String name, String description, String engineVersion, String contentVersion, ResolutionPolicyId defaultResolutionPolicyId, SyncPolicy syncPolicy, RpgSystemSettings settings) {
+    private RpgSystem(RpgSystemId id, String name, String description, String engineVersion, String contentVersion, ResolutionPolicyId defaultResolutionPolicyId, SyncPolicy syncPolicy, RpgSystemSettings settings, Instant createdAt, Instant updatedAt) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -28,12 +28,16 @@ public class RpgSystem {
         this.defaultResolutionPolicyId = defaultResolutionPolicyId;
         this.syncPolicy = syncPolicy;
         this.settings = settings;
-        this.createdAt = Instant.now();
-        this.updatedAt = null;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public static RpgSystem create(RpgSystemId id, String name, String description, String engineVersion, String contentVersion, ResolutionPolicyId defaultResolutionPolicyId, SyncPolicy syncPolicy, RpgSystemSettings settings) {
-        return new RpgSystem(id, name, description, engineVersion, contentVersion, defaultResolutionPolicyId, syncPolicy, settings);
+        return new RpgSystem(id, name, description, engineVersion, contentVersion, defaultResolutionPolicyId, syncPolicy, settings, Instant.now(), null);
+    }
+
+    public static RpgSystem reconstruct(RpgSystemId id, String name, String description, String engineVersion, String contentVersion, ResolutionPolicyId defaultResolutionPolicyId, SyncPolicy syncPolicy, RpgSystemSettings settings, Instant createdAt, Instant updatedAt) {
+        return new RpgSystem(id, name, description, engineVersion, contentVersion, defaultResolutionPolicyId, syncPolicy, settings, createdAt, updatedAt);
     }
 
     public RpgSystemId id() {
