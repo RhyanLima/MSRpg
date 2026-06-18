@@ -15,7 +15,7 @@ public abstract class Identifier<T extends Identifier<T>> {
         this.value = value;
     }
 
-    public UUID getValue() {
+    public UUID value() {
         return value;
     }
 

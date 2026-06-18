@@ -2,7 +2,17 @@ package com.rcl.msrpg.system.domain.valueobject;
 
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+// Nota: Isso tá grande, considerar quebrar depois
+
 public record RpgSystemSettings(RuntimeSettings runtime, SnapshotSettings snapshots, LogSettings logs, ImportExportSettings importExport) {
+
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper()
+        .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     public RpgSystemSettings {
         runtime = Objects.requireNonNullElse(runtime, RuntimeSettings.defaults());
@@ -19,6 +29,31 @@ public record RpgSystemSettings(RuntimeSettings runtime, SnapshotSettings snapsh
             ImportExportSettings.defaults()
         );
     }
+
+    /* Json Parsers */
+
+    public static RpgSystemSettings fromJson(String json) {
+        if (json == null || json.isBlank()) {
+            return RpgSystemSettings.defaults();
+        }
+
+        try {
+            return OBJECT_MAPPER.readValue(json, RpgSystemSettings.class);
+        } catch (JsonProcessingException exception) {
+            throw new IllegalArgumentException("JSON inválido para RpgSystemSettings.", exception);
+        }
+    }
+
+    @JsonIgnore
+    public String toJson() {
+        try {
+            return OBJECT_MAPPER.writeValueAsString(this);
+        } catch (JsonProcessingException exception) {
+            throw new IllegalStateException("Não foi possível serializar RpgSystemSettings.", exception);
+        }
+    }
+
+    /* Records Internos */
 
     public record RuntimeSettings(
         ModifierCommitStrategy modifierCommitStrategy,
@@ -149,6 +184,8 @@ public record RpgSystemSettings(RuntimeSettings runtime, SnapshotSettings snapsh
             );
         }
     }
+
+    /* ENUMs Internos */
 
     public enum ModifierCommitStrategy {
         BATCHED,

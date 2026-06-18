@@ -16,4 +16,8 @@ public class ResolutionPolicyId extends Identifier<ResolutionPolicyId> {
         return new ResolutionPolicyId(value);
     }
 
+    public static ResolutionPolicyId of(String value) {
+        return new ResolutionPolicyId(parseUUID(value));
+    }
+
 }
