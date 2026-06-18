@@ -40,7 +40,7 @@ public record RpgSystemSettings(RuntimeSettings runtime, SnapshotSettings snapsh
         try {
             return OBJECT_MAPPER.readValue(json, RpgSystemSettings.class);
         } catch (JsonProcessingException exception) {
-            throw new IllegalArgumentException("JSON inválido para RpgSystemSettings.", exception);
+            throw new IllegalArgumentException("Invalid JSON to RpgSystemSettings.", exception);
         }
     }
 
@@ -49,7 +49,7 @@ public record RpgSystemSettings(RuntimeSettings runtime, SnapshotSettings snapsh
         try {
             return OBJECT_MAPPER.writeValueAsString(this);
         } catch (JsonProcessingException exception) {
-            throw new IllegalStateException("Não foi possível serializar RpgSystemSettings.", exception);
+            throw new IllegalStateException("Unable to serialize RpgSystemSettings.", exception);
         }
     }
 
@@ -95,7 +95,7 @@ public record RpgSystemSettings(RuntimeSettings runtime, SnapshotSettings snapsh
 
         public CycleDetectionSettings {
             if (maxDepth < 1) {
-                throw new IllegalArgumentException("maxDepth deve ser maior que zero.");
+                throw new IllegalArgumentException("maxDepth must be greater than zero.");
             }
 
             onLimitReached = Objects.requireNonNullElse(
@@ -127,7 +127,7 @@ public record RpgSystemSettings(RuntimeSettings runtime, SnapshotSettings snapsh
             );
 
             if (maxSnapshotsToKeep < 0) {
-                throw new IllegalArgumentException("maxSnapshotsToKeep não pode ser negativo.");
+                throw new IllegalArgumentException("maxSnapshotsToKeep cannot be nagative.");
             }
         }
 
@@ -153,7 +153,7 @@ public record RpgSystemSettings(RuntimeSettings runtime, SnapshotSettings snapsh
             );
 
             if (maxSessionLogsToKeep < 0) {
-                throw new IllegalArgumentException("maxSessionLogsToKeep não pode ser negativo.");
+                throw new IllegalArgumentException("maxSessionLogsToKeep cannot be nagative.");
             }
         }
 

@@ -6,6 +6,7 @@ import com.rcl.msrpg.system.application.dto.CreateRpgSystemCommand;
 import com.rcl.msrpg.system.application.dto.RpgSystemResult;
 import com.rcl.msrpg.system.application.dto.RpgSystemSummaryResult;
 import com.rcl.msrpg.system.domain.model.RpgSystem;
+import com.rcl.msrpg.system.domain.model.RpgSystemSummary;
 import com.rcl.msrpg.system.domain.model.RpgSystem.SyncPolicy;
 import com.rcl.msrpg.system.domain.valueobject.RpgSystemSettings;
 
@@ -41,7 +42,7 @@ public class RpgSystemApplicationMapper {
         );
     }
 
-    public static RpgSystemSummaryResult toSummaryResult(RpgSystem rpgSystem) {
+    public static RpgSystemSummaryResult toSummaryResult(RpgSystemSummary rpgSystem) {
         return new RpgSystemSummaryResult(
             rpgSystem.id().toString(),
             rpgSystem.name(),

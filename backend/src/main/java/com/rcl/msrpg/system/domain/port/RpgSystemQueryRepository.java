@@ -6,7 +6,7 @@ import com.rcl.msrpg.shared.identifier.ResolutionPolicyId;
 import com.rcl.msrpg.system.domain.model.RpgSystem.SyncPolicy;
 import com.rcl.msrpg.system.domain.model.RpgSystemSummary;
 
-public interface RpgSystemQuerryRepository {
+public interface RpgSystemQueryRepository {
 
     List<RpgSystemSummary> findAll();
 

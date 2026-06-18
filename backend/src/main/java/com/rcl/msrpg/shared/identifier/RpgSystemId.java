@@ -16,4 +16,8 @@ public class RpgSystemId extends Identifier<RpgSystemId> {
         return new RpgSystemId(value);
     }
 
+    public static RpgSystemId of(String value) {
+        return new RpgSystemId(parseUUID(value));
+    }
+
 }
