@@ -7,7 +7,7 @@ import com.rcl.msrpg.system.domain.model.RpgSystem;
 
 public interface RpgSystemRepository {
 
-    RpgSystem save(RpgSystem rpgSystem);
+    void save(RpgSystem rpgSystem);
 
     Optional<RpgSystem> findById(RpgSystemId id);
 
