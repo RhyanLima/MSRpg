@@ -8,7 +8,7 @@ import com.rcl.msrpg.shared.identifier.RpgSystemId;
 import com.rcl.msrpg.system.domain.model.RpgSystem;
 import com.rcl.msrpg.system.domain.port.RpgSystemRepository;
 
-public class RpgSystemRepositoryAdapter implements RpgSystemRepository {
+public class RpgSystemRepositoryAdapter implements RpgSystemRepository { // Adicionar RpgSystemQueryRepository
 
     private final Jdbi jdbi;
     private final RpgSystemPersistenceMapper mapper;
@@ -41,32 +41,24 @@ public class RpgSystemRepositoryAdapter implements RpgSystemRepository {
 
     @Override
     public Optional<RpgSystem> findById(RpgSystemId id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
+        return jdbi.withExtension(JdbiRpgSystemRepository.class, jdbiRepository -> 
+            jdbiRepository.findById(id.toString()).map(mapper::toDomain)
+        );
     }
 
     @Override
     public boolean existsById(RpgSystemId id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'existsById'");
+        return jdbi.withExtension(JdbiRpgSystemRepository.class, jdbiRepository -> jdbiRepository.existsById(id.toString()));
     }
 
     @Override
     public boolean existsByName(String name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'existsByName'");
-    }
-
-    @Override
-    public RpgSystem update(RpgSystem rpgSystem) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        return jdbi.withExtension(JdbiRpgSystemRepository.class, jdbiRepository -> jdbiRepository.existsById(name));
     }
 
     @Override
     public void delete(RpgSystemId id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+        jdbi.useExtension(JdbiRpgSystemRepository.class, dao -> dao.deleteById(id.toString()));
     }
 
 }

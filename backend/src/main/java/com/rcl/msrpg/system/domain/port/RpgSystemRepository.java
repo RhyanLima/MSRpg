@@ -15,7 +15,5 @@ public interface RpgSystemRepository {
 
     boolean existsByName(String name);
 
-    RpgSystem update(RpgSystem rpgSystem);
-
     void delete(RpgSystemId id);
 }

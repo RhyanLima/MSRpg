@@ -71,6 +71,23 @@ public interface JdbiRpgSystemRepository {
         """)
     Optional<RpgSystemEntity> findById(@Bind("id") String id);
 
+    @SqlQuery("""
+        SELECT
+            id,
+            name,
+            description,
+            engine_version AS engineVersion,
+            content_version AS contentVersion,
+            default_resolution_policy_id AS defaultResolutionPolicyId,
+            sync_policy AS syncPolicy,
+            settings AS settingsJson,
+            created_at AS createdAt,
+            updated_at AS updatedAt
+        FROM rpg_systems
+        WHERE name = :name
+        """)
+    Optional<RpgSystemEntity> findByName(@Bind("id") String id);
+
 
     @SqlQuery("""
         SELECT
