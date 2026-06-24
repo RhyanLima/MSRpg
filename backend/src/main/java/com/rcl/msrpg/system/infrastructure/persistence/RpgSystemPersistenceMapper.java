@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rcl.msrpg.shared.identifier.ResolutionPolicyId;
 import com.rcl.msrpg.shared.identifier.RpgSystemId;
 import com.rcl.msrpg.system.domain.model.RpgSystem;
+import com.rcl.msrpg.system.domain.model.RpgSystemSummary;
 import com.rcl.msrpg.system.domain.model.RpgSystem.SyncPolicy;
 import com.rcl.msrpg.system.domain.valueobject.RpgSystemSettings;
 
@@ -47,6 +48,19 @@ public class RpgSystemPersistenceMapper {
             SyncPolicy.valueOf(entity.syncPolicy()),
             fromJson(entity.settingsJson()),
             entity.createdAt(),
+            entity.updatedAt()
+        );
+    }
+
+    public RpgSystemSummary toSummary(RpgSystemEntity entity) {
+        return new RpgSystemSummary(
+            RpgSystemId.of(entity.id()), 
+            entity.name(), 
+            entity.description(), 
+            entity.engineVersion(), 
+            entity.contentVersion(), 
+            SyncPolicy.valueOf(entity.syncPolicy()), 
+            entity.createdAt(), 
             entity.updatedAt()
         );
     }

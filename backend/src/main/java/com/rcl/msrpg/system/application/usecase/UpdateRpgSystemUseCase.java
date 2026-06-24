@@ -32,9 +32,9 @@ public class UpdateRpgSystemUseCase {
 
         applyChanges(rpgSystem, command);
 
-        RpgSystem updated = repository.update(rpgSystem);
+        repository.save(rpgSystem);
 
-        return RpgSystemApplicationMapper.toResult(updated);
+        return RpgSystemApplicationMapper.toResult(rpgSystem);
     }
 
     private void applyChanges(RpgSystem rpgSystem, UpdateRpgSystemCommand command) {

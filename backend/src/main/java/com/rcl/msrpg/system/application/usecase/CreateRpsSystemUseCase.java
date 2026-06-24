@@ -30,9 +30,9 @@ public class CreateRpsSystemUseCase {
 
         RpgSystem rpgSystem = RpgSystemApplicationMapper.toDomain(command, id);
 
-        RpgSystem created = repository.save(rpgSystem);
+        repository.save(rpgSystem);
 
-        return RpgSystemApplicationMapper.toResult(created);
+        return RpgSystemApplicationMapper.toResult(rpgSystem);
     }
 
     private void validate(CreateRpgSystemCommand command) {

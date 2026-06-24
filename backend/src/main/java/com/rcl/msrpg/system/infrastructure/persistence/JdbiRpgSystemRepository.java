@@ -51,7 +51,7 @@ public interface JdbiRpgSystemRepository {
             settings = :settingsJson,
             updated_at = :updatedAt
         WHERE id = :id
-        """)
+    """)
     int update(@BindBean RpgSystemEntity entity);
 
     @SqlQuery("""
@@ -68,7 +68,7 @@ public interface JdbiRpgSystemRepository {
             updated_at AS updatedAt
         FROM rpg_systems
         WHERE id = :id
-        """)
+    """)
     Optional<RpgSystemEntity> findById(@Bind("id") String id);
 
     @SqlQuery("""
@@ -85,8 +85,8 @@ public interface JdbiRpgSystemRepository {
             updated_at AS updatedAt
         FROM rpg_systems
         WHERE name = :name
-        """)
-    Optional<RpgSystemEntity> findByName(@Bind("id") String id);
+    """)
+    Optional<RpgSystemEntity> findByName(@Bind("name") String id);
 
 
     @SqlQuery("""
@@ -103,13 +103,13 @@ public interface JdbiRpgSystemRepository {
             updated_at AS updatedAt
         FROM rpg_systems
         ORDER BY created_at DESC
-        """)
+    """)
     List<RpgSystemEntity> findAll();
 
     @SqlUpdate("""
         DELETE FROM rpg_systems
         WHERE id = :id
-        """)
+    """)
     int deleteById(@Bind("id") String id);
 
     @SqlQuery("""
@@ -118,7 +118,103 @@ public interface JdbiRpgSystemRepository {
             FROM rpg_systems
             WHERE id = :id
         )
-        """)
+    """)
     boolean existsById(@Bind("id") String id);
+
+    @SqlQuery("""
+        SELECT
+            id,
+            name,
+            description,
+            engine_version AS engineVersion,
+            content_version AS contentVersion,
+            default_resolution_policy_id AS defaultResolutionPolicyId,
+            sync_policy AS syncPolicy,
+            settings AS settingsJson,
+            created_at AS createdAt,
+            updated_at AS updatedAt
+        FROM rpg_systems
+        WHERE LOWER(name) LIKE LOWER('%' || :term || '%')
+        ORDER BY name ASC
+    """)
+    List<RpgSystemEntity> findByNameContaining(@Bind("term") String term);
+
+    @SqlQuery("""
+        SELECT
+            id,
+            name,
+            description,
+            engine_version AS engineVersion,
+            content_version AS contentVersion,
+            default_resolution_policy_id AS defaultResolutionPolicyId,
+            sync_policy AS syncPolicy,
+            settings AS settingsJson,
+            created_at AS createdAt,
+            updated_at AS updatedAt
+        FROM rpg_systems
+        WHERE engine_version = :engineVersion
+        ORDER BY created_at DESC
+    """)
+    List<RpgSystemEntity> findByEngineVersion(@Bind("engineVersion") String engineVersion);
+
+    @SqlQuery("""
+        SELECT
+            id,
+            name,
+            description,
+            engine_version AS engineVersion,
+            content_version AS contentVersion,
+            default_resolution_policy_id AS defaultResolutionPolicyId,
+            sync_policy AS syncPolicy,
+            settings AS settingsJson,
+            created_at AS createdAt,
+            updated_at AS updatedAt
+        FROM rpg_systems
+        WHERE content_version = :contentVersion
+        ORDER BY created_at DESC
+    """)
+    List<RpgSystemEntity> findByContentVersion(@Bind("contentVersion") String contentVersion);
+
+    @SqlQuery("""
+        SELECT
+            id,
+            name,
+            description,
+            engine_version AS engineVersion,
+            content_version AS contentVersion,
+            default_resolution_policy_id AS defaultResolutionPolicyId,
+            sync_policy AS syncPolicy,
+            settings AS settingsJson,
+            created_at AS createdAt,
+            updated_at AS updatedAt
+        FROM rpg_systems
+        WHERE sync_policy = :syncPolicy
+        ORDER BY created_at DESC
+    """)
+    List<RpgSystemEntity> findBySyncPolicy(@Bind("syncPolicy") String syncPolicy);
+
+    @SqlQuery("""
+        SELECT
+            id,
+            name,
+            description,
+            engine_version AS engineVersion,
+            content_version AS contentVersion,
+            default_resolution_policy_id AS defaultResolutionPolicyId,
+            sync_policy AS syncPolicy,
+            settings AS settingsJson,
+            created_at AS createdAt,
+            updated_at AS updatedAt
+        FROM rpg_systems
+        WHERE default_resolution_policy_id = :resolutionPolicyId
+        ORDER BY created_at DESC
+    """)
+    List<RpgSystemEntity> findByDefaultResolutionPolicyId(@Bind("resolutionPolicyId") String resolutionPolicyId);
+
+    @SqlQuery("""
+        SELECT COUNT(*)
+        FROM rpg_systems
+    """)
+    long count();
 
 }
