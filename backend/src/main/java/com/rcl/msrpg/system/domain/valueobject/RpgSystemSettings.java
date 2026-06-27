@@ -7,8 +7,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-// Nota: Isso tá grande, considerar quebrar depois
-
 public record RpgSystemSettings(RuntimeSettings runtime, SnapshotSettings snapshots, LogSettings logs, ImportExportSettings importExport) {
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper()

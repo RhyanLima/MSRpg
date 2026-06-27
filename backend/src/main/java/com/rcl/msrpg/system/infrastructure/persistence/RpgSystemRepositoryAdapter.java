@@ -58,7 +58,7 @@ public class RpgSystemRepositoryAdapter implements RpgSystemRepository, RpgSyste
 
     @Override
     public boolean existsByName(String name) {
-        return jdbi.withExtension(JdbiRpgSystemRepository.class, jdbiRepository -> jdbiRepository.existsById(name));
+        return jdbi.withExtension(JdbiRpgSystemRepository.class, jdbiRepository -> jdbiRepository.existsByName(name));
     }
 
     @Override

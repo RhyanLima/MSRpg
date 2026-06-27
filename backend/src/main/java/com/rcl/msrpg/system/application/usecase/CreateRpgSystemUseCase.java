@@ -11,11 +11,11 @@ import com.rcl.msrpg.system.application.exception.RpgSystemValidationException;
 import com.rcl.msrpg.system.domain.model.RpgSystem;
 import com.rcl.msrpg.system.domain.port.RpgSystemRepository;
 
-public class CreateRpsSystemUseCase {
+public class CreateRpgSystemUseCase {
 
     private final RpgSystemRepository repository;
 
-    public CreateRpsSystemUseCase(RpgSystemRepository repository) {
+    public CreateRpgSystemUseCase(RpgSystemRepository repository) {
         this.repository = repository;
     }
 

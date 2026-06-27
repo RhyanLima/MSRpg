@@ -122,6 +122,15 @@ public interface JdbiRpgSystemRepository {
     boolean existsById(@Bind("id") String id);
 
     @SqlQuery("""
+        SELECT EXISTS (
+            SELECT 1
+            FROM rpg_systems
+            WHERE lower(name) = lower(:name)
+        )
+    """)
+    boolean existsByName(@Bind("name") String name);
+
+    @SqlQuery("""
         SELECT
             id,
             name,
