@@ -20,7 +20,6 @@ public class ServerBootstrap {
 
     private ServerBootstrap() {}
 
-
     public static Javalin start(AppContainer container, String sessionToken) {
         int port = resolvePort();
 
@@ -40,6 +39,8 @@ public class ServerBootstrap {
         
         RuntimeLogHandler.register(app);
         RuntimeExceptionHandler.register(app);
+
+        RouteRegistry.register(app, container);
 
         app.start(port);
 

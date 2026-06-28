@@ -18,7 +18,7 @@ import io.javalin.http.HttpStatus;
 
 public class RpgSystemController {
 
-    private static final String BASE_PATH = "/api/v1/rpg-system";
+    private static final String BASE_PATH = "/api/v1/rpg-systems";
 
     private final CreateRpgSystemUseCase createUseCase;
     private final FindRpgSystemByIdUseCase findByIdUseCase;
