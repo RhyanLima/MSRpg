@@ -3,6 +3,7 @@ package com.rcl.msrpg.system.infrastructure.configuration;
 import org.jdbi.v3.core.Jdbi;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rcl.msrpg.shared.infrastructure.web.WebController;
 import com.rcl.msrpg.system.application.usecase.CreateRpgSystemUseCase;
 import com.rcl.msrpg.system.application.usecase.DeleteRpgSystemUseCase;
 import com.rcl.msrpg.system.application.usecase.FindRpgSystemByIdUseCase;
@@ -45,8 +46,8 @@ public class RpgSystemModule {
         );
     }
 
-    public RpgSystemController controller() {
-        return controller;
+    public WebController controller() {
+        return controller::registerRoutes;
     }
 
 }

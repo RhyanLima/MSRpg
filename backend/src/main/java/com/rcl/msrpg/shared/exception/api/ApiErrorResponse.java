@@ -4,7 +4,7 @@ import com.rcl.msrpg.shared.exception.ResponseError;
 
 public class ApiErrorResponse extends ResponseError {
 
-    String path;
+    private final String path;
     String requestId;
 
     private ApiErrorResponse(Integer statusCode, String code, String message, String path, String requestId) {
@@ -15,6 +15,14 @@ public class ApiErrorResponse extends ResponseError {
 
     public static ApiErrorResponse of(Integer statusCode, String code, String message, String path, String requestId) {
         return new ApiErrorResponse(statusCode, code, message, path, requestId);
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public String getRequestId() {
+        return requestId;
     }
 
 }

@@ -26,19 +26,19 @@ public class ResponseError {
         this.type = type;
     }
 
-    public Date timesTamp() {
+    public Date getTimesTamp() {
         return timesTamp;
     }
 
-    public Integer code() {
+    public Integer getCode() {
         return code;
     }
 
-    public String message() {
+    public String getMessage() {
         return message;
     }
 
-    public String type() {
+    public String getType() {
         return type;
     }
 

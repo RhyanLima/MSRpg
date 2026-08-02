@@ -9,7 +9,7 @@ public class MigrationBootstrap {
     public static void migrate(String databasePath) {
         Flyway flyway = Flyway.configure()
             .dataSource("jdbc:sqlite:" + databasePath, "", "")
-            .locations("classpath:db/migration")
+            .locations("classpath:database/migration")
             .baselineOnMigrate(true)
             .load();
 

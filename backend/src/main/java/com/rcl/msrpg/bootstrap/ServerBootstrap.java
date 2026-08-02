@@ -26,6 +26,12 @@ public class ServerBootstrap {
         Javalin app = Javalin.create(config -> {
             config.jsonMapper(new JavalinJackson(objectMapper(), true));
 
+            if (isDevMode()) {
+                config.bundledPlugins.enableDevLogging();
+            }
+
+            config.router.ignoreTrailingSlashes = true;
+
             config.bundledPlugins.enableCors(cors -> {
                 cors.addRule(rule -> {
                     rule.allowHost("http://localhost:4200");
@@ -40,7 +46,7 @@ public class ServerBootstrap {
         RuntimeLogHandler.register(app);
         RuntimeExceptionHandler.register(app);
 
-        RouteRegistry.register(app, container);
+        registerRoutes(app, container);
 
         app.start(port);
 
@@ -81,6 +87,11 @@ public class ServerBootstrap {
                     .skipRemainingHandlers();
             }
         });
+    }
+
+    // Resgistra todas as rotas da aplicação com base nos controladores fornecidos pelo container
+    public static void registerRoutes(Javalin app, AppContainer container) {
+        container.webControllers().forEach(controller -> controller.registerRoutes(app));
     }
 
     private static boolean isDevMode() {

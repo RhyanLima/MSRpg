@@ -21,16 +21,16 @@ public class RuntimeExceptionHandler {
             log.warn(
                 "Handled API exception. requestId={}, status={}, code={}, path={}, message={}",
                 requestId,
-                exception.statusCode(),
-                exception.code(),
+                exception.getStatusCode(),
+                exception.getCode(),
                 context.path(),
                 exception.getMessage()
             );
 
-            context.status(exception.statusCode()).json(
+            context.status(exception.getStatusCode()).json(
                     ApiErrorResponse.of(
-                            exception.statusCode(),
-                            exception.code(),
+                            exception.getStatusCode(),
+                            exception.getCode(),
                             exception.getMessage(),
                             context.path(),
                             requestId
