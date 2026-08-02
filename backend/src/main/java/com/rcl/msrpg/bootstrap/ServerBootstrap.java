@@ -3,6 +3,7 @@ package com.rcl.msrpg.bootstrap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.rcl.msrpg.shared.configuration.AppConfig;
 import com.rcl.msrpg.shared.configuration.AppContainer;
 import com.rcl.msrpg.shared.exception.ResponseError;
@@ -24,8 +25,11 @@ public class ServerBootstrap {
     public static Javalin start(AppContainer container, String sessionToken) {
         int port = AppConfig.getPort();
 
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+
         Javalin app = Javalin.create(config -> {
-            config.jsonMapper(new JavalinJackson(objectMapper(), true));
+            config.jsonMapper(new JavalinJackson(objectMapper, true));
 
             if (isDevMode()) {
                 config.bundledPlugins.enableDevLogging();

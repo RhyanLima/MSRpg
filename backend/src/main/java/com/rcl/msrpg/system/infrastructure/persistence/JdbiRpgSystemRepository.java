@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.jdbi.v3.sqlobject.config.RegisterConstructorMapper;
 import org.jdbi.v3.sqlobject.customizer.Bind;
 import org.jdbi.v3.sqlobject.customizer.BindBean;
+import org.jdbi.v3.sqlobject.customizer.BindMethods;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 
@@ -37,7 +38,7 @@ public interface JdbiRpgSystemRepository {
             :updatedAt
         )      
     """)
-    void save(@BindBean RpgSystemEntity entity);
+    void save(@BindMethods RpgSystemEntity entity);
 
     @SqlUpdate("""
         UPDATE rpg_systems
@@ -52,7 +53,7 @@ public interface JdbiRpgSystemRepository {
             updated_at = :updatedAt
         WHERE id = :id
     """)
-    int update(@BindBean RpgSystemEntity entity);
+    int update(@BindMethods RpgSystemEntity entity);
 
     @SqlQuery("""
         SELECT

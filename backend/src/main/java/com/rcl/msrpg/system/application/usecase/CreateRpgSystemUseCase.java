@@ -26,7 +26,7 @@ public class CreateRpgSystemUseCase {
             throw new RpgSystemAlreadyExistsException(command.name());
         }
 
-        RpgSystemId id = RpgSystemId.of(UUID.randomUUID());
+        RpgSystemId id = RpgSystemId.generate();
 
         RpgSystem rpgSystem = RpgSystemApplicationMapper.toDomain(command, id);
 
