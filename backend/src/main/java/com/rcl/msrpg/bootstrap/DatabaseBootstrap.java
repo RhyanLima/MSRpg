@@ -4,24 +4,24 @@ import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 import org.sqlite.SQLiteDataSource;
 
+import com.rcl.msrpg.shared.configuration.AppConfig;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 
 public final class DatabaseBootstrap {
 
-    private static final String ENV_DATABASE_PATH = "DATABASE_PATH";
-
     private DatabaseBootstrap() {}
 
     public static String resolveDatabasePath() {
         
-        String envPath = System.getenv(ENV_DATABASE_PATH);
-
-        if (envPath != null && !envPath.isBlank()) {
-            createParentDirectories(Path.of(envPath));
-            return envPath;
+        if(AppConfig.isDevMode()) {
+            Path devDatabasePath = Path.of(AppConfig.getDbPath());
+            createParentDirectories(devDatabasePath);
+            return devDatabasePath.toString();
         }
 
+        // Fallback para o caminho do banco de dados baseado no sistema operacional
         String os = System.getProperty("os.name").toLowerCase();
         String home = System.getProperty("user.home");
 

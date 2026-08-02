@@ -2,8 +2,6 @@ package com.rcl.msrpg.shared.exception;
 
 import java.util.Date;
 
-import com.rcl.msrpg.system.domain.model.RpgSystem;
-
 public class ResponseError {
 
     private Date timesTamp = new Date();
