@@ -1,6 +1,6 @@
 <main class="app-shell">
-  <section class="card" style="width: min(900px, 95vw);">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+  <section class="page-container">
+    <div class="header-actions">
       <div>
         <p class="eyebrow">MSRpg Core</p>
         <h1>Meus Sistemas de RPG</h1>
@@ -15,12 +15,12 @@
     } @else if (systems().length === 0) {
       <p>Nenhum sistema encontrado. Comece forjando seu primeiro universo!</p>
     } @else {
-      <div class="systems-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem;">
+      <div class="systems-list">
         @for (system of systems(); track system.id) {
-          <div class="card" style="padding: 1.5rem; width: auto; cursor: pointer;">
-            <p class="eyebrow">Engine v{{ system.engineVersion }}</p>
+          <div class="system-item">
+            <p class="sys-engine">Engine v{{ system.engineVersion }}</p>
             <h3>{{ system.name }}</h3>
-            <p style="font-size: 0.9rem; color: #a99985;">Sync: {{ system.syncPolicy }}</p>
+            <p class="sys-sync">Sync: {{ system.syncPolicy }}</p>
           </div>
         }
       </div>

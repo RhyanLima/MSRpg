@@ -12,7 +12,7 @@ import { RpgSystemService } from '../core/services/rpg-system.service';
 })
 export class CreateSystem {
 
-private fb = inject(NonNullableFormBuilder);
+  private fb = inject(NonNullableFormBuilder);
   private rpgSystemService = inject(RpgSystemService);
   private router = inject(Router);
 
@@ -24,6 +24,7 @@ private fb = inject(NonNullableFormBuilder);
     description: [''],
     engineVersion: ['0.1.0', Validators.required],
     contentVersion: ['1.0.0', Validators.required],
+    defaultResolutionPolicyId: ["3d228a06-6309-43fb-82f7-5c13a83e7edf", Validators.required],
     syncPolicy: ['APPLY_TO_NEW_ONLY', Validators.required],
     // Lembrando que o Jackson no backend espera String para o settingsJson (como visto nos logs de erro anteriores)
     settingsJson: ['{ "default": "NULL" }', Validators.required]

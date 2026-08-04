@@ -1,10 +1,12 @@
+@use "../styles/abstracts" as a;
+
 .app-shell {
     min-height: 100vh;
-    display: grid;
-    place-items: center;
-    background: #0a0806;
-    color: #f5ead6;
-    font-family: Georgia, serif;
+    display: flex;
+    flex-direction: column;
+    background: a.$color-ink;
+    color: a.$color-parchment;
+    font-family: a.$font-body;
 }
 
 .card {

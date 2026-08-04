@@ -1,0 +1,39 @@
+@use "../abstracts" as a;
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: a.$spacing-xs;
+  margin-bottom: a.$spacing-lg;
+
+  label {
+    @include a.heading-caps(0.65rem, 0.15em);
+    color: rgba(a.$color-gold, 0.7);
+  }
+
+  .form-control {
+    padding: a.$spacing-md;
+    background: rgba(a.$color-ink, 0.5);
+    border: 1px solid rgba(a.$color-gold, 0.2);
+    color: a.$color-parchment;
+    border-radius: a.$radius-sm;
+    font-family: a.$font-body;
+    font-size: 1rem;
+    transition: border-color a.$transition-fast, box-shadow a.$transition-fast, background a.$transition-fast;
+
+    &::placeholder {
+      color: rgba(a.$color-parchment, 0.2);
+    }
+
+    &:focus {
+      outline: none;
+      background: a.$color-ink;
+      border-color: rgba(a.$color-gold, 0.5);
+    }
+  }
+
+  textarea.form-control {
+    resize: vertical;
+    min-height: 100px;
+  }
+}

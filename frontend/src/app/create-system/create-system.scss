@@ -1,0 +1,42 @@
+@use "../../styles/abstracts" as a;
+
+.page-container {
+  width: 100%;
+  max-width: 1200px;
+  padding: a.$spacing-xl a.$spacing-2xl;
+  margin: 0 auto;
+}
+
+.create-form {
+  margin-top: a.$spacing-xl;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: a.$spacing-md;
+
+  @include a.mobile-md {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-actions {
+  display: flex;
+  gap: a.$spacing-xl;
+  margin-top: a.$spacing-2xl;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.eyebrow {
+  color: rgba(a.$color-parchment, 0.6);
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-top: 0.2rem;
+  color: a.$color-parchment;
+}

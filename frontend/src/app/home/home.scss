@@ -1,0 +1,49 @@
+@use "../../styles/abstracts" as a;
+
+.page-container {
+  width: 100%;
+  max-width: 1200px;
+  padding: a.$spacing-xl a.$spacing-2xl;
+  margin: 0 auto;
+}
+
+.header-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: a.$spacing-3xl;
+
+  h1 {
+    font-size: 2.5rem;
+    margin-top: 0.2rem;
+  }
+}
+
+.systems-list {
+  display: flex;
+  flex-direction: column;
+  gap: a.$spacing-xl;
+}
+
+.system-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+
+  h3 {
+    font-family: a.$font-heading;
+    font-size: 1.25rem;
+    color: a.$color-parchment;
+    margin: 0;
+  }
+
+  .sys-engine {
+    font-size: 0.85rem;
+    color: rgba(a.$color-parchment, 0.6);
+  }
+
+  .sys-sync {
+    font-size: 0.75rem;
+    color: rgba(a.$color-parchment, 0.4);
+  }
+}

@@ -1,0 +1,43 @@
+@use "../abstracts" as a;
+
+.btn-primary {
+  @include a.btn-ghost-base;
+  background: transparent;
+  border: 1px solid rgba(a.$color-gold, 0.3);
+  color: rgba(a.$color-gold, 0.8);
+  font-size: 0.75rem;
+  padding: 0.8rem 2rem;
+  border-radius: a.$radius-sm;
+  
+  &:hover:not(:disabled) {
+    background: rgba(a.$color-gold, 0.05);
+    border-color: rgba(a.$color-gold, 0.6);
+    color: a.$color-gold;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+}
+
+.btn-ghost {
+  @include a.btn-ghost-base;
+  color: rgba(a.$color-parchment, 0.6);
+  font-size: 0.75rem;
+  background: transparent;
+  padding: 0.8rem 2rem;
+  border-radius: a.$radius-sm;
+  
+  &:hover:not(:disabled) {
+    color: a.$color-parchment;
+    background: rgba(a.$color-parchment, 0.05);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+}
