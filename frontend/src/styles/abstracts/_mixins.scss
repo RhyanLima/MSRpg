@@ -1,0 +1,216 @@
+@use "tokens" as t;
+
+@mixin respond-to($bp) {
+  @media (max-width: #{$bp}) {
+    @content;
+  }
+}
+@mixin mobile-nav {
+  @include respond-to(t.$bp-lg) {
+    @content;
+  }
+}
+@mixin mobile-sm {
+  @include respond-to(t.$bp-sm) {
+    @content;
+  }
+}
+@mixin mobile-md {
+  @include respond-to(t.$bp-md) {
+    @content;
+  }
+}
+@mixin mobile-nav2 {
+  @include respond-to(t.$bp-nav) {
+    @content;
+  }
+}
+
+@mixin heading-caps($size: 0.7rem, $spacing: 0.35em) {
+  font-family: t.$font-heading;
+  font-size: $size;
+  letter-spacing: $spacing;
+  text-transform: uppercase;
+}
+
+@mixin section-label {
+  @include heading-caps(0.7rem, 0.35em);
+  color: t.$color-gold;
+  margin-bottom: 0.75rem;
+  &::before {
+    content: "— ";
+  }
+  &::after {
+    content: " —";
+  }
+}
+
+@mixin dark-panel($bg: #16130e, $border-alpha: 0.12) {
+  background: $bg;
+  border: 1px solid rgba(t.$color-gold, $border-alpha);
+  border-radius: t.$radius-md;
+  overflow: hidden;
+}
+
+@mixin btn-ghost-base {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  @include heading-caps(0.8rem, 0.15em);
+  text-decoration: none;
+  padding: 0.9rem 2.2rem;
+  border-radius: t.$radius-sm;
+  transition:
+    background t.$transition-base,
+    box-shadow t.$transition-base,
+    transform t.$transition-fast;
+  &:hover {
+    transform: translateY(-2px);
+  }
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+@mixin nav-item-base {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: t.$font-heading;
+  text-transform: uppercase;
+  transition:
+    color 0.18s,
+    background 0.18s;
+}
+
+@mixin avatar($size: 32px, $font-size: 0.7rem) {
+  width: $size;
+  height: $size;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: t.$font-heading;
+  font-size: $font-size;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+@mixin icon-thumb($size: 42px) {
+  width: $size;
+  height: $size;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+@mixin card-top-line($colors...) {
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(to right, $colors...);
+    z-index: 2;
+  }
+}
+
+@mixin expiry-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(t.$color-ember, 0.07);
+  border: 1px solid rgba(t.$color-ember, 0.18);
+  border-radius: t.$radius-sm;
+  padding: 0.55rem 0.85rem;
+  margin-bottom: 1.6rem;
+  @include heading-caps(0.55rem, 0.12em);
+  color: rgba(t.$color-ember, 0.7);
+}
+
+@mixin otp-input-base {
+  width: 52px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(t.$color-rune, 0.2);
+  border-radius: t.$radius-sm;
+  color: t.$color-parchment;
+  font-family: t.$font-display;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  outline: none;
+  caret-color: t.$color-rune-soft;
+  transition:
+    border-color 0.2s,
+    background 0.2s,
+    box-shadow 0.2s,
+    transform 0.15s;
+  @include mobile-sm {
+    width: 44px;
+    height: 54px;
+    font-size: 1.3rem;
+  }
+}
+
+@mixin resend-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.2rem;
+}
+
+@mixin live-dot($color: t.$color-green-soft) {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: $color;
+  box-shadow: 0 0 6px rgba(t.$color-green, 0.55);
+  animation: live-blink 2s ease-in-out infinite;
+}
+
+@mixin thin-scrollbar($width: 5px, $thumb-alpha: 0.25) {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(t.$color-gold, $thumb-alpha) transparent;
+  &::-webkit-scrollbar {
+    width: $width;
+  }
+  &::-webkit-scrollbar-track {
+    background: t.$color-ink;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(t.$color-gold, $thumb-alpha);
+    border-radius: 3px;
+  }
+}
+
+@mixin reveal-base {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s ease;
+  &.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@mixin focus-ring($color: t.$color-gold, $offset: 3px) {
+  outline: 2px solid $color;
+  outline-offset: $offset;
+  border-radius: t.$radius-sm;
+}

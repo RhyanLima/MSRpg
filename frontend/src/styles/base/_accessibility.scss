@@ -1,0 +1,27 @@
+@use "../abstracts" as a;
+
+// Foco
+:focus-visible {
+    @include a.focus-ring;
+}
+
+// Pular para o conteúdo
+.skip-link {
+    position: absolute;
+    top: -100%;
+    left: 1rem;
+    padding: 0.5rem 1rem;
+    background: a.$color-gold;
+    color: a.$color-ink;
+    font-family: a.$font-heading;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border-radius: a.$radius-sm;
+    z-index: a.$z-skip;
+    transition: top a.$transition-fast;
+
+    &:focus {
+        top: 1rem;
+    }
+}

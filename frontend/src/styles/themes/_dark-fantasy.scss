@@ -1,0 +1,56 @@
+@use "../abstracts" as a;
+
+:root {
+    // Cores
+    --color-ink: #{a.$color-ink};
+    --color-ash: #{a.$color-ash};
+    --color-ash-2: #{a.$color-ash-2};
+    --color-parchment: #{a.$color-parchment};
+    --color-ember: #{a.$color-ember};
+    --color-ember-glow: #{a.$color-ember-glow};
+    --color-gold: #{a.$color-gold};
+    --color-gold-light: #{a.$color-gold-light};
+    --color-rune: #{a.$color-rune};
+
+    // Fonte
+    --font-display: #{a.$font-display};
+    --font-heading: #{a.$font-heading};
+    --font-italic: #{a.$font-italic};
+    --font-body: #{a.$font-body};
+
+    // Forma
+    --radius-sm: #{a.$radius-sm};
+    --radius-md: #{a.$radius-md};
+
+    // Movimento
+    --transition-fast: #{a.$transition-fast};
+    --transition-base: #{a.$transition-base};
+    --transition-slow: #{a.$transition-slow};
+}
+
+// Textura Global
+// Noise grain overlay – fixo, fica acima de todo o conteúdo (nenhum evento de ponteiro)
+.noise-overlay {
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.032;
+    pointer-events: none;
+    z-index: a.$z-noise;
+}
+
+// Reveal animation
+// Aplicado por RevealDirective;
+.reveal {
+    @include a.reveal-base;
+}
+
+.reveal-delay-1 {
+    transition-delay: 0.1s;
+}
+.reveal-delay-2 {
+    transition-delay: 0.22s;
+}
+.reveal-delay-3 {
+    transition-delay: 0.38s;
+}

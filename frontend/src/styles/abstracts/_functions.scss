@@ -1,0 +1,32 @@
+@use "tokens" as t;
+
+// Alpha helpers (envolve rgba para facilitar a leitura)
+@function gold($alpha: 1) {
+    @return rgba(t.$color-gold, $alpha);
+}
+@function ember($alpha: 1) {
+    @return rgba(t.$color-ember, $alpha);
+}
+@function parchment($alpha: 1) {
+    @return rgba(t.$color-parchment, $alpha);
+}
+@function rune($alpha: 1) {
+    @return rgba(t.$color-rune, $alpha);
+}
+@function ink($alpha: 1) {
+    @return rgba(t.$color-ink, $alpha);
+}
+
+// Tamanho de fonte fluida
+// Retorna uma expressão clamp() entre os tamanhos $min e $max.
+@function fluid($min, $max, $min-vw: 480px, $max-vw: 1200px) {
+    @return clamp(
+        #{$min},
+        calc(#{$min} + (#{strip-unit($max - $min)}) * ((100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)})),
+        #{$max}
+    );
+}
+
+@function strip-unit($number) {
+    @return $number / ($number * 0 + 1);
+}

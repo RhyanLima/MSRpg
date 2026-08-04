@@ -1,0 +1,52 @@
+// Cores
+$color-ink: #0a0806;
+$color-ash: #1c1710;
+$color-ash-2: #111009;
+$color-ash-deep: #15120d;
+$color-parchment: #f5ead6;
+$color-ember: #c0392b;
+$color-ember-glow: #e74c3c;
+$color-gold: #c9922a;
+$color-gold-light: #f0c060;
+$color-rune: #7b5ea7;
+$color-rune-soft: #a78bcf;
+$color-green: #27ae60;
+$color-green-soft: #4caf7d;
+
+// Fonte
+$font-display: "Cinzel Decorative", serif;
+$font-heading: "Cinzel", serif;
+$font-italic: "IM Fell English", serif;
+$font-body: "Crimson Text", serif;
+
+// Espaçamento
+$spacing-xs: 0.35rem;
+$spacing-sm: 0.6rem;
+$spacing-md: 1rem;
+$spacing-lg: 1.5rem;
+$spacing-xl: 2rem;
+$spacing-2xl: 3rem;
+$spacing-3xl: 4rem;
+$spacing-4xl: 6rem;
+$spacing-5xl: 8rem;
+
+// Bordas
+$radius-sm: 3px;
+$radius-md: 4px;
+
+// Transições
+$transition-fast: 150ms ease;
+$transition-base: 300ms ease;
+$transition-slow: 500ms ease;
+
+// Breakpoints
+$bp-sm: 480px;
+$bp-md: 600px;
+$bp-nav: 768px;
+$bp-lg: 900px;
+$bp-xl: 1200px;
+
+// Z-index layers
+$z-noise: 9998;
+$z-skip: 9999;
+$z-nav: 100;
