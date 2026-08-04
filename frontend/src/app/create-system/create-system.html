@@ -1,0 +1,51 @@
+<main class="app-shell">
+  <section class="card">
+    <p class="eyebrow">Nova Forja</p>
+    <h1>Criar Sistema de RPG</h1>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" style="display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem;">
+
+      <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+        <label for="name">Nome do Sistema</label>
+        <input id="name" type="text" formControlName="name" placeholder="Ex: Fantasia Sombria"
+               style="padding: 0.75rem; background: #0a0806; border: 1px solid rgba(201, 146, 42, 0.5); color: #f5ead6; border-radius: 4px;">
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+        <label for="description">Descrição</label>
+        <textarea id="description" formControlName="description" rows="3"
+                  style="padding: 0.75rem; background: #0a0806; border: 1px solid rgba(201, 146, 42, 0.5); color: #f5ead6; border-radius: 4px;"></textarea>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+          <label for="syncPolicy">Política de Sincronização</label>
+          <select id="syncPolicy" formControlName="syncPolicy"
+                  style="padding: 0.75rem; background: #0a0806; border: 1px solid rgba(201, 146, 42, 0.5); color: #f5ead6; border-radius: 4px;">
+            <option value="APPLY_TO_NEW_ONLY">Apply to New Only</option>
+            <option value="CASCADE">Cascade</option>
+          </select>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+          <label for="settingsJson">Configurações (JSON)</label>
+          <input id="settingsJson" type="text" formControlName="settingsJson"
+                 style="padding: 0.75rem; background: #0a0806; border: 1px solid rgba(201, 146, 42, 0.5); color: #f5ead6; border-radius: 4px;">
+        </div>
+      </div>
+
+      @if (error) {
+        <p class="error">{{ error }}</p>
+      }
+
+      <div style="display: flex; gap: 1rem; margin-top: 1rem; justify-content: flex-end;">
+        <a routerLink="/" style="padding: 0.75rem 1.5rem; color: #f5ead6; text-decoration: none;">Cancelar</a>
+        <button type="submit" [disabled]="form.invalid || isSubmitting"
+                style="padding: 0.75rem 1.5rem; background: #c9922a; color: #0a0806; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;">
+          {{ isSubmitting ? 'Forjando...' : 'Criar Sistema' }}
+        </button>
+      </div>
+
+    </form>
+  </section>
+</main>

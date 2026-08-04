@@ -17,7 +17,6 @@ import java.util.UUID;
 
 public class ServerBootstrap {
 
-    private static final String ENV_PORT = "MSRPG_PORT";
     private static final String DEV_MODE = "MSRPG_DEV_MODE";
 
     private ServerBootstrap() {}
@@ -60,20 +59,6 @@ public class ServerBootstrap {
 
     public static String generateSessionToken() {
         return UUID.randomUUID().toString();
-    }
-
-    private static int resolvePort() {
-        String envPort = System.getenv(ENV_PORT);
-
-        if (envPort == null || envPort.isBlank()) {
-            return 0;
-        }
-
-        try {
-            return Integer.parseInt(envPort);
-        } catch (NumberFormatException exception) {
-            throw new IllegalArgumentException("Porta inválida em " + ENV_PORT + ": " + envPort);
-        }
     }
 
     private static void registerSecurity(Javalin app, String sessionToken) {

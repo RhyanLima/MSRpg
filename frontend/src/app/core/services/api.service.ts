@@ -6,14 +6,6 @@ type ServerInfo = {
   token: string;
 };
 
-type HealthResponse = {
-  status: string;
-  app: string;
-  version: string;
-  database: string;
-  timestamp: string;
-};
-
 @Injectable({
   providedIn: 'root',
 })
@@ -21,7 +13,7 @@ export class ApiService {
 
   private serverInfo?: ServerInfo;
 
-  private http = inject(HttpClient);   
+  private http = inject(HttpClient);
 
   public async initialize(): Promise<void> {
     const electronApi = (Window as any).msrpg;
@@ -38,19 +30,8 @@ export class ApiService {
     };
   }
 
-  public health() {
-    if (!this.serverInfo) {
-      throw new Error("Falha a inicialização do ApiService.");
-    }
-
-    const headers = new HttpHeaders({
-      "X-Session-Token": this.serverInfo.token,
-    });
-
-    return this.http.get<HealthResponse>(
-      `http://localhost:${this.serverInfo.port}/health`, 
-      { headers }
-    );
+  public get getServerInfo(): ServerInfo | undefined {
+    return this.serverInfo;
   }
 
 }

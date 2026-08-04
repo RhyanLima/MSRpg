@@ -1,6 +1,8 @@
 {
   "name": "frontend",
   "version": "0.0.0",
+  "description": "MSRpg Desktop Client",
+  "author": "Rhyan Carlos",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -12,8 +14,8 @@
   "packageManager": "npm@11.11.0",
   "dependencies": {
     "@angular/common": "^22.0.2",
-    "@angular/compiler": "^21.2.0",
-    "@angular/core": "^21.2.0",
+    "@angular/compiler": "^22.0.2",
+    "@angular/core": "^22.0.2",
     "@angular/forms": "^22.0.2",
     "@angular/platform-browser": "^22.0.2",
     "@angular/router": "^22.0.2",
@@ -22,11 +24,11 @@
   },
   "devDependencies": {
     "@angular/build": "^22.0.3",
-    "@angular/cli": "^21.2.14",
-    "@angular/compiler-cli": "^21.2.0",
+    "@angular/cli": "^22.0.3",
+    "@angular/compiler-cli": "^22.0.2",
     "jsdom": "^28.0.0",
     "prettier": "^3.8.1",
-    "typescript": "~5.9.2",
+    "typescript": "6.0",
     "vitest": "^4.0.8"
   }
 }

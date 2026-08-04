@@ -72,22 +72,23 @@ function readServerInfo(stdout) {
   return new Promise((resolve, reject) => {
     let port = null;
     let token = null;
+    let buffer = '';
 
     const timeout = setTimeout(() => {
       reject(new Error('Timeout waiting for Java backend startup'));
     }, 30000);
 
     stdout.on('data', data => {
-      const text = data.toString();
+      buffer += data.toString();
 
-      const portMatch = text.match(/SERVER_PORT=(\d+)/);
-      const tokenMatch = text.match(/SESSION_TOKEN=([a-zA-Z0-9-]+)/);
+      const portMatch = buffer.match(/SERVER_PORT=(\d+)/);
+      const tokenMatch = buffer.match(/SESSION_TOKEN=([a-zA-Z0-9-]+)/);
 
-      if (portMatch) {
+      if (portMatch && !port) {
         port = Number(portMatch[1]);
       }
 
-      if (tokenMatch) {
+      if (tokenMatch && !token) {
         token = tokenMatch[1];
       }
 

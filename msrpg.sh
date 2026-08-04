@@ -155,6 +155,8 @@ run_backend_maven() {
   require_command mvn
   parse_options "$@"
 
+  export MSRPG_DEV_MODE="true"
+
   log "Rodando backend via Maven..."
   cd "$BACKEND_DIR"
   mvn exec:java -Dexec.mainClass="$MAIN_CLASS"
@@ -214,6 +216,8 @@ cleanup_processes() {
 
 run_dev() {
   parse_options "$@"
+
+  export MSRPG_DEV_MODE="true"
 
   ensure_backend_dir
   ensure_frontend_dir
@@ -280,6 +284,8 @@ run_electron_dist() {
   if [[ "$SKIP_BUILD" != "true" ]]; then
     run_build_all "$@"
   fi
+
+  cd "$ROOT_DIR"
 
   log "Gerando pacote desktop com electron-builder..."
   npx electron-builder
