@@ -1,0 +1,47 @@
+@use "../../../../styles/abstracts" as a;
+
+:host {
+    display: block;
+    padding: 0 2rem;
+}
+
+.stats-inner {
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+    flex-wrap: wrap;
+    max-width: 1000px;
+    margin: 3rem auto;
+    padding: 2.5rem 2rem;
+    border-top: 1px solid rgba(a.$color-gold, 0.1);
+    border-bottom: 1px solid rgba(a.$color-gold, 0.1);
+
+    @include a.mobile-md {
+        gap: 2rem;
+    }
+}
+
+.stat-chip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.stat-value {
+    font-family: a.$font-display;
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: a.$color-gold;
+    line-height: 1;
+    text-shadow: 0 0 30px rgba(a.$color-gold, 0.4);
+
+    @include a.mobile-md {
+        font-size: 1.8rem;
+    }
+}
+
+.stat-label {
+    @include a.heading-caps(0.65rem, 0.2em);
+    color: rgba(a.$color-parchment, 0.4);
+}

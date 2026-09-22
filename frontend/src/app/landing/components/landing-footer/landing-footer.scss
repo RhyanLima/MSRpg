@@ -1,0 +1,60 @@
+@use "../../../../styles/abstracts" as a;
+
+.footer {
+    border-top: 1px solid rgba(a.$color-gold, 0.1);
+    padding: a.$spacing-2xl a.$spacing-3xl;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    @include a.mobile-nav2 {
+        flex-direction: column;
+        text-align: center;
+        padding: 2.5rem 2rem;
+    }
+}
+
+.footer-brand {
+    font-family: a.$font-display;
+    font-size: 1.1rem;
+    color: a.$color-gold;
+    text-decoration: none;
+    transition: text-shadow a.$transition-base;
+
+    &:hover {
+        text-shadow: 0 0 20px rgba(a.$color-gold, 0.4);
+    }
+}
+
+.brand-accent {
+    color: a.$color-ember;
+}
+
+.footer-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+
+    @include a.mobile-nav2 {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    a {
+        @include a.heading-caps(0.68rem, 0.15em);
+        color: rgba(a.$color-parchment, 0.35);
+        text-decoration: none;
+        transition: color a.$transition-base;
+
+        &:hover {
+            color: a.$color-gold;
+        }
+    }
+}
+
+.footer-copy {
+    font-size: 0.8rem;
+    color: rgba(a.$color-parchment, 0.25);
+}

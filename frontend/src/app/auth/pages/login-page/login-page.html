@@ -1,0 +1,97 @@
+<div class="panel-left" aria-hidden="true">
+    <div class="sigil sigil-1"></div>
+    <div class="sigil sigil-2"></div>
+    <div class="sigil sigil-3"></div>
+
+    <div class="hero-content">
+        <p class="hero-eyebrow">Sistema de Autenticação</p>
+        <h1 class="hero-title">MSR<span>pg</span></h1>
+        <p class="hero-subtitle">
+            Forje seu universo.<br />Narre sua história.
+        </p>
+        <div class="hero-divider"></div>
+        <p class="hero-desc">
+            Plataforma modular para sistemas RPG customizados —
+            regras, dados, atributos e sessões em tempo real.
+        </p>
+    </div>
+</div>
+
+<div class="panel-right">
+    <div class="form-container" role="main">
+        <div class="form-header">
+            <p class="form-eyebrow">Portal de Acesso</p>
+            <h2 class="form-title">Entrar</h2>
+            <p class="form-subtitle">Acesse sua conta para continuar sua jornada</p>
+        </div>
+
+        @if (verifiedBanner()) {
+        <div class="verified-banner" role="status" aria-live="polite">
+            <span>✓</span>
+            <span>E-mail verificado! Faça login para continuar.</span>
+        </div>
+        }
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate class="auth-form">
+
+            <!-- Email -->
+            <div class="field-group">
+                <label class="field-label" for="email">E-mail</label>
+                <div class="field-wrapper">
+                    <span class="field-icon">✉</span>
+                    <input id="email" type="email" formControlName="email" class="field-input"
+                        placeholder="seu@email.com" autocomplete="email"
+                        [attr.aria-invalid]="isFieldInvalid('email')" />
+                </div>
+                @if (isFieldInvalid('email')) {
+                <p class="field-error" role="alert">{{ emailError() }}</p>
+                }
+            </div>
+
+            <!-- Senha -->
+            <div class="field-group">
+                <label class="field-label" for="password">Senha</label>
+                <div class="field-wrapper">
+                    <span class="field-icon">🔑</span>
+                    <input id="password" [type]="showPassword() ? 'text' : 'password'" formControlName="password"
+                        class="field-input" placeholder="Sua senha" autocomplete="current-password"
+                        [attr.aria-invalid]="isFieldInvalid('password')" />
+                    <button type="button" class="toggle-pass"
+                        [attr.aria-label]="showPassword() ? 'Ocultar senha' : 'Mostrar senha'"
+                        (click)="showPassword.set(!showPassword())">
+                        {{ showPassword() ? '🙈' : '👁' }}
+                    </button>
+                </div>
+                @if (isFieldInvalid('password')) {
+                <p class="field-error" role="alert">Senha é obrigatória</p>
+                }
+            </div>
+
+            <!-- Erro geral -->
+            @if (status() === 'error') {
+            <div class="error-banner" role="alert" aria-live="assertive">
+                <span>⚠</span>
+                <p>{{ errorMessage() }}</p>
+            </div>
+            }
+
+            <button type="submit" class="btn-primary" [disabled]="status() === 'loading'">
+                @if (status() === 'loading') {
+                <span class="spinner" aria-hidden="true"></span>
+                }
+                {{ status() === 'loading' ? 'Entrando…' : 'Entrar' }}
+            </button>
+
+        </form>
+
+        <div class="form-footer">
+            <p>
+                Não possui conta?
+                <a routerLink="/register" class="link-gold">Criar conta</a>
+            </p>
+            <p style="margin-top:.5rem">
+                <a routerLink="/forgot-password" class="link-gold">Esqueci minha senha</a>
+            </p>
+        </div>
+    </div>
+</div>

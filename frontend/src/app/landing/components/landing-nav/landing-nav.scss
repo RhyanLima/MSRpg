@@ -1,0 +1,92 @@
+@use "../../../../styles/abstracts" as a;
+
+:host {
+    display: block;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: a.$z-nav;
+    padding: 1.2rem 4rem;
+    background: linear-gradient(to bottom, rgba(a.$color-ink, 0.97) 0%, transparent 100%);
+    border-bottom: 1px solid rgba(a.$color-gold, 0.15);
+    transition:
+        background a.$transition-base,
+        border-color a.$transition-base,
+        box-shadow a.$transition-base;
+
+    &.scrolled {
+        background: rgba(a.$color-ink, 0.98);
+        border-bottom-color: rgba(a.$color-gold, 0.22);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    @include a.mobile-nav {
+        padding: 1rem 1.5rem;
+    }
+}
+
+.nav-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: a.$bp-xl;
+    margin: 0 auto;
+}
+
+.nav-brand {
+    font-family: a.$font-display;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: a.$color-gold;
+    text-decoration: none;
+    text-shadow: 0 0 30px rgba(a.$color-gold, 0.5);
+    transition: text-shadow a.$transition-base;
+
+    &:hover {
+        text-shadow: 0 0 50px rgba(a.$color-gold, 0.75);
+    }
+}
+
+.brand-accent {
+    color: a.$color-ember;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    list-style: none;
+
+    a {
+        @include a.heading-caps(0.78rem, 0.18em);
+        color: rgba(a.$color-parchment, 0.65);
+        text-decoration: none;
+        transition: color a.$transition-base;
+
+        &:hover {
+            color: a.$color-gold-light;
+        }
+    }
+
+    // CTA pill
+    .nav-cta {
+        color: a.$color-ink !important;
+        background: a.$color-gold;
+        padding: 0.55rem 1.4rem;
+        border-radius: a.$radius-sm;
+        transition:
+            background a.$transition-base,
+            box-shadow a.$transition-base;
+
+        &:hover {
+            background: a.$color-gold-light !important;
+            box-shadow: 0 0 20px rgba(a.$color-gold, 0.45);
+        }
+    }
+
+    @include a.mobile-nav {
+        li:not(:last-child) {
+            display: none;
+        }
+    }
+}

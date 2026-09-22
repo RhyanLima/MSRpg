@@ -1,0 +1,10 @@
+<div class="kpi-grid">
+    @for (item of items(); track item.label) {
+    <div class="kpi-card" [class]="'kpi-' + item.accent">
+        <p class="kpi-label">{{ item.label }}</p>
+        <p class="kpi-value">{{ item.value }}</p>
+        <p class="kpi-delta">{{ item.delta }}</p>
+        <span class="kpi-icon" aria-hidden="true">{{ item.icon }}</span>
+    </div>
+    }
+</div>

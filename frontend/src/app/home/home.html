@@ -1,29 +1,321 @@
-<main class="app-shell">
-  <section class="page-container">
-    <div class="header-actions">
-      <div>
-        <p class="eyebrow">MSRpg Core</p>
-        <h1>Meus Sistemas de RPG</h1>
-      </div>
-      <a routerLink="/create-system" class="btn-primary">Criar Novo Sistema</a>
-    </div>
+<!-- Mobile overlay -->
+<div class="sovl" [class.op]="sidebarOpen()" aria-hidden="true" (click)="closeSidebar()"></div>
 
-    @if (loading()) {
-      <p>Carregando forja...</p>
-    } @else if (error()) {
-      <p class="error">{{ error() }}</p>
-    } @else if (systems().length === 0) {
-      <p>Nenhum sistema encontrado. Comece forjando seu primeiro universo!</p>
-    } @else {
-      <div class="systems-list">
-        @for (system of systems(); track system.id) {
-          <div class="system-item">
-            <p class="sys-engine">Engine v{{ system.engineVersion }}</p>
-            <h3>{{ system.name }}</h3>
-            <p class="sys-sync">Sync: {{ system.syncPolicy }}</p>
-          </div>
+<div class="shell">
+
+    <!-- ── SIDEBAR ── -->
+    <app-home-sidebar [mode]="mode()" [sidebarOpen]="sidebarOpen()" (modeChange)="setMode($event)"
+        (closeRequest)="closeSidebar()" (logoutClick)="logout()" />
+
+    <!-- ── MAIN ── -->
+    <div class="main">
+
+        <!-- Topbar Mestre -->
+        @if (isMestre()) {
+        <header class="topbar">
+            <div class="tbl">
+                <button class="mobmenu" aria-label="Abrir menu" (click)="toggleSidebar()">☰</button>
+                <p class="tbey">Painel do Mestre</p>
+                <h1 class="tbtitle">Visão Geral</h1>
+            </div>
+            <div class="tbr">
+                <button class="tbib" aria-label="Buscar">🔍</button>
+                <button class="tbib" aria-label="Notificações">🔔<span class="tbib-dot"
+                        aria-hidden="true"></span></button>
+                <button class="tbcta">＋ Novo Sistema</button>
+            </div>
+        </header>
         }
-      </div>
-    }
-  </section>
-</main>
+
+        <!-- Topbar Jogador -->
+        @if (!isMestre()) {
+        <header class="topbar">
+            <div class="tbl">
+                <button class="mobmenu" aria-label="Abrir menu" (click)="toggleSidebar()">☰</button>
+                <p class="tbey">Painel do Jogador</p>
+                <h1 class="tbtitle">Meus Sistemas</h1>
+            </div>
+            <div class="tbr">
+                <button class="tbib" aria-label="Buscar">🔍</button>
+                <button class="tbib" aria-label="Convites pendentes">✉️<span class="tbib-dot"
+                        aria-hidden="true"></span></button>
+            </div>
+        </header>
+        }
+
+        <div class="content">
+
+            <!-- ══ MESTRE VIEW ══ -->
+            @if (isMestre()) {
+            <div class="view on">
+
+                <!-- KPIs -->
+                <div class="kpis">
+                    <div class="kpi k-gold">
+                        <div class="kpi-bar"></div>
+                        <p class="kpi-lbl">Sistemas</p>
+                        <p class="kpi-val">3</p>
+                        <p class="kpi-sub">2 ativos · 1 rascunho</p><span class="kpi-bg" aria-hidden="true">📖</span>
+                    </div>
+                    <div class="kpi k-ember">
+                        <div class="kpi-bar"></div>
+                        <p class="kpi-lbl">Sessão Ativa</p>
+                        <p class="kpi-val">1</p>
+                        <p class="kpi-sub">ao vivo agora</p><span class="kpi-bg" aria-hidden="true">⚔</span>
+                    </div>
+                    <div class="kpi k-rune">
+                        <div class="kpi-bar"></div>
+                        <p class="kpi-lbl">Jogadores</p>
+                        <p class="kpi-val">7</p>
+                        <p class="kpi-sub">em 2 campanhas</p><span class="kpi-bg" aria-hidden="true">👥</span>
+                    </div>
+                    <div class="kpi k-green">
+                        <div class="kpi-bar"></div>
+                        <p class="kpi-lbl">Campanhas</p>
+                        <p class="kpi-val">2</p>
+                        <p class="kpi-sub">em andamento</p><span class="kpi-bg" aria-hidden="true">🗺️</span>
+                    </div>
+                </div>
+
+                <!-- Systems + Calendar -->
+                <div class="midg">
+                    <div class="card">
+                        <div class="chead">
+                            <span class="chead-title"><span class="chead-icon" aria-hidden="true">📖</span>Meus
+                                Sistemas</span>
+                            <button class="ghost-btn">＋ Novo</button>
+                        </div>
+                        <!-- systems list rows — static mock, will be replaced by home-systems-list component -->
+                        <div>
+                            <div class="sysr">
+                                <div class="sysi si-f" aria-hidden="true">⚔</div>
+                                <div>
+                                    <p class="sysi-name">Fantasy Basic</p>
+                                    <p class="sysi-meta">14 atributos · 6 jogadores · editado há 2h</p>
+                                </div>
+                                <div class="syschips">
+                                    <div class="ldot" title="Ao vivo"></div><span class="badge b-live">Ao
+                                        Vivo</span><span class="badge b-shared">Compartilhado</span>
+                                </div>
+                            </div>
+                            <div class="sysr">
+                                <div class="sysi si-s" aria-hidden="true">🚀</div>
+                                <div>
+                                    <p class="sysi-name">Fronteira Estelar</p>
+                                    <p class="sysi-meta">22 atributos · 3 jogadores · editado há 1d</p>
+                                </div>
+                                <div class="syschips"><span class="badge b-live">Ativo</span></div>
+                            </div>
+                            <div class="sysr">
+                                <div class="sysi si-h" aria-hidden="true">🌑</div>
+                                <div>
+                                    <p class="sysi-name">Horror Profundo</p>
+                                    <p class="sysi-meta">8 atributos · sem jogadores · em construção</p>
+                                </div>
+                                <div class="syschips"><span class="badge b-draft">Rascunho</span></div>
+                            </div>
+                            <div class="sysr sysr-new">
+                                <div class="sysi si-n" aria-hidden="true">＋</div>
+                                <div>
+                                    <p class="sysi-name sysi-name--ghost">Criar novo sistema…</p>
+                                    <p class="sysi-meta">Defina regras, atributos e mecânicas únicas</p>
+                                </div>
+                                <div class="syschips"><button class="ghost-btn">Criar</button></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <app-home-calendar [days]="calendarDays" [upcomingSessions]="mestreSessions" />
+                    </div>
+                </div>
+
+                <!-- Campaigns -->
+                <div class="botg">
+                    <div class="card">
+                        <div class="chead">
+                            <span class="chead-title"><span class="chead-icon"
+                                    aria-hidden="true">🗺️</span>Campanhas</span>
+                            <button class="ghost-btn">＋ Nova</button>
+                        </div>
+                        <div>
+                            <div class="campi">
+                                <div class="campth ct-a" aria-hidden="true">⚔</div>
+                                <div class="campin">
+                                    <p class="campn">A Espada do Crepúsculo</p>
+                                    <p class="campm">Fantasy Basic · 4 jogadores · 6 sessões</p>
+                                </div>
+                                <div class="campp"><span class="camppct">65%</span>
+                                    <div class="campbar">
+                                        <div class="campfill" style="width:65%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="campi">
+                                <div class="campth ct-b" aria-hidden="true">🚀</div>
+                                <div class="campin">
+                                    <p class="campn">Fronteira — Arco I</p>
+                                    <p class="campm">Fronteira Estelar · 3 jogadores · 4 sessões</p>
+                                </div>
+                                <div class="campp"><span class="camppct">30%</span>
+                                    <div class="campbar">
+                                        <div class="campfill" style="width:30%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="campi campi--ghost">
+                                <div class="campth ct-c" aria-hidden="true">＋</div>
+                                <div class="campin">
+                                    <p class="campn campn--ghost">Nova campanha…</p>
+                                    <p class="campm">Associe um sistema e convide jogadores</p>
+                                </div><button class="ghost-btn">Criar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /view mestre -->
+            }
+
+            <!-- ══ JOGADOR VIEW ══ -->
+            @if (!isMestre()) {
+            <div class="view on">
+
+                <div class="greet">
+                    <p class="greet-ey">Bem-vindo de volta,</p>
+                    <h2 class="greet-name">{{ userName() }}</h2>
+                    <p class="greet-sub">Você tem 1 sessão ativa e 2 próximas agendadas</p>
+                </div>
+
+                <div class="plmain">
+
+                    <!-- Shared systems -->
+                    <div>
+                        <div class="secrow">
+                            <span class="sectitle">Sistemas Compartilhados</span>
+                            <button class="secsee">Ver todos</button>
+                        </div>
+                        <div class="secrule"></div>
+                        <div class="shsys">
+                            <div class="shcard sh-f">
+                                <div class="shci shci-f" aria-hidden="true">⚔</div>
+                                <div class="shb">
+                                    <p class="shname">Fantasy Basic</p>
+                                    <p class="shmeta">Mestre: Zara · 5 sessões · atualizado hoje</p>
+                                    <div class="shpills"><span class="shpill">14 atributos</span><span
+                                            class="shpill">Fantasy</span><span class="shpill">Turn-Based</span></div>
+                                </div>
+                                <div class="shas">
+                                    <div class="ldot" title="Ao vivo"></div><span class="badge b-live">Ao Vivo</span>
+                                    <div class="cchip">
+                                        <div class="ccava">A</div><span class="ccname">Ana, a Guerreira</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="shcard sh-s">
+                                <div class="shci shci-s" aria-hidden="true">🚀</div>
+                                <div class="shb">
+                                    <p class="shname">Fronteira Estelar</p>
+                                    <p class="shmeta">Mestre: Nova · 3 sessões · atualizado ontem</p>
+                                    <div class="shpills"><span class="shpill">22 atributos</span><span
+                                            class="shpill">Sci-Fi</span><span class="shpill">Sandbox</span></div>
+                                </div>
+                                <div class="shas"><span class="badge b-live">Ativo</span>
+                                    <div class="cchip">
+                                        <div class="ccava">K</div><span class="ccname">Kael Drex</span>
+                                    </div><span class="rbadge rb-pl">Jogador</span>
+                                </div>
+                            </div>
+                            <div class="shcard sh-h">
+                                <div class="shci shci-h" aria-hidden="true">🌑</div>
+                                <div class="shb">
+                                    <p class="shname">Véu das Sombras</p>
+                                    <p class="shmeta">Mestre: Rheon · somente leitura</p>
+                                    <div class="shpills"><span class="shpill">Horror</span><span
+                                            class="shpill">Consulta</span></div>
+                                </div>
+                                <div class="shas"><span class="badge b-draft">Consulta</span><span
+                                        class="rbadge rb-sp">Espectador</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Aside: live session + calendar -->
+                    <div class="plasi">
+                        <app-home-live-session sessionName="Noite na Taverna" systemName="Fantasy Basic"
+                            [playerCount]="4" [timerDisplay]="sessionTimerDisplay()" />
+
+                        <div class="card">
+                            <app-home-calendar [days]="calendarDays" [upcomingSessions]="playerSessions" />
+                        </div>
+                    </div>
+
+                </div><!-- /plmain -->
+
+                <!-- Characters + Invites -->
+                <div class="plbot">
+
+                    <div class="card">
+                        <div class="chead"><span class="chead-title"><span class="chead-icon"
+                                    aria-hidden="true">👤</span>Meus Personagens</span><button class="ghost-btn">＋
+                                Criar</button></div>
+                        <div>
+                            <div class="charrow">
+                                <div class="charport cp-e" aria-hidden="true">⚔</div>
+                                <div class="cri">
+                                    <p class="crn">Ana, a Guerreira</p>
+                                    <p class="crc">Fantasy Basic · Guerreira Nv. 5</p>
+                                </div>
+                                <div class="crst">
+                                    <div class="stc"><span class="stv">42</span><span class="stk">vida</span></div>
+                                    <div class="stc"><span class="stv">8</span><span class="stk">força</span></div>
+                                </div>
+                            </div>
+                            <div class="charrow">
+                                <div class="charport cp-r" aria-hidden="true">🚀</div>
+                                <div class="cri">
+                                    <p class="crn">Kael Drex</p>
+                                    <p class="crc">Fronteira Estelar · Explorador Nv. 3</p>
+                                </div>
+                                <div class="crst">
+                                    <div class="stc"><span class="stv">30</span><span class="stk">vida</span></div>
+                                    <div class="stc"><span class="stv">12</span><span class="stk">escudo</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="chead"><span class="chead-title"><span class="chead-icon"
+                                    aria-hidden="true">✉️</span>Convites Pendentes</span><span
+                                class="inv-badge">2</span></div>
+                        <div class="inv-list">
+                            <div class="inv-item">
+                                <div class="inv-icon inv-icon-f" aria-hidden="true">🌿</div>
+                                <div class="inv-body">
+                                    <p class="inv-sys">Crônicas de Verdania</p>
+                                    <p class="inv-from">Mestre: Elara Mist · Fantasy · 4 jogadores</p>
+                                    <div class="inv-actions"><button class="inv-accept">Aceitar</button><button
+                                            class="inv-decline">Recusar</button></div>
+                                </div>
+                            </div>
+                            <div class="inv-item">
+                                <div class="inv-icon inv-icon-s" aria-hidden="true">🌌</div>
+                                <div class="inv-body">
+                                    <p class="inv-sys">Éon Partido</p>
+                                    <p class="inv-from">Mestre: Dax · Sci-Fi · 2 jogadores</p>
+                                    <div class="inv-actions"><button class="inv-accept">Aceitar</button><button
+                                            class="inv-decline">Recusar</button></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- /plbot -->
+
+            </div><!-- /view jogador -->
+            }
+
+        </div><!-- /content -->
+    </div><!-- /main -->
+</div><!-- /shell -->

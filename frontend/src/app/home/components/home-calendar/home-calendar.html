@@ -1,0 +1,38 @@
+<div class="calh">
+    <span class="calm">{{ monthLabel() }}</span>
+    <div class="calnav">
+        <button class="calnb" aria-label="Anterior">‹</button>
+        <button class="calnb" aria-label="Próximo">›</button>
+    </div>
+</div>
+
+<div class="caldr" aria-hidden="true">
+    @for (d of ['D','S','T','Q','Q','S','S']; track $index) {
+    <span class="caldow">{{ d }}</span>
+    }
+</div>
+
+<div class="caldg" role="grid" [attr.aria-label]="monthLabel()">
+    @for (d of days(); track d.day) {
+    <div class="cald" [class.tday]="d.isToday" [class.hev]="d.hasEvent" role="gridcell"
+        [attr.aria-label]="d.day + (d.hasEvent ? ' — sessão' : '')">
+        {{ d.day }}
+    </div>
+    }
+</div>
+
+@if (upcomingSessions().length) {
+<div class="upc">
+    <div class="upc-sep"></div>
+    <p class="upc-lbl">{{ upcomingSessions()[0].accent === 'live' ? 'Próximas sessões' : 'Agendadas' }}</p>
+    @for (s of upcomingSessions(); track s.name) {
+    <div class="upcr">
+        <div class="ud" [class]="'ud-' + s.accent[0]"></div>
+        <div class="upcb">
+            <p class="upcn">{{ s.name }}</p>
+            <p class="upcw">{{ s.when }}</p>
+        </div>
+    </div>
+    }
+</div>
+}

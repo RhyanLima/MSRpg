@@ -1,0 +1,39 @@
+<div class="sidebar-brand">
+    <span class="brand-logo">MS<span>Rpg</span></span>
+    <p class="brand-sub">Painel Administrativo</p>
+</div>
+
+<nav class="sidebar-nav" role="navigation" aria-label="Navegação admin">
+    <p class="nav-section-label">Visão Geral</p>
+    @for (item of overviewItems; track item.view) {
+    <button class="nav-item" [class.active]="activeView() === item.view" (click)="selectView(item.view)">
+        <span class="nav-icon" aria-hidden="true">{{ item.icon }}</span>
+        {{ item.label }}
+    </button>
+    }
+
+    <p class="nav-section-label">Plataforma</p>
+    @for (item of platformItems; track item.view) {
+    <button class="nav-item" [class.active]="activeView() === item.view" (click)="selectView(item.view)">
+        <span class="nav-icon" aria-hidden="true">{{ item.icon }}</span>
+        {{ item.label }}
+    </button>
+    }
+
+    <p class="nav-section-label">Segurança</p>
+    @for (item of securityItems; track item.view) {
+    <button class="nav-item" [class.active]="activeView() === item.view" (click)="selectView(item.view)">
+        <span class="nav-icon" aria-hidden="true">{{ item.icon }}</span>
+        {{ item.label }}
+    </button>
+    }
+</nav>
+
+<div class="sidebar-user">
+    <div class="user-avatar" aria-hidden="true">{{ authService.userInitials() }}</div>
+    <div class="user-info">
+        <p class="user-name">{{ authService.user()?.name }}</p>
+        <p class="user-role">◆ {{ authService.accountType() }}</p>
+    </div>
+    <button class="logout-btn" (click)="logoutClick.emit()" title="Sair" aria-label="Encerrar sessão">↩</button>
+</div>

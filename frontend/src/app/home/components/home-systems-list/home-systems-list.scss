@@ -1,0 +1,165 @@
+@use 'styles/abstracts' as a;
+
+.sysr {
+    display: grid;
+    grid-template-columns: 42px 1fr auto;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.85rem 1.1rem;
+    border-bottom: 1px solid rgba(a.$color-parchment, 0.04);
+    cursor: pointer;
+    transition: background 0.15s;
+
+    &:last-child {
+        border-bottom: none;
+    }
+
+    &:hover {
+        background: rgba(a.$color-gold, 0.04);
+    }
+
+    &-new {
+        opacity: 0.38;
+        cursor: default;
+
+        &:hover {
+            opacity: 0.6;
+            background: none;
+        }
+    }
+}
+
+.sysi {
+    @include a.icon-thumb(42px);
+}
+
+.si-f {
+    background: rgba(a.$color-ember, 0.12);
+    border: 1px solid rgba(a.$color-ember, 0.22);
+}
+
+.si-s {
+    background: rgba(a.$color-rune, 0.12);
+    border: 1px solid rgba(a.$color-rune, 0.22);
+}
+
+.si-h {
+    background: rgba(a.$color-green, 0.1);
+    border: 1px solid rgba(a.$color-green, 0.18);
+}
+
+.si-n {
+    background: rgba(a.$color-gold, 0.08);
+    border: 1px dashed rgba(a.$color-gold, 0.2);
+}
+
+.sysi-name {
+    font-family: a.$font-heading;
+    font-size: 0.67rem;
+    color: rgba(a.$color-parchment, 0.78);
+    letter-spacing: 0.03em;
+}
+
+.sysi-meta {
+    font-size: 0.7rem;
+    color: rgba(a.$color-parchment, 0.24);
+    margin-top: 0.1rem;
+}
+
+.syschips {
+    display: flex;
+    align-items: center;
+    gap: 0.38rem;
+    flex-shrink: 0;
+}
+
+.campi {
+    display: grid;
+    grid-template-columns: 42px 1fr auto;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.85rem 1.1rem;
+    border-bottom: 1px solid rgba(a.$color-parchment, 0.04);
+    cursor: pointer;
+    transition: background 0.15s;
+
+    &:last-child {
+        border-bottom: none;
+    }
+
+    &:hover {
+        background: rgba(a.$color-gold, 0.04);
+    }
+
+    &--ghost {
+        opacity: 0.38;
+        cursor: default;
+
+        &:hover {
+            opacity: 0.6;
+            background: none;
+        }
+    }
+}
+
+.campth {
+    @include a.icon-thumb(42px);
+}
+
+.ct-a {
+    background: rgba(a.$color-ember, 0.12);
+    border: 1px solid rgba(a.$color-ember, 0.22);
+}
+
+.ct-b {
+    background: rgba(a.$color-rune, 0.12);
+    border: 1px solid rgba(a.$color-rune, 0.22);
+}
+
+.ct-c {
+    background: rgba(a.$color-gold, 0.08);
+    border: 1px dashed rgba(a.$color-gold, 0.2);
+}
+
+.campn {
+    font-family: a.$font-heading;
+    font-size: 0.67rem;
+    color: rgba(a.$color-parchment, 0.78);
+
+    &--ghost {
+        color: rgba(a.$color-parchment, 0.28);
+    }
+}
+
+.campm {
+    font-size: 0.7rem;
+    color: rgba(a.$color-parchment, 0.24);
+    margin-top: 0.1rem;
+}
+
+.campp {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.28rem;
+    min-width: 80px;
+}
+
+.camppct {
+    @include a.heading-caps(0.52rem);
+    color: rgba(a.$color-parchment, 0.4);
+}
+
+.campbar {
+    width: 70px;
+    height: 3px;
+    background: rgba(a.$color-parchment, 0.06);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.campfill {
+    height: 100%;
+    background: linear-gradient(90deg, a.$color-ember, a.$color-gold);
+    border-radius: 2px;
+}

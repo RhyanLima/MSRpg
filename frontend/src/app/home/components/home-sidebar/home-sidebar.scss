@@ -1,0 +1,273 @@
+@use "styles/abstracts" as a;
+
+$sw: 224px;
+
+:host {
+    display: flex;
+    flex-direction: column;
+    width: $sw;
+    flex-shrink: 0;
+    background: a.$color-ash-deep;
+    border-right: 1px solid rgba(a.$color-gold, 0.1);
+    position: relative;
+    z-index: 30;
+    transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 15%;
+        right: 15%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(a.$color-gold, 0.5), transparent);
+    }
+
+    @include a.mobile-nav {
+        position: fixed;
+        inset: 0 auto 0 0;
+        z-index: 50;
+        transform: translateX(-100%);
+        &.op {
+            transform: translateX(0);
+        }
+    }
+}
+
+.sbrand {
+    padding: 1.3rem 1.1rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    border-bottom: 1px solid rgba(a.$color-gold, 0.07);
+}
+
+.sbmark {
+    position: relative;
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sbr {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1px solid rgba(a.$color-gold, 0.3);
+    animation: sb-spin 20s linear infinite;
+    &2 {
+        inset: 5px;
+        border-color: rgba(a.$color-ember, 0.2);
+        animation-duration: 13s;
+        animation-direction: reverse;
+    }
+}
+
+@keyframes sb-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.sbi {
+    position: relative;
+    z-index: 1;
+    font-size: 0.88rem;
+    color: a.$color-gold;
+    filter: drop-shadow(0 0 6px rgba(a.$color-gold, 0.4));
+}
+
+.sbname {
+    font-family: a.$font-display;
+    font-size: 0.82rem;
+    color: a.$color-gold;
+    line-height: 1;
+    text-shadow: 0 0 18px rgba(a.$color-gold, 0.18);
+    em {
+        font-style: normal;
+        color: a.$color-ember;
+    }
+}
+
+.mobclose {
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: rgba(a.$color-parchment, 0.3);
+    cursor: pointer;
+    font-size: 0.8rem;
+    padding: 0.25rem;
+    transition: color 0.2s;
+    display: none;
+    @include a.mobile-nav {
+        display: block;
+    }
+}
+
+.modesw {
+    margin: 0.85rem 0.8rem 0.25rem;
+    display: flex;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(a.$color-gold, 0.1);
+    border-radius: a.$radius-md;
+    padding: 3px;
+    gap: 2px;
+}
+
+.msw {
+    flex: 1;
+    padding: 0.38rem 0.15rem;
+    background: none;
+    border: none;
+    border-radius: 3px;
+    @include a.heading-caps(0.48rem, 0.12em);
+    color: rgba(a.$color-parchment, 0.28);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    transition:
+        background 0.2s,
+        color 0.2s,
+        box-shadow 0.2s;
+
+    &.on {
+        color: a.$color-gold-light;
+        &.vm {
+            background: rgba(a.$color-ember, 0.2);
+            box-shadow: 0 0 12px rgba(a.$color-ember, 0.12);
+        }
+        &.vp {
+            background: rgba(a.$color-rune, 0.2);
+            box-shadow: 0 0 12px rgba(a.$color-rune, 0.1);
+        }
+    }
+    &:not(.on):hover {
+        color: rgba(a.$color-parchment, 0.55);
+    }
+}
+
+.nav-wrap {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0.5rem 0.65rem 0.4rem;
+    @include a.thin-scrollbar(3px, 0.1);
+}
+
+.nsec {
+    margin-bottom: 0.95rem;
+}
+
+.nsec-lbl {
+    @include a.heading-caps(0.42rem, 0.25em);
+    color: rgba(a.$color-parchment, 0.18);
+    padding: 0.1rem 0.5rem 0.28rem;
+    display: block;
+}
+
+.nitem {
+    @include a.nav-item-base;
+    padding: 0.52rem 0.72rem;
+    font-size: 0.55rem;
+    letter-spacing: 0.07em;
+    color: rgba(a.$color-parchment, 0.37);
+    border-radius: 3px;
+    position: relative;
+
+    &:hover {
+        color: rgba(a.$color-parchment, 0.7);
+        background: rgba(a.$color-gold, 0.05);
+    }
+    &.on {
+        color: a.$color-gold;
+        background: rgba(a.$color-gold, 0.09);
+        &::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 22%;
+            bottom: 22%;
+            width: 2px;
+            background: a.$color-ember;
+            border-radius: 1px;
+        }
+    }
+}
+
+.ni {
+    font-size: 0.8rem;
+    width: 1rem;
+    text-align: center;
+    flex-shrink: 0;
+}
+.nlabel {
+    flex: 1;
+}
+.ndiv {
+    height: 1px;
+    margin: 0.4rem 0.4rem 0.7rem;
+    background: linear-gradient(90deg, transparent, rgba(a.$color-gold, 0.1), transparent);
+}
+
+.suser {
+    border-top: 1px solid rgba(a.$color-parchment, 0.05);
+    padding: 0.78rem 0.88rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.sua {
+    @include a.avatar(30px, 0.54rem);
+    background: rgba(a.$color-gold, 0.12);
+    border: 1px solid rgba(a.$color-gold, 0.25);
+    color: a.$color-gold;
+}
+
+.sui {
+    flex: 1;
+    min-width: 0;
+}
+.sun {
+    font-family: a.$font-heading;
+    font-size: 0.56rem;
+    color: rgba(a.$color-parchment, 0.6);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.sue {
+    font-size: 0.64rem;
+    color: rgba(a.$color-parchment, 0.22);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.suout {
+    background: none;
+    border: 1px solid rgba(a.$color-ember, 0.15);
+    border-radius: 3px;
+    color: rgba(a.$color-ember, 0.4);
+    cursor: pointer;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+    transition:
+        border-color 0.2s,
+        color 0.2s,
+        background 0.2s;
+    &:hover {
+        border-color: a.$color-ember;
+        color: a.$color-ember;
+        background: rgba(a.$color-ember, 0.07);
+    }
+}

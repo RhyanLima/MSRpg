@@ -1,0 +1,118 @@
+<!-- Background -->
+<div class="bg" aria-hidden="true">
+    <div class="bg__grid"></div>
+    <div class="bg__rune bg__rune--1">◈</div>
+    <div class="bg__rune bg__rune--2">✦</div>
+    <div class="bg__rune bg__rune--3">⚔</div>
+</div>
+
+<main class="card" role="main" [attr.aria-label]="cardLabel()">
+
+    <!-- Header -->
+    <div class="card__deco">
+        <div class="verify-ring" aria-hidden="true">
+            <div class="verify-ring__pulse"></div>
+            <div class="verify-ring__pulse verify-ring__pulse--2"></div>
+            <div class="verify-ring__track"></div>
+            <div class="verify-ring__arc"></div>
+            <div class="verify-ring__arc verify-ring__arc--inner"></div>
+            <span class="verify-ring__icon">{{ purpose() === '2fa' ? '🔐' : '✉️' }}</span>
+        </div>
+
+        <p class="card__eyebrow">{{ eyebrow() }}</p>
+        <h1 class="card__title">MS<em>Rpg</em></h1>
+        <p class="card__subtitle">{{ subtitle() }}</p>
+
+        <div class="ornament">
+            <span class="ornament__line ornament__line--left"></span>
+            <span class="ornament__glyph">◆</span>
+            <span class="ornament__glyph">◆</span>
+            <span class="ornament__glyph">◆</span>
+            <span class="ornament__line ornament__line--right"></span>
+        </div>
+    </div>
+
+    <!-- Form state -->
+    @if (otpStatus() !== 'success') {
+    <div class="state-form">
+
+        <div class="instruction">
+            <p class="instruction__text">Código enviado para</p>
+            <span class="instruction__email">{{ maskedEmail() }}</span>
+        </div>
+
+        <!-- Timer -->
+        <div class="expiry-bar" role="timer" aria-live="polite" [attr.aria-label]="'Tempo restante: ' + timerDisplay()">
+            <span class="expiry-bar__icon" aria-hidden="true">⏳</span>
+            <span>Expira em</span>
+            <span class="expiry-bar__spacer"></span>
+            <span class="expiry-bar__timer" [class.expiry-bar__timer--urgent]="secondsLeft() <= 60">
+                {{ timerDisplay() }}
+            </span>
+        </div>
+
+        <!-- Error -->
+        @if (errorMessage()) {
+        <div class="alert-error" role="alert" aria-live="assertive">
+            <span class="alert-error__icon" aria-hidden="true">⚠</span>
+            <span>{{ errorMessage() }}</span>
+        </div>
+        }
+
+        <!-- OTP inputs -->
+        <label class="otp-label" for="otp-1">Código de verificação</label>
+
+        <div class="otp-group" role="group" aria-label="Digite os 6 dígitos do código">
+            @for (i of otpIndices; track i) {
+            @if (i === 2 || i === 4) {
+            <div class="otp-sep" aria-hidden="true"><span></span></div>
+            }
+            <input class="otp-input" [id]="'otp-' + (i + 1)" type="text" inputmode="numeric" pattern="[0-9]"
+                maxlength="1" [attr.autocomplete]="i === 0 ? 'one-time-code' : null"
+                [attr.aria-label]="'Dígito ' + (i + 1) + ' de 6'" [class.is-filled]="otpDigits()[i] !== ''"
+                [class.is-error]="otpStatus() === 'error'" [class.is-valid]="otpStatus() === 'success'"
+                [value]="otpDigits()[i]" [disabled]="otpStatus() === 'loading'" (input)="onInput($event, i)"
+                (keydown)="onKeydown($event, i)" (paste)="onPaste($event)" (focus)="onFocus($event)" />
+            }
+        </div>
+
+        <p class="otp-hint">— Digite apenas números —</p>
+
+        <button class="btn-primary" type="button" [disabled]="!canVerify()"
+            [class.btn-primary--loading]="otpStatus() === 'loading'" aria-label="Verificar identidade"
+            (click)="onVerify()">
+            @if (otpStatus() === 'loading') {
+            <span class="btn-spinner" aria-hidden="true"></span>
+            } @else {
+            <span class="btn-primary__icon" aria-hidden="true">✦</span>
+            }
+            <span>{{ verifyLabel() }}</span>
+        </button>
+
+        <div class="resend-row">
+            <span class="resend-text">Não recebeu?</span>
+            <button class="resend-btn" type="button" [disabled]="resendCooldown() > 0" (click)="onResend()">
+                {{ resendCooldown() > 0 ? 'Reenviar em ' + resendCooldown() + 's' : 'Reenviar código' }}
+            </button>
+        </div>
+
+    </div>
+    }
+
+    <!-- Success state -->
+    @if (otpStatus() === 'success') {
+    <div class="state-success" aria-live="polite">
+        <div class="success-seal" aria-hidden="true">✓</div>
+        <p class="success-title">{{ successTitle() }}</p>
+        <p class="success-desc">{{ successDesc() }}</p>
+        <button class="btn-continue" type="button" (click)="onContinue()">
+            Continuar
+        </button>
+    </div>
+    }
+
+    <footer class="card__footer">
+        <p class="footer-warning">⚠ Este código é de uso único e expira em 15 minutos</p>
+    </footer>
+
+</main>

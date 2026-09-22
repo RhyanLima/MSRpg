@@ -1,0 +1,33 @@
+<section class="rules-section">
+    <div class="rules-inner">
+
+        <div class="rules-text" appReveal>
+            <p class="section-label">Rules Engine</p>
+            <h2 class="section-title">
+                Regras escritas<br />em JSON, não<br />em código
+            </h2>
+            <p class="section-desc">
+                Defina efeitos complexos de forma declarativa. O motor interpreta,
+                valida e executa com segurança — sem scripts arbitrários.
+            </p>
+            <a href="#inicio" class="btn-docs">Ver documentação ↗</a>
+        </div>
+
+        <div class="rules-visual" appReveal [revealDelay]="150">
+            <div class="code-glow" aria-hidden="true"></div>
+            <div class="code-tome" role="img" aria-label="Exemplo de regra DSL do Rules Engine">
+                <div class="code-header">⚔ Rules Engine — DSL Preview</div>
+                <div class="code-body">
+                    @for (line of codeLines; track $index) {
+                        <div class="code-line">
+                            @for (token of line.tokens; track $index) {
+                                <span [class]="'tok tok-' + token.type">{{ token.text }}</span>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

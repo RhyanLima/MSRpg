@@ -1,0 +1,165 @@
+@use "styles/abstracts" as a;
+
+.calh {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.8rem 0.95rem 0.55rem;
+    border-bottom: 1px solid rgba(a.$color-parchment, 0.05);
+}
+
+.calm {
+    @include a.heading-caps(0.58rem, 0.12em);
+    color: rgba(a.$color-parchment, 0.5);
+}
+
+.calnav {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.calnb {
+    background: none;
+    border: none;
+    color: rgba(a.$color-gold, 0.4);
+    cursor: pointer;
+    width: 22px;
+    height: 22px;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    transition:
+        color 0.2s,
+        background 0.2s;
+    &:hover {
+        color: a.$color-gold;
+        background: rgba(a.$color-gold, 0.08);
+    }
+}
+
+.caldr {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    padding: 0.42rem 0.7rem 0.12rem;
+}
+
+.caldow {
+    @include a.heading-caps(0.42rem, 0.08em);
+    color: rgba(a.$color-parchment, 0.18);
+    text-align: center;
+}
+
+.caldg {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    padding: 0 0.7rem 0.7rem;
+    gap: 2px;
+}
+
+.cald {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: a.$font-heading;
+    font-size: 0.48rem;
+    color: rgba(a.$color-parchment, 0.28);
+    border-radius: 3px;
+    cursor: default;
+    position: relative;
+    transition:
+        background 0.15s,
+        color 0.15s;
+
+    &:not(.emp):hover {
+        background: rgba(a.$color-gold, 0.08);
+        color: rgba(a.$color-parchment, 0.7);
+    }
+    &.tday {
+        background: rgba(a.$color-gold, 0.14);
+        color: a.$color-gold-light !important;
+        font-weight: 600;
+    }
+    &.emp {
+        opacity: 0;
+        pointer-events: none;
+    }
+    &.hev::after {
+        content: "";
+        position: absolute;
+        bottom: 2px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 3px;
+        height: 3px;
+        border-radius: 50%;
+        background: a.$color-ember;
+    }
+}
+
+.upc {
+    padding: 0.05rem 0.95rem 0.8rem;
+}
+.upc-sep {
+    height: 1px;
+    margin: 0.45rem 0 0.6rem;
+    background: linear-gradient(90deg, transparent, rgba(a.$color-gold, 0.1), transparent);
+}
+.upc-lbl {
+    @include a.heading-caps(0.46rem, 0.2em);
+    color: rgba(a.$color-parchment, 0.18);
+    margin-bottom: 0.48rem;
+}
+
+.upcr {
+    display: flex;
+    align-items: center;
+    gap: 0.62rem;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid rgba(a.$color-parchment, 0.03);
+    &:last-child {
+        border-bottom: none;
+    }
+}
+
+.ud {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.ud-l {
+    @include a.live-dot;
+}
+.ud-s {
+    background: a.$color-gold;
+}
+.ud-r {
+    background: a.$color-rune-soft;
+}
+
+@keyframes live-blink {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.3;
+    }
+}
+
+.upcb {
+    flex: 1;
+}
+.upcn {
+    font-family: a.$font-heading;
+    font-size: 0.6rem;
+    color: rgba(a.$color-parchment, 0.6);
+}
+.upcw {
+    font-size: 0.65rem;
+    color: rgba(a.$color-parchment, 0.22);
+    margin-top: 0.05rem;
+}

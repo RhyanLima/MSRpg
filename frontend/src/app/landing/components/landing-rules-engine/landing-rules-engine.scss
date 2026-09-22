@@ -1,0 +1,133 @@
+@use "../../../../styles/abstracts" as a;
+
+.rules-section {
+    padding: a.$spacing-4xl a.$spacing-3xl;
+
+    @include a.mobile-nav {
+        padding: 4rem 2rem;
+    }
+}
+
+.rules-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+
+    @include a.mobile-nav {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+}
+
+.section-label {
+    @include a.section-label;
+}
+
+.section-title {
+    font-family: a.$font-display;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    color: a.$color-parchment;
+    margin-bottom: 1rem;
+}
+
+.section-desc {
+    font-size: 1.05rem;
+    font-style: italic;
+    font-family: a.$font-italic;
+    color: rgba(a.$color-parchment, 0.6);
+    margin-bottom: 2rem;
+}
+
+.btn-docs {
+    display: inline-block;
+    @include a.heading-caps(0.75rem, 0.15em);
+    color: a.$color-parchment;
+    border: 1px solid rgba(a.$color-parchment, 0.25);
+    padding: 0.75rem 1.8rem;
+    border-radius: a.$radius-sm;
+    transition:
+        border-color a.$transition-base,
+        color a.$transition-base,
+        box-shadow a.$transition-base,
+        transform a.$transition-fast;
+
+    &:hover {
+        border-color: a.$color-gold;
+        color: a.$color-gold-light;
+        box-shadow: 0 0 20px rgba(a.$color-gold, 0.2);
+        transform: translateY(-2px);
+    }
+}
+
+.rules-visual {
+    position: relative;
+}
+
+.code-glow {
+    position: absolute;
+    inset: -24px;
+    background: radial-gradient(ellipse at 50% 50%, rgba(a.$color-gold, 0.06) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.code-tome {
+    background: rgba(10, 8, 6, 0.95);
+    border: 1px solid rgba(a.$color-gold, 0.2);
+    border-radius: a.$radius-md;
+    padding: 1.5rem;
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(a.$color-gold, 0.05);
+    overflow-x: auto;
+}
+
+.code-header {
+    @include a.heading-caps(0.65rem, 0.15em);
+    color: a.$color-gold;
+    margin-bottom: 1rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid rgba(a.$color-gold, 0.15);
+}
+
+.code-body {
+    font-family: "Courier New", "Lucida Console", monospace;
+    font-size: 0.8rem;
+    line-height: 1.8;
+}
+
+.code-line {
+    display: block;
+    white-space: pre;
+}
+
+.tok-key {
+    color: #7b5ea7;
+}
+
+.tok-str {
+    color: #c9922a;
+}
+
+.tok-val {
+    color: #c0392b;
+}
+
+.tok-num {
+    color: #27ae60;
+}
+
+.tok-comment {
+    color: rgba(a.$color-parchment, 0.3);
+    font-style: italic;
+}
+
+.tok-brace {
+    color: rgba(a.$color-parchment, 0.4);
+}
+
+.tok-plain {
+    color: rgba(a.$color-parchment, 0.7);
+}

@@ -1,0 +1,65 @@
+<div class="search-bar">
+    <span class="search-icon" aria-hidden="true">🔍</span>
+    <input type="search" [(ngModel)]="searchQuery" placeholder="Buscar por nome ou e-mail…"
+        aria-label="Buscar usuários" />
+</div>
+
+<div class="filter-chips" role="group" aria-label="Filtrar por tipo">
+    @for (f of filters; track f[0]) {
+    <button class="chip" [class.active]="activeFilter() === f[0]" (click)="setFilter(f[0])">{{ f[1] }}</button>
+    }
+</div>
+
+@if (loading()) {
+<div class="panel-loading" aria-live="polite">Carregando usuários…</div>
+} @else {
+<table class="data-table" aria-label="Lista de usuários">
+    <thead>
+        <tr>
+            <th scope="col">Usuário</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">E-mail</th>
+            <th scope="col">Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (user of filteredUsers(); track user.id) {
+        <tr>
+            <td>
+                <div class="user-cell">
+                    <div class="avatar-sm" [style]="avatarGradient(user.name)" aria-hidden="true">
+                        {{ initials(user.name) }}
+                    </div>
+                    <div class="user-cell-info">
+                        <p class="user-cell-name">{{ user.name }}</p>
+                        <p class="user-cell-email">{{ user.id | slice:0:12 }}…</p>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <span class="badge" [ngClass]="badgeClass(user)">
+                    {{ accountTypeLabel(user) }}
+                </span>
+            </td>
+            <td class="td-email">{{ user.email }}</td>
+            <td>
+                <div class="action-row">
+                    @if (authService.isDev()) {
+                    <button class="panel-action" (click)="promoteToAdmin.emit(user)" title="Promover a Admin">→
+                        Admin</button>
+                    <button class="panel-action panel-action--dev" (click)="promoteToDev.emit(user)"
+                        title="Promover a Dev">→ Dev</button>
+                    }
+                    <button class="panel-action panel-action--danger" (click)="deleteUser.emit(user)"
+                        title="Remover usuário">✕</button>
+                </div>
+            </td>
+        </tr>
+        } @empty {
+        <tr>
+            <td colspan="4" class="td-empty">Nenhum usuário encontrado</td>
+        </tr>
+        }
+    </tbody>
+</table>
+}

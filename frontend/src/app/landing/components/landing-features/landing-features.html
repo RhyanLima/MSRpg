@@ -1,0 +1,25 @@
+<section class="features-section">
+
+    <div class="features-inner">
+        <div class="features-header">
+            <div appReveal>
+                <p class="section-label">Funcionalidades</p>
+                <h2 class="section-title">Poder total<br />nas suas mãos</h2>
+                <p class="section-desc">
+                    Tudo que um sistema de RPG precisa, construído para ser
+                    completamente adaptável ao seu universo.
+                </p>
+            </div>
+
+            <div class="features-grid" appReveal [revealDelay]="150">
+                @for (feat of features; track feat.title) {
+                <article class="feat-card" [class]="'feat-card feat-card--' + accentClass(feat.accentIndex)">
+                    <h4>{{ feat.icon }}&nbsp;{{ feat.title }}</h4>
+                    <p>{{ feat.description }}</p>
+                </article>
+                }
+            </div>
+        </div>
+    </div>
+    
+</section>

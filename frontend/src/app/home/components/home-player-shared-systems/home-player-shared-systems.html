@@ -1,0 +1,114 @@
+<!-- Sistemas Compartilhados -->
+<div class="shsys">
+    @for (system of sharedSystems(); track system.id) {
+    <div class="shcard" [class]="cardClass(system.accent)" role="button" tabindex="0" [attr.aria-label]="system.name"
+        (click)="systemClick.emit(system)" (keydown.enter)="systemClick.emit(system)"
+        (keydown.space)="systemClick.emit(system); $event.preventDefault()">
+
+        <!-- Icon -->
+        <div class="shci" [class]="iconClass(system.accent)" aria-hidden="true">
+            {{ system.icon }}
+        </div>
+
+        <!-- Body -->
+        <div class="shb">
+            <p class="shname">{{ system.name }}</p>
+            <p class="shmeta">{{ systemMeta(system) }}</p>
+            @if (system.tags.length > 0) {
+            <div class="shpills" aria-label="Tags">
+                @for (tag of system.tags; track tag) {
+                <span class="shpill">{{ tag }}</span>
+                }
+            </div>
+            }
+        </div>
+
+        <!-- Status + role + character chip -->
+        <div class="shas">
+            @if (isLive(system.status)) {
+            <div class="ldot" aria-hidden="true" title="Ao vivo"></div>
+            }
+            <span class="badge" [class]="statusBadgeClass(system.status)">
+                {{ statusLabel(system.status) }}
+            </span>
+            @if (system.linkedCharacter) {
+            <div class="cchip" [attr.aria-label]="'Personagem: ' + system.linkedCharacter.name">
+                <div class="ccava" aria-hidden="true">{{ system.linkedCharacter.initial }}</div>
+                <span class="ccname">{{ system.linkedCharacter.name }}</span>
+            </div>
+            }
+            <span class="rbadge" [class]="roleBadgeClass(system.playerRole)">
+                {{ roleLabel(system.playerRole) }}
+            </span>
+        </div>
+
+    </div>
+    }
+</div>
+
+<!-- Personagens -->
+@if (characters().length > 0) {
+<div class="char-section">
+    @for (char of characters(); track char.id) {
+    <div class="charrow" role="button" tabindex="0" [attr.aria-label]="char.name" (click)="characterClick.emit(char)"
+        (keydown.enter)="characterClick.emit(char)"
+        (keydown.space)="characterClick.emit(char); $event.preventDefault()">
+
+        <div class="charport" [class]="charPortClass(char.accent)" aria-hidden="true">
+            {{ char.icon }}
+        </div>
+
+        <div class="cri">
+            <p class="crn">{{ char.name }}</p>
+            <p class="crc">{{ char.systemName }} · {{ char.classLabel }}</p>
+        </div>
+
+        <div class="crst" aria-label="Atributos">
+            @for (stat of char.stats; track stat.key) {
+            <div class="stc">
+                <span class="stv">{{ stat.value }}</span>
+                <span class="stk">{{ stat.key }}</span>
+            </div>
+            }
+        </div>
+    </div>
+    }
+
+    <div class="charrow charrow--ghost" role="button" tabindex="0" aria-label="Criar novo personagem"
+        (click)="createCharClick.emit()" (keydown.enter)="createCharClick.emit()"
+        (keydown.space)="createCharClick.emit(); $event.preventDefault()">
+        <div class="charport cp-ghost" aria-hidden="true">＋</div>
+        <div class="cri">
+            <p class="crn crn--ghost">Criar personagem…</p>
+            <p class="crc">Escolha um sistema e crie sua ficha</p>
+        </div>
+    </div>
+</div>
+}
+
+<!-- Convites Pendentes -->
+@if (pendingInvites().length > 0) {
+<div class="inv-list">
+    @for (invite of pendingInvites(); track invite.id) {
+    <div class="inv-item">
+        <div class="inv-icon" [class]="invIconClass(invite.accent)" aria-hidden="true">
+            {{ invite.icon }}
+        </div>
+        <div class="inv-body">
+            <p class="inv-sys">{{ invite.systemName }}</p>
+            <p class="inv-from">{{ inviteMeta(invite) }}</p>
+            <div class="inv-actions">
+                <button class="inv-accept" [attr.aria-label]="'Aceitar convite para ' + invite.systemName"
+                    (click)="acceptInvite.emit(invite)">
+                    Aceitar
+                </button>
+                <button class="inv-decline" [attr.aria-label]="'Recusar convite para ' + invite.systemName"
+                    (click)="declineInvite.emit(invite)">
+                    Recusar
+                </button>
+            </div>
+        </div>
+    </div>
+    }
+</div>
+}

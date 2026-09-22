@@ -1,0 +1,260 @@
+<div class="bg-texture" aria-hidden="true"></div>
+<div class="noise" aria-hidden="true"></div>
+<div class="rune-line" aria-hidden="true"></div>
+
+<main class="page" id="page">
+
+    <!-- Brand -->
+    <div class="brand" role="banner">
+        <div class="bmark" aria-hidden="true">
+            <div class="bmark-ring"></div>
+            <div class="bmark-ring bmark-ring2"></div>
+            <div class="bmark-ring bmark-ring3"></div>
+            <span class="bmark-icon">⚔</span>
+        </div>
+        <span class="brand-name">MS<em>Rpg</em></span>
+        <span class="brand-tagline">Forje seu universo</span>
+    </div>
+
+    <!-- Register Card -->
+    @if (status() !== 'success') {
+    <div class="card" role="region" aria-label="Formulário de cadastro">
+
+        <div class="card-head">
+            <p class="card-eyebrow">— Criar Conta —</p>
+            <h1 class="card-title">Desperte seu Mestre Interior</h1>
+            <p class="card-sub">Junte-se aos forjadores de mundos</p>
+        </div>
+
+        <div class="div-rune" aria-hidden="true">
+            <span class="div-rune-sym">✦ Cadastro ✦</span>
+        </div>
+
+        <div class="form-body">
+
+            @if (errorMessage()) {
+            <div class="alert alert-error" role="alert" aria-live="polite">
+                <span class="alert-icon">⚠</span>
+                <span>{{ errorMessage() }}</span>
+            </div>
+            }
+
+            <!-- Nome + Nascimento -->
+            <div class="field-row">
+
+                <div class="field-group" [class.is-valid]="isFieldValid('name')"
+                    [class.is-error]="isFieldError('name')">
+                    <label class="field-label" for="name">
+                        Nome <span class="field-label-req" aria-hidden="true">*</span>
+                        <span class="field-label-hint">3–100 caracteres</span>
+                    </label>
+                    <div class="input-wrap">
+                        <span class="input-icon" aria-hidden="true">✦</span>
+                        <input class="field-input" type="text" id="name" placeholder="Seu nome completo"
+                            autocomplete="name" maxlength="100" [formControl]="form.controls.name"
+                            aria-describedby="name-msg" />
+                        <span class="field-state-icon" aria-hidden="true">
+                            @if (isFieldValid('name')) { ✓ }
+                            @else if (isFieldError('name')) { ! }
+                        </span>
+                    </div>
+                    <div class="field-msg" [class]="fieldMsgClass('name')" id="name-msg" role="status">
+                        <span class="field-msg-icon" aria-hidden="true">{{ fieldMsgIcon('name') }}</span>
+                        <span>{{ nameMessage() }}</span>
+                    </div>
+                </div>
+
+                <div class="field-group" [class.is-valid]="isFieldValid('birthDate')"
+                    [class.is-error]="isFieldError('birthDate')">
+                    <label class="field-label" for="birthDate">
+                        Data de Nascimento <span class="field-label-req" aria-hidden="true">*</span>
+                    </label>
+                    <div class="input-wrap">
+                        <input class="field-input no-icon" type="date" id="birthDate"
+                            [formControl]="form.controls.birthDate" [max]="today" aria-describedby="birth-msg" />
+                        <span class="field-state-icon" aria-hidden="true">
+                            @if (isFieldValid('birthDate')) { ✓ }
+                            @else if (isFieldError('birthDate')) { ! }
+                        </span>
+                    </div>
+                    <div class="field-msg" [class]="fieldMsgClass('birthDate')" id="birth-msg" role="status">
+                        <span class="field-msg-icon" aria-hidden="true">{{ fieldMsgIcon('birthDate') }}</span>
+                        <span>{{ birthMessage() }}</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- E-mail -->
+            <div class="field-group" [class.is-valid]="isFieldValid('email')" [class.is-error]="isFieldError('email')">
+                <label class="field-label" for="email">
+                    E-mail <span class="field-label-req" aria-hidden="true">*</span>
+                </label>
+                <div class="input-wrap">
+                    <span class="input-icon" aria-hidden="true">✉</span>
+                    <input class="field-input" type="email" id="email" placeholder="seu@email.com" autocomplete="email"
+                        inputmode="email" [formControl]="form.controls.email" aria-describedby="email-msg" />
+                    <span class="field-state-icon" aria-hidden="true">
+                        @if (isFieldValid('email')) { ✓ }
+                        @else if (isFieldError('email')) { ! }
+                    </span>
+                </div>
+                <div class="field-msg" [class]="fieldMsgClass('email')" id="email-msg" role="status">
+                    <span class="field-msg-icon" aria-hidden="true">{{ fieldMsgIcon('email') }}</span>
+                    <span>{{ emailMessage() }}</span>
+                </div>
+            </div>
+
+            <!-- Senha -->
+            <div class="field-group" [class.is-valid]="isFieldValid('password')"
+                [class.is-error]="isFieldError('password')">
+                <label class="field-label" for="password">
+                    Senha <span class="field-label-req" aria-hidden="true">*</span>
+                </label>
+                <div class="input-wrap has-toggle">
+                    <span class="input-icon" aria-hidden="true">🔑</span>
+                    <input class="field-input" [type]="showPassword() ? 'text' : 'password'" id="password"
+                        placeholder="Crie uma senha forte" autocomplete="new-password"
+                        [formControl]="form.controls.password" aria-describedby="password-msg" />
+                    <button type="button" class="pwd-toggle"
+                        [attr.aria-label]="showPassword() ? 'Ocultar senha' : 'Mostrar senha'"
+                        (click)="showPassword.set(!showPassword())">
+                        {{ showPassword() ? '🙈' : '👁' }}
+                    </button>
+                    <span class="field-state-icon has-toggle" aria-hidden="true">
+                        @if (isFieldValid('password')) { ✓ }
+                        @else if (isFieldError('password')) { ! }
+                    </span>
+                </div>
+
+                <!-- Strength meter -->
+                @if (form.controls.password.value) {
+                <div class="pwd-strength visible" aria-live="polite">
+                    <div class="pwd-bars" aria-hidden="true">
+                        <div class="pwd-bar" [class]="pwdBarClass(0)"></div>
+                        <div class="pwd-bar" [class]="pwdBarClass(1)"></div>
+                        <div class="pwd-bar" [class]="pwdBarClass(2)"></div>
+                        <div class="pwd-bar" [class]="pwdBarClass(3)"></div>
+                    </div>
+                    <span class="pwd-lvl-txt" [style.color]="pwdLevelColor()" aria-hidden="true">
+                        {{ pwdLevelText() }}
+                    </span>
+                    <div class="pwd-checks" role="list" aria-label="Requisitos de senha">
+                        <div class="pwd-check" [class.ok]="pwdChecks().len" role="listitem">
+                            <div class="pwd-check-dot"></div>Mín. 8 caracteres
+                        </div>
+                        <div class="pwd-check" [class.ok]="pwdChecks().upp" role="listitem">
+                            <div class="pwd-check-dot"></div>Letra maiúscula
+                        </div>
+                        <div class="pwd-check" [class.ok]="pwdChecks().low" role="listitem">
+                            <div class="pwd-check-dot"></div>Letra minúscula
+                        </div>
+                        <div class="pwd-check" [class.ok]="pwdChecks().num" role="listitem">
+                            <div class="pwd-check-dot"></div>Número
+                        </div>
+                        <div class="pwd-check" [class.ok]="pwdChecks().spc" role="listitem">
+                            <div class="pwd-check-dot"></div>Caractere especial
+                        </div>
+                    </div>
+                </div>
+                }
+
+                <div class="field-msg" [class]="fieldMsgClass('password')" id="password-msg" role="status">
+                    <span class="field-msg-icon" aria-hidden="true">{{ fieldMsgIcon('password') }}</span>
+                    <span>{{ passwordMessage() }}</span>
+                </div>
+            </div>
+
+            <!-- Confirmar Senha -->
+            <div class="field-group"
+                [class.is-valid]="isFieldValid('confirmPassword') && !form.hasError('passwordMismatch')"
+                [class.is-error]="isFieldError('confirmPassword') || (form.controls.confirmPassword.dirty && form.hasError('passwordMismatch'))">
+                <label class="field-label" for="confirmPassword">
+                    Confirmar Senha <span class="field-label-req" aria-hidden="true">*</span>
+                </label>
+                <div class="input-wrap has-toggle">
+                    <span class="input-icon" aria-hidden="true">🔐</span>
+                    <input class="field-input" [type]="showConfirm() ? 'text' : 'password'" id="confirmPassword"
+                        placeholder="Repita a senha" autocomplete="new-password"
+                        [formControl]="form.controls.confirmPassword" aria-describedby="confirm-msg" />
+                    <button type="button" class="pwd-toggle"
+                        [attr.aria-label]="showConfirm() ? 'Ocultar confirmação' : 'Mostrar confirmação'"
+                        (click)="showConfirm.set(!showConfirm())">
+                        {{ showConfirm() ? '🙈' : '👁' }}
+                    </button>
+                    <span class="field-state-icon has-toggle" aria-hidden="true">
+                        @if (!form.hasError('passwordMismatch') && isFieldValid('confirmPassword')) { ✓ }
+                        @else if (form.controls.confirmPassword.dirty && form.hasError('passwordMismatch')) { ! }
+                    </span>
+                </div>
+                <div class="field-msg" id="confirm-msg" role="status" [class]="confirmMsgClass()">
+                    <span class="field-msg-icon" aria-hidden="true">
+                        {{ form.controls.confirmPassword.dirty && form.hasError('passwordMismatch') ? '!' :
+                        (isFieldValid('confirmPassword') ? '✓' : '○') }}
+                    </span>
+                    <span>{{ confirmMessage() }}</span>
+                </div>
+            </div>
+
+            <!-- Terms -->
+            <label class="terms-row" for="terms">
+                <input type="checkbox" class="terms-cb" id="terms" [formControl]="form.controls.terms" />
+                <span class="terms-txt">
+                    Li e aceito os
+                    <span class="terms-link" tabindex="0" role="button">Termos de Uso</span>
+                    e a
+                    <span class="terms-link" tabindex="0" role="button">Política de Privacidade</span>
+                    da plataforma MSRpg.
+                </span>
+            </label>
+
+            <!-- Submit -->
+            <button class="btn-submit" type="button" [disabled]="!canSubmit()" [class.loading]="status() === 'loading'"
+                [attr.aria-disabled]="!canSubmit()" (click)="onSubmit()">
+                <span class="btn-txt">
+                    <span aria-hidden="true">⚔</span>
+                    Forjar Minha Conta
+                </span>
+                <span class="btn-spinner" aria-hidden="true">
+                    <span class="spin-ring"></span>
+                </span>
+            </button>
+
+        </div>
+
+        <footer class="card-foot">
+            <span class="foot-txt">
+                Já possui uma conta?
+                <a class="foot-link" routerLink="/login">Entrar agora</a>
+            </span>
+        </footer>
+
+    </div>
+    }
+
+    <!-- Success Card -->
+    @if (status() === 'success') {
+    <div class="success-card" role="region" aria-label="Cadastro concluído" aria-live="assertive">
+        <div class="success-inner">
+            <div class="success-sigil" aria-hidden="true">
+                <div class="sig-ring"></div>
+                <div class="sig-ring sig-ring2"></div>
+                <span class="sig-icon">✦</span>
+            </div>
+            <h2 class="success-title">Conta Criada!</h2>
+            <p class="success-sub">
+                Sua jornada começa agora, aventureiro.<br />
+                Verifique seu e-mail para ativar a conta.
+            </p>
+            <div class="success-id">
+                ID da conta: <span>{{ createdUserId() }}</span>
+            </div>
+            <button class="btn-goto" (click)="goToVerify()">
+                <span aria-hidden="true">→</span>
+                Verificar E-mail
+            </button>
+        </div>
+    </div>
+    }
+
+</main>

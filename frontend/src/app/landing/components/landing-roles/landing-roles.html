@@ -1,0 +1,27 @@
+<section class="roles-section">
+    <div class="roles-inner">
+
+        <header class="roles-header" appReveal>
+            <p class="section-label">Papéis</p>
+            <h2 class="section-title">
+                Mestre ou Jogador,<br />cada um no seu poder
+            </h2>
+        </header>
+
+        <div class="roles-grid">
+            @for (role of roles; track role.id) {
+                <article class="role-card" [class]="'role-card role-card--' + role.id" appReveal [revealDelay]="role.delay">
+                    <span class="role-badge">{{ role.badge }}</span>
+                    <h3>{{ role.title }}</h3>
+                    <p>{{ role.description }}</p>
+                    <ul class="role-perks" role="list">
+                        @for (perk of role.perks; track perk) {
+                            <li>{{ perk }}</li>
+                        }
+                    </ul>
+                </article>
+            }
+        </div>
+
+    </div>
+</section>

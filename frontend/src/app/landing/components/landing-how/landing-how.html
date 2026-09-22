@@ -1,0 +1,19 @@
+<section id="como-funciona" class="how-section">
+    <header class="how-header" appReveal>
+        <p class="section-label">O Processo</p>
+        <h2 class="section-title">Da ideia à<br />mesa em 3 passos</h2>
+    </header>
+
+    <div class="steps-grid" role="list">
+        @for (step of steps; track step.number) {
+            <article class="step-card" role="listitem" appReveal [revealDelay]="step.delay">
+                <span class="step-number" aria-hidden="true">{{ step.number }}</span>
+                <span class="step-icon" role="img" [attr.aria-label]="step.title">
+                    {{ step.icon }}
+                </span>
+                <h3>{{ step.title }}</h3>
+                <p>{{ step.description }}</p>
+            </article>
+        }
+    </div>
+</section>

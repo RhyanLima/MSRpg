@@ -1,0 +1,64 @@
+<!-- Brand + mobile close -->
+<div class="sbrand">
+    <div class="sbmark" aria-hidden="true">
+        <div class="sbr"></div>
+        <div class="sbr sbr2"></div>
+        <span class="sbi">⚔</span>
+    </div>
+    <span class="sbname">MS<em>Rpg</em></span>
+    <button class="mobclose" aria-label="Fechar menu" (click)="closeRequest.emit()">✕</button>
+</div>
+
+<!-- Mode toggle -->
+<div class="modesw" role="group" aria-label="Modo de visualização">
+    <button class="msw" [class.on]="isMestre()" [class.vm]="isMestre()" [attr.aria-pressed]="isMestre()"
+        (click)="modeChange.emit('mestre')">Mestre</button>
+    <button class="msw" [class.on]="!isMestre()" [class.vp]="!isMestre()" [attr.aria-pressed]="!isMestre()"
+        (click)="modeChange.emit('jogador')">Jogador</button>
+</div>
+
+<!-- Master nav -->
+@if (isMestre()) {
+<div class="nav-wrap" id="navM">
+    <div class="nsec">
+        <span class="nsec-lbl">Principal</span>
+        <button class="nitem on"><span class="ni">🏠</span><span class="nlabel">Início</span></button>
+        <button class="nitem"><span class="ni">📖</span><span class="nlabel">Sistemas</span></button>
+        <button class="nitem"><span class="ni">🗺️</span><span class="nlabel">Campanhas</span></button>
+        <button class="nitem"><span class="ni">🗓️</span><span class="nlabel">Sessões</span></button>
+    </div>
+    <div class="ndiv"></div>
+    <div class="nsec">
+        <span class="nsec-lbl">Conta</span>
+        <button class="nitem"><span class="ni">⚙️</span><span class="nlabel">Configurações</span></button>
+    </div>
+</div>
+}
+
+<!-- Player nav -->
+@if (!isMestre()) {
+<div class="nav-wrap" id="navP">
+    <div class="nsec">
+        <span class="nsec-lbl">Principal</span>
+        <button class="nitem on"><span class="ni">🏠</span><span class="nlabel">Início</span></button>
+        <button class="nitem"><span class="ni">🌐</span><span class="nlabel">Sistemas</span></button>
+        <button class="nitem"><span class="ni">🗓️</span><span class="nlabel">Sessões</span></button>
+        <button class="nitem"><span class="ni">👤</span><span class="nlabel">Personagens</span></button>
+    </div>
+    <div class="ndiv"></div>
+    <div class="nsec">
+        <span class="nsec-lbl">Conta</span>
+        <button class="nitem"><span class="ni">⚙️</span><span class="nlabel">Configurações</span></button>
+    </div>
+</div>
+}
+
+<!-- User footer -->
+<div class="suser">
+    <div class="sua" aria-hidden="true">{{ userInitials() }}</div>
+    <div class="sui">
+        <p class="sun">{{ userName() }}</p>
+        <p class="sue">{{ userEmail() }}</p>
+    </div>
+    <button class="suout" aria-label="Sair" title="Sair" (click)="logoutClick.emit()">⏻</button>
+</div>

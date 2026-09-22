@@ -1,0 +1,104 @@
+@use "styles/abstracts" as a;
+
+:host {
+    display: block;
+}
+
+.lsc {
+    background: linear-gradient(135deg, rgba(a.$color-ember, 0.12) 0%, rgba(a.$color-gold, 0.06) 100%);
+    border: 1px solid rgba(a.$color-ember, 0.22);
+    border-radius: a.$radius-md;
+    margin-bottom: 0.75rem;
+    overflow: hidden;
+    position: relative;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 15%;
+        right: 15%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, a.$color-ember, transparent);
+    }
+}
+
+.lsci {
+    padding: 1rem 1.1rem;
+}
+.lscey {
+    @include a.heading-caps(0.48rem, 0.18em);
+    color: rgba(a.$color-ember-glow, 0.65);
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-bottom: 0.4rem;
+}
+.lscn {
+    font-family: a.$font-heading;
+    font-size: 0.82rem;
+    color: rgba(a.$color-parchment, 0.82);
+}
+.lscd {
+    font-size: 0.75rem;
+    color: rgba(a.$color-parchment, 0.28);
+    margin-top: 0.1rem;
+}
+.lsct {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.55rem;
+}
+.lscti {
+    font-size: 0.75rem;
+    color: rgba(a.$color-gold, 0.5);
+}
+.lsctl {
+    @include a.heading-caps(0.46rem, 0.14em);
+    color: rgba(a.$color-parchment, 0.22);
+}
+.lsctv {
+    font-family: a.$font-heading;
+    font-size: 0.62rem;
+    color: a.$color-gold;
+    letter-spacing: 0.08em;
+}
+
+.ldot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: a.$color-green-soft;
+    box-shadow: 0 0 6px rgba(a.$color-green, 0.55);
+    animation: ls-blink 2s ease-in-out infinite;
+}
+
+@keyframes ls-blink {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.3;
+    }
+}
+
+.lscbtn {
+    width: 100%;
+    margin-top: 0.75rem;
+    padding: 0.52rem;
+    background: rgba(a.$color-ember, 0.15);
+    border: 1px solid rgba(a.$color-ember, 0.28);
+    border-radius: 3px;
+    color: rgba(a.$color-ember-glow, 0.8);
+    @include a.heading-caps(0.5rem, 0.18em);
+    cursor: pointer;
+    transition:
+        background 0.2s,
+        color 0.2s;
+    &:hover {
+        background: rgba(a.$color-ember, 0.25);
+        color: rgba(a.$color-ember-glow, 0.95);
+    }
+}
