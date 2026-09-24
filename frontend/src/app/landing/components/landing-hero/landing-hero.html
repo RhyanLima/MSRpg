@@ -2,8 +2,7 @@
 
 <div class="particles" aria-hidden="true">
     @for (p of particles; track p.id) {
-    <span class="particle" [style.left]="p.left" [style.--dur]="p.dur" [style.--delay]="p.delay"
-        [style.--drift]="p.drift"></span>
+    <span class="particle" [attr.style]="particleStyle(p)"></span>
     }
 </div>
 

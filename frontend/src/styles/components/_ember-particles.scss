@@ -1,0 +1,66 @@
+@use "../abstracts" as a;
+
+.ember-field {
+    position: absolute;
+    inset: 0;
+}
+
+.ember-spark {
+    position: absolute;
+    bottom: -4%;
+    border-radius: 50%;
+    will-change: transform, opacity;
+    animation:
+        ember-rise var(--dur, 10s) linear var(--delay, 0s) infinite,
+        ember-glow 1.4s ease-in-out var(--delay, 0s) infinite;
+
+    &--ember {
+        background: radial-gradient(circle, #ffd39a 0%, a.$color-ember-glow 45%, transparent 75%);
+        box-shadow: 0 0 7px 1px rgba(a.$color-ember, 0.55);
+    }
+
+    &--gold {
+        background: radial-gradient(circle, #fff2cf 0%, a.$color-gold-light 45%, transparent 75%);
+        box-shadow: 0 0 7px 1px rgba(a.$color-gold, 0.45);
+    }
+
+    &--faint {
+        background: radial-gradient(circle, rgba(255, 191, 128, 0.9) 0%, transparent 70%);
+        box-shadow: 0 0 4px 1px rgba(a.$color-ember, 0.3);
+    }
+}
+
+@keyframes ember-rise {
+    0% {
+        transform: translate(0, 0) scale(0.5);
+        opacity: 0;
+    }
+    12% {
+        opacity: 1;
+    }
+    75% {
+        opacity: 0.65;
+    }
+    100% {
+        transform: translate(var(--drift, 20px), -112vh) scale(1.05);
+        opacity: 0;
+    }
+}
+
+@keyframes ember-glow {
+    0%,
+    100% {
+        filter: brightness(1);
+    }
+    50% {
+        filter: brightness(1.6);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ember-spark {
+        animation: none;
+        bottom: 6%;
+        opacity: 0.35;
+    }
+}

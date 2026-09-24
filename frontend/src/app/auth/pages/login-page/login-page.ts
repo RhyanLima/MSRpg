@@ -3,6 +3,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth-service';
 import { EmailVerificationService } from '../../services/email-verification-service';
+import { EmberParticles } from '../../../core/components/ember-particles/ember-particles';
 
 type LoginStatus = 'idle' | 'loading' | 'error';
 
@@ -10,7 +11,7 @@ type LoginStatus = 'idle' | 'loading' | 'error';
   selector: 'app-login-page',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, EmberParticles],
   templateUrl: './login-page.html',
   styleUrl: './login-page.scss',
 })

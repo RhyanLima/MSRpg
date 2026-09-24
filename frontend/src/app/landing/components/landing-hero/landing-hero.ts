@@ -1,5 +1,13 @@
 import { Component } from '@angular/core';
 
+interface Particle {
+  readonly id: number;
+  readonly left: string;
+  readonly dur: string;
+  readonly delay: string;
+  readonly drift: string;
+}
+
 @Component({
   selector: 'app-landing-hero',
   imports: [],
@@ -19,4 +27,8 @@ export class LandingHero {
     { id: 8, left: '91%', dur: '10s', delay: '5s',    drift: '-25px' },
   ];
 
+
+  protected particleStyle(p: Particle): string {
+    return `left:${p.left};--dur:${p.dur};--delay:${p.delay};--drift:${p.drift};`;
+  }
 }
