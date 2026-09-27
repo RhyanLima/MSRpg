@@ -1,0 +1,277 @@
+<div class="bg-texture" aria-hidden="true"></div>
+<div class="noise" aria-hidden="true"></div>
+<div class="rune-line" aria-hidden="true"></div>
+
+<main class="page" id="page">
+
+    <app-ember-particles></app-ember-particles>
+
+    <div class="brand" role="banner">
+        <div class="bmark" aria-hidden="true">
+            <div class="bmark-ring"></div>
+            <div class="bmark-ring bmark-ring2"></div>
+            <span class="bmark-icon">📖</span>
+        </div>
+        <span class="brand-name">MS<em>Rpg</em></span>
+        <span class="brand-tagline">Nova Forja</span>
+    </div>
+
+    <div class="card" role="region" aria-label="Formulário de criação de sistema">
+
+        <div class="card-head">
+            <p class="card-eyebrow">— Novo Sistema —</p>
+            <h1 class="card-title">Criar Sistema de RPG</h1>
+            <p class="card-sub">Defina as regras que darão vida à sua campanha</p>
+        </div>
+
+        <div class="div-rune" aria-hidden="true">
+            <span class="div-rune-sym">✦ Dados do Sistema ✦</span>
+        </div>
+
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-body" novalidate>
+
+            @if (errorMessage()) {
+            <div class="alert alert-error" role="alert" aria-live="polite">
+                <span class="alert-icon">⚠</span>
+                <span>{{ errorMessage() }}</span>
+            </div>
+            }
+
+            <div class="field-group" [class.is-error]="isFieldError('name')">
+                <label class="field-label" for="name">
+                    Nome do Sistema <span class="field-label-req" aria-hidden="true">*</span>
+                    <span class="field-label-hint">3–100 caracteres</span>
+                </label>
+                <div class="input-wrap">
+                    <span class="input-icon" aria-hidden="true">⚔</span>
+                    <input class="field-input" type="text" id="name" placeholder="Ex: Fantasia Sombria"
+                        autocomplete="off" maxlength="100" [formControl]="form.controls.name" />
+                </div>
+                @if (isFieldError('name')) {
+                <div class="field-msg msg-error">
+                    <span class="field-msg-icon" aria-hidden="true">!</span>
+                    <span>Nome deve ter entre 3 e 100 caracteres.</span>
+                </div>
+                }
+            </div>
+
+            <div class="field-group">
+                <label class="field-label" for="description">Descrição</label>
+                <textarea class="field-input textarea" id="description" rows="3"
+                    placeholder="Do que trata este sistema?" [formControl]="form.controls.description"></textarea>
+            </div>
+
+            <div class="field-row">
+                <div class="field-group" [class.is-error]="isFieldError('engineVersion')">
+                    <label class="field-label" for="engineVersion">
+                        Versão do Engine <span class="field-label-req" aria-hidden="true">*</span>
+                    </label>
+                    <div class="input-wrap">
+                        <input class="field-input no-icon" type="text" id="engineVersion" placeholder="0.1.0"
+                            [formControl]="form.controls.engineVersion" />
+                    </div>
+                </div>
+
+                <div class="field-group" [class.is-error]="isFieldError('contentVersion')">
+                    <label class="field-label" for="contentVersion">
+                        Versão do Conteúdo <span class="field-label-req" aria-hidden="true">*</span>
+                    </label>
+                    <div class="input-wrap">
+                        <input class="field-input no-icon" type="text" id="contentVersion" placeholder="1.0.0"
+                            [formControl]="form.controls.contentVersion" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="field-group" [class.is-error]="isFieldError('defaultResolutionPolicyId')">
+                <label class="field-label" for="defaultResolutionPolicyId">
+                    ID da Política de Resolução Padrão <span class="field-label-req" aria-hidden="true">*</span>
+                </label>
+                <div class="input-wrap">
+                    <span class="input-icon" aria-hidden="true">🎲</span>
+                    <input class="field-input" type="text" id="defaultResolutionPolicyId" placeholder="UUID"
+                        [formControl]="form.controls.defaultResolutionPolicyId" />
+                </div>
+            </div>
+
+            <div class="field-group">
+                <label class="field-label" for="syncPolicy">Política de Sincronização</label>
+                <div class="input-wrap">
+                    <select class="field-input field-select no-icon" id="syncPolicy"
+                        [formControl]="form.controls.syncPolicy">
+                        @for (policy of syncPolicies; track policy[0]) {
+                        <option [value]="policy[0]">{{ policy[1] }}</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="div-rune" aria-hidden="true">
+                <span class="div-rune-sym">✦ Configurações ✦</span>
+            </div>
+
+            <label class="toggle-row" for="advancedSettings">
+                <input type="checkbox" class="toggle-cb" id="advancedSettings"
+                    [checked]="advancedSettings()"
+                    (change)="toggleAdvancedSettings($any($event.target).checked)" />
+                <span class="toggle-txt">
+                    Configurar definições avançadas (settings)
+                    <span class="toggle-hint">Se não marcado, valores padrão do sistema serão aplicados.</span>
+                </span>
+            </label>
+
+            @if (advancedSettings()) {
+            <div class="settings-block" [formGroup]="form.controls.settings" aria-label="Configurações avançadas">
+
+                <div class="settings-group" [formGroup]="form.controls.settings.controls.runtime">
+                    <p class="settings-group-title">Runtime</p>
+
+                    <div class="settings-grid">
+                        <div class="field-group">
+                            <label class="field-label" for="modifierCommitStrategy">Estratégia de Commit</label>
+                            <select class="field-input field-select no-icon" id="modifierCommitStrategy"
+                                formControlName="modifierCommitStrategy">
+                                @for (opt of commitStrategies; track opt[0]) {
+                                <option [value]="opt[0]">{{ opt[1] }}</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label" for="missingComponentPolicy">Componente Ausente</label>
+                            <select class="field-input field-select no-icon" id="missingComponentPolicy"
+                                formControlName="missingComponentPolicy">
+                                @for (opt of missingComponentPolicies; track opt[0]) {
+                                <option [value]="opt[0]">{{ opt[1] }}</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="settings-grid" [formGroup]="form.controls.settings.controls.runtime.controls.cycleDetection">
+                        <label class="toggle-row toggle-row--compact" for="cycleEnabled">
+                            <input type="checkbox" class="toggle-cb" id="cycleEnabled" formControlName="enabled" />
+                            <span class="toggle-txt">Detecção de ciclos ativa</span>
+                        </label>
+
+                        <div class="field-group">
+                            <label class="field-label" for="maxDepth">Profundidade Máxima</label>
+                            <input class="field-input no-icon" type="number" id="maxDepth" min="1"
+                                formControlName="maxDepth" />
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label" for="onLimitReached">Ao Atingir o Limite</label>
+                            <select class="field-input field-select no-icon" id="onLimitReached"
+                                formControlName="onLimitReached">
+                                @for (opt of cycleLimitBehaviors; track opt[0]) {
+                                <option [value]="opt[0]">{{ opt[1] }}</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-group" [formGroup]="form.controls.settings.controls.snapshots">
+                    <p class="settings-group-title">Snapshots</p>
+
+                    <div class="settings-grid">
+                        <label class="toggle-row toggle-row--compact" for="manualSnapshotsEnabled">
+                            <input type="checkbox" class="toggle-cb" id="manualSnapshotsEnabled"
+                                formControlName="manualSnapshotsEnabled" />
+                            <span class="toggle-txt">Snapshots manuais</span>
+                        </label>
+
+                        <label class="toggle-row toggle-row--compact" for="automaticSnapshotsEnabled">
+                            <input type="checkbox" class="toggle-cb" id="automaticSnapshotsEnabled"
+                                formControlName="automaticSnapshotsEnabled" />
+                            <span class="toggle-txt">Snapshots automáticos</span>
+                        </label>
+
+                        <div class="field-group">
+                            <label class="field-label" for="automaticFrequency">Frequência Automática</label>
+                            <select class="field-input field-select no-icon" id="automaticFrequency"
+                                formControlName="automaticFrequency">
+                                @for (opt of snapshotFrequencies; track opt[0]) {
+                                <option [value]="opt[0]">{{ opt[1] }}</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label" for="maxSnapshotsToKeep">Máx. Snapshots Mantidos</label>
+                            <input class="field-input no-icon" type="number" id="maxSnapshotsToKeep" min="0"
+                                formControlName="maxSnapshotsToKeep" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-group" [formGroup]="form.controls.settings.controls.logs">
+                    <p class="settings-group-title">Logs de Sessão</p>
+
+                    <div class="settings-grid">
+                        <div class="field-group">
+                            <label class="field-label" for="minimumSessionLogLevel">Nível Mínimo</label>
+                            <select class="field-input field-select no-icon" id="minimumSessionLogLevel"
+                                formControlName="minimumSessionLogLevel">
+                                @for (opt of logLevels; track opt[0]) {
+                                <option [value]="opt[0]">{{ opt[1] }}</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label" for="maxSessionLogsToKeep">Máx. Logs Mantidos</label>
+                            <input class="field-input no-icon" type="number" id="maxSessionLogsToKeep" min="0"
+                                formControlName="maxSessionLogsToKeep" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-group" [formGroup]="form.controls.settings.controls.importExport">
+                    <p class="settings-group-title">Import / Export</p>
+
+                    <div class="settings-grid">
+                        <div class="field-group">
+                            <label class="field-label" for="defaultConflictResolutionStrategy">Resolução de Conflitos</label>
+                            <select class="field-input field-select no-icon" id="defaultConflictResolutionStrategy"
+                                formControlName="defaultConflictResolutionStrategy">
+                                @for (opt of conflictStrategies; track opt[0]) {
+                                <option [value]="opt[0]">{{ opt[1] }}</option>
+                                }
+                            </select>
+                        </div>
+
+                        <label class="toggle-row toggle-row--compact" for="includeDependenciesByDefault">
+                            <input type="checkbox" class="toggle-cb" id="includeDependenciesByDefault"
+                                formControlName="includeDependenciesByDefault" />
+                            <span class="toggle-txt">Incluir dependências por padrão</span>
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+            }
+
+            <button class="btn-submit" type="submit" [disabled]="!canSubmit()"
+                [class.loading]="status() === 'loading'">
+                <span class="btn-txt">
+                    <span aria-hidden="true">⚔</span>
+                    Forjar Sistema
+                </span>
+                <span class="btn-spinner" aria-hidden="true">
+                    <span class="spin-ring"></span>
+                </span>
+            </button>
+
+        </form>
+
+        <footer class="card-foot">
+            <span class="foot-txt">
+                <a class="foot-link" routerLink="/">← Voltar</a>
+            </span>
+        </footer>
+
+    </div>
+
+</main>

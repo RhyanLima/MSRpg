@@ -14,7 +14,7 @@ public class RpgSystem {
     private String engineVersion;
     private String contentVersion;
     private ResolutionPolicyId defaultResolutionPolicyId;
-    private SyncPolicy syncPolicy;
+    private SyncPolicy syncPolicy; // Politica de sincronia não precisa ficar no summary nem no RpgSystem solto, pode fazer parte do RpgSystemSettings, ajustar depois.
     private RpgSystemSettings settings;
     private final Instant createdAt;
     private Instant updatedAt;

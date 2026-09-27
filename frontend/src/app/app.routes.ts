@@ -27,6 +27,6 @@ export const routes: Routes = [
   },
   {
     path: 'create-system',
-    loadComponent: () => import('./features/system/create-system/create-system').then(m => m.CreateSystem)
+    loadComponent: () => import('./features/system/pages/create-system/create-system').then(m => m.CreateSystem)
   }
 ];
