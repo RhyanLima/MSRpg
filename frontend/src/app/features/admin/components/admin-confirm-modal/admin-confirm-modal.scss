@@ -1,0 +1,89 @@
+@use "styles/abstracts" as a;
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(a.$color-ink, 0.85);
+    z-index: 200;
+    display: grid;
+    place-items: center;
+    backdrop-filter: blur(4px);
+}
+
+.modal {
+    @include a.dark-panel;
+    padding: 2rem;
+    width: 380px;
+    animation: modal-fade-up 0.3s ease;
+
+    h3 {
+        font-family: a.$font-heading;
+        font-size: 0.9rem;
+        color: a.$color-parchment;
+        margin-bottom: 0.5rem;
+    }
+
+    p {
+        font-size: 0.88rem;
+        color: rgba(a.$color-parchment, 0.5);
+        margin-bottom: 1.5rem;
+        line-height: 1.5;
+        strong {
+            color: rgba(a.$color-parchment, 0.8);
+        }
+    }
+}
+
+@keyframes modal-fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-actions {
+    display: flex;
+    gap: 0.6rem;
+    justify-content: flex-end;
+}
+
+.btn-sm {
+    @include a.heading-caps(0.65rem, 0.12em);
+    padding: 0.5rem 1.2rem;
+    border-radius: a.$radius-sm;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    &.cancel {
+        background: transparent;
+        border: 1px solid rgba(a.$color-parchment, 0.06);
+        color: rgba(a.$color-parchment, 0.4);
+        &:hover {
+            border-color: rgba(a.$color-gold, 0.12);
+            color: rgba(a.$color-parchment, 0.7);
+        }
+    }
+
+    &.confirm {
+        background: a.$color-ember;
+        color: #fff;
+        &:hover:not(:disabled) {
+            background: a.$color-ember-glow;
+        }
+        &.confirm--danger {
+            background: #8b0000;
+            &:hover:not(:disabled) {
+                background: a.$color-ember;
+            }
+        }
+    }
+}

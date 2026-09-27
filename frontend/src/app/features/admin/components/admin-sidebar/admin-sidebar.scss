@@ -1,0 +1,119 @@
+@use "styles/abstracts" as a;
+
+:host {
+    display: flex;
+    flex-direction: column;
+    width: 240px;
+    min-height: 100vh;
+    background: a.$color-ash-2;
+    border-right: 1px solid rgba(a.$color-gold, 0.12);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+
+.sidebar-brand {
+    padding: 1.6rem 1.4rem 1.4rem;
+    border-bottom: 1px solid rgba(a.$color-gold, 0.12);
+}
+
+.brand-logo {
+    font-family: a.$font-display;
+    font-size: 1.35rem;
+    font-weight: 900;
+    color: a.$color-gold;
+    text-shadow: 0 0 20px rgba(a.$color-gold, 0.3);
+    display: block;
+    span {
+        color: a.$color-ember;
+    }
+}
+
+.brand-sub {
+    @include a.heading-caps(0.55rem, 0.25em);
+    color: rgba(a.$color-parchment, 0.25);
+    margin-top: 0.25rem;
+}
+
+.sidebar-nav {
+    flex: 1;
+    padding: 1.2rem 0;
+}
+
+.nav-section-label {
+    @include a.heading-caps(0.52rem, 0.25em);
+    color: rgba(a.$color-parchment, 0.2);
+    padding: 0.8rem 1.4rem 0.4rem;
+}
+
+.nav-item {
+    @include a.nav-item-base;
+    padding: 0.7rem 1.4rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: rgba(a.$color-parchment, 0.45);
+    border-left: 2px solid transparent;
+    user-select: none;
+
+    &:hover {
+        color: rgba(a.$color-parchment, 0.8);
+        background: rgba(255, 255, 255, 0.03);
+        border-left-color: rgba(a.$color-gold, 0.3);
+    }
+    &.active {
+        color: a.$color-gold-light;
+        background: rgba(a.$color-gold, 0.07);
+        border-left-color: a.$color-gold;
+    }
+}
+
+.nav-icon {
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.sidebar-user {
+    padding: 1rem 1.4rem;
+    border-top: 1px solid rgba(a.$color-gold, 0.12);
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+}
+
+.user-avatar {
+    @include a.avatar(32px, 0.75rem);
+    background: linear-gradient(135deg, a.$color-ember, a.$color-rune);
+}
+
+.user-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.user-name {
+    @include a.heading-caps(0.7rem, 0);
+    color: rgba(a.$color-parchment, 0.8);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-role {
+    font-size: 0.6rem;
+    color: a.$color-gold;
+    letter-spacing: 0.1em;
+}
+
+.logout-btn {
+    background: none;
+    border: none;
+    color: rgba(a.$color-parchment, 0.25);
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: color 0.2s;
+    padding: 0;
+    &:hover {
+        color: a.$color-ember-glow;
+    }
+}

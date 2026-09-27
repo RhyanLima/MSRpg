@@ -1,0 +1,177 @@
+<app-admin-sidebar [activeView]="activeView()" (viewChange)="setView($event)" (logoutClick)="onLogout()" />
+
+<div class="main">
+
+    <!-- Topbar -->
+    <header class="topbar">
+        <span class="topbar-title">MSRpg <span>/ Painel</span></span>
+        <div class="topbar-actions">
+            <span class="status-pill">
+                <span class="status-dot" aria-hidden="true"></span>
+                API Online
+            </span>
+            <span class="status-pill">🕐 {{ now | date:'dd MMM yyyy · HH:mm' }}</span>
+        </div>
+    </header>
+
+    <main class="content">
+
+        <!-- ── DASHBOARD ── -->
+        @if (activeView() === 'dashboard') {
+        <div class="view-header">
+            <p class="view-eyebrow">— Dashboard —</p>
+            <h2 class="view-title">Visão Geral</h2>
+        </div>
+
+        <app-admin-kpi-grid [items]="kpiItems()" />
+
+        <div class="grid-2">
+            <!-- Recent users panel -->
+            <div class="panel">
+                <div class="panel-header">
+                    <span class="panel-title">Usuários Recentes</span>
+                    <button class="panel-action" (click)="setView('users')">ver todos</button>
+                </div>
+                @if (usersLoading()) {
+                <div class="panel-loading" aria-live="polite">Carregando…</div>
+                } @else {
+                <table class="data-table" aria-label="Usuários recentes">
+                    <thead>
+                        <tr>
+                            <th scope="col">Usuário</th>
+                            <th scope="col">Tipo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (user of recentUsers(); track user.id) {
+                        <tr>
+                            <td>
+                                <div class="user-cell">
+                                    <div class="avatar-sm" [style]="avatarGradient(user.name)" aria-hidden="true">{{
+                                        initials(user.name) }}</div>
+                                    <div class="user-cell-info">
+                                        <p class="user-cell-name">{{ user.name }}</p>
+                                        <p class="user-cell-email">{{ user.email }}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="badge badge-common">{{ typeLabel(user) }}</span></td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+                }
+            </div>
+
+            <!-- Distribution chart panel -->
+            <div class="panel">
+                <div class="panel-header">
+                    <span class="panel-title">Distribuição de Contas</span>
+                </div>
+                <app-admin-dist-chart [items]="distItems()" />
+            </div>
+        </div>
+        }
+
+        <!-- ── USERS ── -->
+        @if (activeView() === 'users') {
+        <div class="view-header" style="display:flex;justify-content:space-between;align-items:flex-end;">
+            <div>
+                <p class="view-eyebrow">— Plataforma —</p>
+                <h2 class="view-title">Usuários</h2>
+            </div>
+        </div>
+
+        @if (usersError()) {
+        <div class="error-banner" role="alert">
+            <span>⚠</span>
+            <p>{{ usersError() }}</p>
+        </div>
+        }
+
+        <div class="panel">
+            <app-admin-users-table [users]="users()" [loading]="usersLoading()"
+                (promoteToAdmin)="openPromoteModal($event, 'ADMIN')" (promoteToDev)="openPromoteModal($event, 'DEV')"
+                (deleteUser)="openDeleteModal($event)" />
+        </div>
+        }
+
+        <!-- ── SESSIONS ── -->
+        @if (activeView() === 'sessions') {
+        <div class="view-header">
+            <p class="view-eyebrow">— Plataforma —</p>
+            <h2 class="view-title">Sessões Ativas</h2>
+        </div>
+        <div class="panel">
+            <div class="panel-header"><span class="panel-title">Sessões de Jogo</span></div>
+            <div class="panel-empty">
+                <p>Módulo de sessões RPG em desenvolvimento.</p>
+                <p class="panel-empty-sub">As sessões serão listadas aqui quando o módulo estiver disponível.</p>
+            </div>
+        </div>
+        }
+
+        <!-- ── SYSTEMS ── -->
+        @if (activeView() === 'systems') {
+        <div class="view-header">
+            <p class="view-eyebrow">— Plataforma —</p>
+            <h2 class="view-title">Sistemas RPG</h2>
+        </div>
+        <div class="panel">
+            <div class="panel-header"><span class="panel-title">Sistemas Cadastrados</span></div>
+            <div class="panel-empty">
+                <p>Módulo de sistemas RPG em desenvolvimento.</p>
+                <p class="panel-empty-sub">Os sistemas criados pelos usuários serão listados aqui.</p>
+            </div>
+        </div>
+        }
+
+        <!-- ── AUDIT ── -->
+        @if (activeView() === 'audit') {
+        <div class="view-header">
+            <p class="view-eyebrow">— Segurança —</p>
+            <h2 class="view-title">Audit Logs</h2>
+        </div>
+        <div class="panel">
+            <div class="panel-header"><span class="panel-title">Registro de Auditoria</span><span
+                    class="panel-sub-note">Logs persistidos no servidor e consultados via API.</span></div>
+            <div class="panel-empty">
+                <p>Conectando ao registro de auditoria…</p>
+                <p class="panel-empty-sub">Implementação de streaming em desenvolvimento.</p>
+            </div>
+        </div>
+        }
+
+        <!-- ── SECURITY ── -->
+        @if (activeView() === 'security') {
+        <div class="view-header">
+            <p class="view-eyebrow">— Segurança —</p>
+            <h2 class="view-title">Logs de Segurança</h2>
+        </div>
+        <div class="panel">
+            <div class="panel-header"><span class="panel-title">Eventos de Segurança</span><span
+                    class="panel-sub-note">Persistidos via SecurityLogger.</span></div>
+            <div class="panel-empty">
+                <p>Consultando SecurityLogger…</p>
+                <p class="panel-empty-sub">Eventos de segurança serão exibidos aqui.</p>
+            </div>
+        </div>
+        }
+
+    </main>
+</div>
+
+<!-- Promote Modal -->
+@if (promoteModal().open) {
+<app-admin-confirm-modal [title]="'Promover Usuário'"
+    [body]="'Promover <strong>' + promoteModal().userName + '</strong> para <strong>' + promoteModal().extra + '</strong>?<br/>Esta ação altera as permissões do usuário.'"
+    [loading]="actionLoading()" (confirmed)="confirmPromotion()" (cancelled)="closePromoteModal()" />
+}
+
+<!-- Delete Modal -->
+@if (deleteModal().open) {
+<app-admin-confirm-modal [title]="'Remover Usuário'"
+    [body]="'Remover <strong>' + deleteModal().userName + '</strong> permanentemente?<br/>Esta ação não pode ser desfeita.'"
+    confirmLabel="Remover" variant="danger" [loading]="actionLoading()" (confirmed)="confirmDelete()"
+    (cancelled)="closeDeleteModal()" />
+}

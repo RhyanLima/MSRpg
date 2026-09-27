@@ -1,10 +1,12 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, InjectionToken } from '@angular/core';
 
 type ServerInfo = {
   port: number;
   token: string;
 };
+
+export const API_URL = new InjectionToken<string>('API_URL');
 
 @Injectable({
   providedIn: 'root',

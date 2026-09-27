@@ -1,0 +1,92 @@
+<!-- Sistemas -->
+@for (system of systems(); track system.id) {
+<div class="sysr" role="button" tabindex="0" [attr.aria-label]="system.name" (click)="systemClick.emit(system)"
+    (keydown.enter)="systemClick.emit(system)" (keydown.space)="systemClick.emit(system); $event.preventDefault()">
+
+    <div class="sysi" [class]="systemIconClass(system.accent)" aria-hidden="true">
+        {{ system.icon }}
+    </div>
+
+    <div>
+        <p class="sysi-name">{{ system.name }}</p>
+        <p class="sysi-meta">{{ systemMetaLabel(system) }}</p>
+    </div>
+
+    <div class="syschips">
+        @if (isLive(system.status)) {
+        <div class="ldot" aria-hidden="true" title="Ao vivo"></div>
+        }
+        <span class="badge" [class]="statusBadgeClass(system.status)">
+            {{ statusLabel(system.status) }}
+        </span>
+        @if (system.shared) {
+        <span class="badge b-shared">Compartilhado</span>
+        }
+    </div>
+</div>
+}
+
+@if (showCreateSystem()) {
+<div class="sysr sysr-new" role="button" tabindex="0" aria-label="Criar novo sistema" (click)="createSystemClick.emit()"
+    (keydown.enter)="createSystemClick.emit()" (keydown.space)="createSystemClick.emit(); $event.preventDefault()">
+
+    <div class="sysi si-n" aria-hidden="true">＋</div>
+
+    <div>
+        <p class="sysi-name sysi-name--ghost">Criar novo sistema…</p>
+        <p class="sysi-meta">Defina regras, atributos e mecânicas únicas</p>
+    </div>
+
+    <div class="syschips">
+        <button class="ghost-btn" tabindex="-1"
+            (click)="$event.stopPropagation(); createSystemClick.emit()">Criar</button>
+    </div>
+</div>
+}
+
+<!-- Campanhas -->
+@if (campaigns().length > 0 || showCreateCampaign()) {
+<div class="campdiv" aria-hidden="true"></div>
+
+@for (campaign of campaigns(); track campaign.id) {
+<div class="campi" role="button" tabindex="0" [attr.aria-label]="campaign.name" (click)="campaignClick.emit(campaign)"
+    (keydown.enter)="campaignClick.emit(campaign)"
+    (keydown.space)="campaignClick.emit(campaign); $event.preventDefault()">
+
+    <div class="campth" [class]="campaignIconClass(campaign.accent)" aria-hidden="true">
+        {{ campaign.icon }}
+    </div>
+
+    <div class="campin">
+        <p class="campn">{{ campaign.name }}</p>
+        <p class="campm">{{ campaignMetaLabel(campaign) }}</p>
+    </div>
+
+    <div class="campp">
+        <span class="camppct">{{ campaign.progressPercent }}%</span>
+        <div class="campbar" role="progressbar" [attr.aria-valuenow]="campaign.progressPercent" aria-valuemin="0"
+            aria-valuemax="100" [attr.aria-label]="campaign.name + ' — ' + campaign.progressPercent + '% completo'">
+            <div class="campfill" [style.width.%]="campaign.progressPercent"></div>
+        </div>
+    </div>
+</div>
+}
+
+@if (showCreateCampaign()) {
+<div class="campi campi--ghost" role="button" tabindex="0" aria-label="Criar nova campanha"
+    (click)="createCampaignClick.emit()" (keydown.enter)="createCampaignClick.emit()"
+    (keydown.space)="createCampaignClick.emit(); $event.preventDefault()">
+
+    <div class="campth ct-c" aria-hidden="true">＋</div>
+
+    <div class="campin">
+        <p class="campn campn--ghost">Nova campanha…</p>
+        <p class="campm">Associe um sistema e convide jogadores</p>
+    </div>
+
+    <button class="ghost-btn" tabindex="-1" (click)="$event.stopPropagation(); createCampaignClick.emit()">
+        Criar
+    </button>
+</div>
+}
+}

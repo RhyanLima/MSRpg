@@ -1,0 +1,147 @@
+@use "styles/abstracts" as a;
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.7rem 1.4rem;
+    border-bottom: 1px solid rgba(a.$color-parchment, 0.06);
+
+    input {
+        flex: 1;
+        background: none;
+        border: none;
+        outline: none;
+        color: a.$color-parchment;
+        font-family: a.$font-body;
+        font-size: 0.88rem;
+        &::placeholder {
+            color: rgba(a.$color-parchment, 0.2);
+        }
+    }
+}
+
+.search-icon {
+    color: rgba(a.$color-parchment, 0.2);
+    font-size: 0.8rem;
+}
+
+.filter-chips {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.7rem 1.4rem;
+    border-bottom: 1px solid rgba(a.$color-parchment, 0.06);
+    flex-wrap: wrap;
+}
+
+.chip {
+    @include a.heading-caps(0.58rem, 0.1em);
+    padding: 0.25rem 0.7rem;
+    border-radius: 2px;
+    border: 1px solid rgba(a.$color-parchment, 0.06);
+    color: rgba(a.$color-parchment, 0.35);
+    cursor: pointer;
+    transition: all 0.2s;
+    background: none;
+    &:hover,
+    &.active {
+        border-color: a.$color-gold;
+        color: a.$color-gold;
+        background: rgba(a.$color-gold, 0.07);
+    }
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th {
+        @include a.heading-caps(0.58rem, 0.18em);
+        color: rgba(a.$color-parchment, 0.25);
+        padding: 0.7rem 1.4rem;
+        text-align: left;
+        border-bottom: 1px solid rgba(a.$color-parchment, 0.06);
+        font-weight: 400;
+    }
+
+    td {
+        padding: 0.8rem 1.4rem;
+        border-bottom: 1px solid rgba(a.$color-parchment, 0.04);
+        font-size: 0.88rem;
+        color: rgba(a.$color-parchment, 0.7);
+        vertical-align: middle;
+    }
+
+    tr:last-child td {
+        border-bottom: none;
+    }
+    tbody tr {
+        transition: background 0.2s;
+        &:hover {
+            background: rgba(255, 255, 255, 0.025);
+        }
+    }
+}
+
+.td-email {
+    font-size: 0.78rem;
+    color: rgba(a.$color-parchment, 0.4);
+}
+.td-empty {
+    text-align: center;
+    color: rgba(a.$color-parchment, 0.2) !important;
+    padding: 2rem !important;
+    @include a.heading-caps(0.68rem, 0.12em);
+}
+
+.user-cell {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+}
+
+.avatar-sm {
+    @include a.avatar(28px, 0.6rem);
+}
+
+.user-cell-info {
+    line-height: 1.3;
+}
+.user-cell-name {
+    font-size: 0.88rem;
+    color: rgba(a.$color-parchment, 0.85);
+}
+.user-cell-email {
+    font-size: 0.72rem;
+    color: rgba(a.$color-parchment, 0.3);
+}
+
+.action-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    @include a.heading-caps(0.55rem, 0.12em);
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+}
+
+.badge-admin {
+    background: rgba(a.$color-ember, 0.2);
+    color: #e87070;
+    border: 1px solid rgba(a.$color-ember, 0.25);
+}
+.badge-dev {
+    background: rgba(a.$color-rune, 0.2);
+    color: a.$color-rune-soft;
+    border: 1px solid rgba(a.$color-rune, 0.25);
+}
+.badge-common {
+    background: rgba(a.$color-gold, 0.15);
+    color: a.$color-gold;
+    border: 1px solid rgba(a.$color-gold, 0.2);
+}

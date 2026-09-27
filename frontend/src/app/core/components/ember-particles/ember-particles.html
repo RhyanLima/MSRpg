@@ -1,0 +1,5 @@
+<div class="ember-field">
+    @for (spark of embers; track spark.id) {
+    <span [class]="'ember-spark ember-spark--' + spark.variant" [attr.style]="sparkStyle(spark)"></span>
+    }
+</div>

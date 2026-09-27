@@ -1,0 +1,11 @@
+<div class="chart-section">
+  @for (item of items(); track item.type) {
+    <div class="dist-item">
+      <span class="dist-label">{{ item.label }}</span>
+      <div class="dist-bar">
+        <div class="dist-fill" [class]="'dist-' + item.type" [style.width.%]="item.percent"></div>
+      </div>
+      <span class="dist-val">{{ item.count }}</span>
+    </div>
+  }
+</div>

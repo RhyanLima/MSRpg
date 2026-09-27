@@ -1,0 +1,68 @@
+@use "styles/abstracts" as a;
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.kpi-card {
+    @include a.dark-panel;
+    padding: 1.3rem 1.4rem;
+    position: relative;
+    transition: border-color 0.3s;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+    }
+
+    &.kpi-gold::before {
+        background: linear-gradient(to right, transparent, a.$color-gold, transparent);
+    }
+    &.kpi-ember::before {
+        background: linear-gradient(to right, transparent, a.$color-ember, transparent);
+    }
+    &.kpi-rune::before {
+        background: linear-gradient(to right, transparent, a.$color-rune, transparent);
+    }
+    &.kpi-green::before {
+        background: linear-gradient(to right, transparent, a.$color-green, transparent);
+    }
+    &:hover {
+        border-color: rgba(a.$color-gold, 0.28);
+    }
+}
+
+.kpi-label {
+    @include a.heading-caps(0.58rem, 0.2em);
+    color: rgba(a.$color-parchment, 0.35);
+    margin-bottom: 0.5rem;
+}
+
+.kpi-value {
+    font-family: a.$font-display;
+    font-size: 1.9rem;
+    font-weight: 900;
+    line-height: 1;
+    color: a.$color-parchment;
+}
+
+.kpi-delta {
+    font-size: 0.72rem;
+    margin-top: 0.3rem;
+    color: rgba(a.$color-parchment, 0.3);
+}
+
+.kpi-icon {
+    position: absolute;
+    bottom: 0.8rem;
+    right: 1rem;
+    font-size: 1.8rem;
+    opacity: 0.07;
+}
