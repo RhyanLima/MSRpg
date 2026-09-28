@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS rpg_systems (
     description TEXT,
     engine_version TEXT,
     content_version INTEGER NOT NULL DEFAULT 1,
-    -- FK circular/opcional aplicada pela camada de serviço: resolution_policies é criada em V3.
+    -- FK circular/opcional aplicada pela camada de serviço: resolution_policies é criada em V2.
     default_resolution_policy_id TEXT,
     sync_policy TEXT NOT NULL DEFAULT 'apply_to_new_only',
     settings JSON,
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS campaigns (
     system_id TEXT NOT NULL,
     name TEXT NOT NULL,
     description TEXT,
-    -- FK circular/opcional aplicada pela camada de serviço: sessions é criada em V7.
+    -- FK circular/opcional aplicada pela camada de serviço: sessions é criada em V6.
     current_session_id TEXT,
     snapshot_policy JSON,
     settings JSON,
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS local_users (
     id TEXT PRIMARY KEY,
     display_name TEXT NOT NULL,
     kind TEXT NOT NULL DEFAULT 'local',
-    -- FK circular/opcional aplicada pela camada de serviço: assets é criada em V5.
+    -- FK circular/opcional aplicada pela camada de serviço: assets é criada em V4.
     avatar_asset_id TEXT,
     created_at DATETIME NOT NULL,
     updated_at DATETIME
