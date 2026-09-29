@@ -11,10 +11,10 @@ CREATE TABLE IF NOT EXISTS rpg_systems (
     name TEXT NOT NULL,
     description TEXT,
     engine_version TEXT,
-    content_version INTEGER NOT NULL DEFAULT 1,
+    content_version TEXT NOT NULL DEFAULT '1.0.0',
     -- FK circular/opcional aplicada pela camada de serviço: resolution_policies é criada em V2.
     default_resolution_policy_id TEXT,
-    sync_policy TEXT NOT NULL DEFAULT 'apply_to_new_only',
+    default_sync_policy TEXT NOT NULL DEFAULT 'apply_to_new_only',
     settings JSON,
     created_at DATETIME NOT NULL,
     updated_at DATETIME
@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS campaigns (
     -- FK circular/opcional aplicada pela camada de serviço: sessions é criada em V6.
     current_session_id TEXT,
     snapshot_policy JSON,
+    sync_policy TEXT NOT NULL DEFAULT 'apply_to_new_only',
     settings JSON,
     created_at DATETIME NOT NULL,
     updated_at DATETIME,
