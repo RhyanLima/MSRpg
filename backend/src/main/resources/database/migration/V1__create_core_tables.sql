@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS campaigns (
     -- FK circular/opcional aplicada pela camada de serviço: sessions é criada em V6.
     current_session_id TEXT,
     snapshot_policy JSON,
-    sync_policy TEXT NOT NULL CHECK(sync_policy IN ('APPLY_TO_NEW_ONLY', 'APPLY_TO_CAMPAIGN', 'APPLY_TO_NEXT_CAMPAIGN', 'APPLY_NEXT_SESSION')) DEFAULT 'APPLY_TO_NEW_ONLY',
+    sync_policy TEXT CHECK(sync_policy IN ('APPLY_TO_NEW_ONLY', 'APPLY_TO_CAMPAIGN', 'APPLY_TO_NEXT_CAMPAIGN', 'APPLY_NEXT_SESSION')) DEFAULT 'APPLY_TO_NEW_ONLY',
     settings JSON,
     created_at DATETIME NOT NULL,
     updated_at DATETIME,
