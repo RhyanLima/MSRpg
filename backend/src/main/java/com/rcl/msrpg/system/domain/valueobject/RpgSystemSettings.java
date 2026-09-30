@@ -208,7 +208,7 @@ public record RpgSystemSettings(RuntimeSettings runtime, SnapshotSettings snapsh
         EVERY_SESSION_END
     }
 
-    public enum SessionLogLevel {
+    public enum SessionLogLevel { // Esse log level deveria representar o que exatamente?
         DEBUG,
         INFO,
         WARN,

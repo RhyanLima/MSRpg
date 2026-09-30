@@ -115,10 +115,10 @@ public class RpgSystem {
         this.updatedAt = Instant.now();
     }
 
-    public static enum SyncPolicy {
+    public static enum SyncPolicy { 
         APPLY_TO_NEW_ONLY,
-        APPLY_TO_CAMPAIGN,
-        APPLY_NEXT_CAMPAIGN
-    }
+        APPLY_NEXT_CAMPAIGN, 
+        APPLY_TO_NEXT_SESSION
+    } 
 
 }
