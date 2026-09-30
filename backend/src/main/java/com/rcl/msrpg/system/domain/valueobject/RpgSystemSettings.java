@@ -196,7 +196,7 @@ public record RpgSystemSettings(RuntimeSettings runtime, SnapshotSettings snapsh
         IGNORE_SILENTLY
     }
 
-    public enum CycleLimitBehavior {
+    public enum CycleLimitBehavior { // Isso vai sair daqui
         ABORT_AND_WARN,
         ABORT_AND_FAIL
     }
@@ -208,11 +208,9 @@ public record RpgSystemSettings(RuntimeSettings runtime, SnapshotSettings snapsh
         EVERY_SESSION_END
     }
 
-    public enum SessionLogLevel { // Esse log level deveria representar o que exatamente?
+    public enum SessionLogLevel {
         DEBUG,
         INFO,
-        WARN,
-        ERROR
     }
 
     public enum ConflictResolutionStrategy {

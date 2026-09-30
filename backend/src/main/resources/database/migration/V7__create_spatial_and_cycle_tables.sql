@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS cycle_detection_configs (
     system_id TEXT NOT NULL,
     enabled INTEGER NOT NULL DEFAULT 1 CHECK (enabled IN (0, 1)),
     max_depth INTEGER NOT NULL DEFAULT 20,
-    on_limit_reached TEXT NOT NULL DEFAULT 'ABORT_AND_WARN',
+    on_limit_reached TEXT NOT NULL CHECK(on_limit_reached IN ('ABORT_AND_WARN', 'ABORT_AND_FAIL')) DEFAULT 'ABORT_AND_WARN',
     allow_intentional_loops INTEGER NOT NULL DEFAULT 0 CHECK (allow_intentional_loops IN (0, 1)),
     data JSON,
     FOREIGN KEY (system_id) REFERENCES rpg_systems(id)

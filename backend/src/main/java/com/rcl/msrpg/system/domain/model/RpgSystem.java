@@ -117,7 +117,7 @@ public class RpgSystem {
 
     public static enum SyncPolicy { 
         APPLY_TO_NEW_ONLY,
-        APPLY_NEXT_CAMPAIGN, 
+        APPLY_TO_NEXT_CAMPAIGN, 
         APPLY_TO_NEXT_SESSION
     } 
 

@@ -17,8 +17,7 @@ CREATE TABLE IF NOT EXISTS rpg_systems (
     default_sync_policy TEXT NOT NULL CHECK(default_sync_policy IN ('APPLY_TO_NEW_ONLY', 'APPLY_TO_NEXT_CAMPAIGN', 'APPLY_NEXT_SESSION')) DEFAULT 'APPLY_TO_NEW_ONLY',
     modifier_commit_strategy TEXT NOT NULL CHECK(modifier_commit_strategy IN ('BATCHED', 'IMMEDIATE')) DEFAULT 'MERGE',
     missing_component_policy TEXT NOT NULL CHECK(missing_component_policy IN ('WARN_AND_SKIP_STEP', 'FAIL_EVENT', 'IGNORE_SILENTLY')) DEFAULT 'WARN_AND_SKIP_STEP',
-    cycle_limit_behavior TEXT NOT NULL CHECK(cycle_limit_behavior IN ('ABORT_AND_WARN', 'ABORT_AND_FAIL')) DEFAULT 'ABORT_AND_WARN',
-    snapshot_frequency TEXT NOT NULL CHECK(snapshot_frequency IN ('DISABLED', 'EVERY_TURN_END', 'EVERY_COMBAT_END', 'EVERY_SESSION_END')) DEFAULT 'EVERY_SESSION_END',
+    default_session_snapshot_frequency TEXT NOT NULL CHECK(default_session_snapshot_frequency IN ('DISABLED', 'EVERY_TURN_END', 'EVERY_COMBAT_END', 'EVERY_SESSION_END')) DEFAULT 'EVERY_SESSION_END',
     session_log_level TEXT NOT NULL CHECK(session_log_level IN ('DEBUG', 'INFO')) DEFAULT 'INFO',
     conflict_resolution_strategy TEXT NOT NULL CHECK(conflict_resolution_strategy IN ('ASK_USER', 'SKIP', 'OVERWRITE', 'CREATE_COPY')) DEFAULT 'ASK_USER',
     created_at DATETIME NOT NULL,
@@ -32,8 +31,9 @@ CREATE TABLE IF NOT EXISTS campaigns (
     description TEXT,
     -- FK circular/opcional aplicada pela camada de serviço: sessions é criada em V6.
     current_session_id TEXT,
-    snapshot_policy JSON,
-    sync_policy TEXT CHECK(sync_policy IN ('APPLY_TO_NEW_ONLY', 'APPLY_TO_CAMPAIGN', 'APPLY_TO_NEXT_CAMPAIGN', 'APPLY_NEXT_SESSION')) DEFAULT 'APPLY_TO_NEW_ONLY',
+    session_snapshot_policy JSON, -- construir objeto, esse tipo de configuração deveria supostamente ser um conjunto fechado, o que é a policy e o que ela define não tá claro
+    session_snapshot_frequency TEXT CHECK(default_session_snapshot_frequency IN ('DISABLED', 'EVERY_TURN_END', 'EVERY_COMBAT_END', 'EVERY_SESSION_END')) DEFAULT 'EVERY_SESSION_END',
+    sync_policy TEXT CHECK(sync_policy IN ('APPLY_TO_NEW_ONLY', 'APPLY_TO_NEXT_CAMPAIGN', 'APPLY_TO_NEXT_SESSION')) DEFAULT 'APPLY_TO_NEW_ONLY',
     settings JSON,
     created_at DATETIME NOT NULL,
     updated_at DATETIME,
