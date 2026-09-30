@@ -46,7 +46,7 @@ ON campaigns(system_id);
 CREATE TABLE IF NOT EXISTS local_users (
     id TEXT PRIMARY KEY,
     display_name TEXT NOT NULL,
-    kind TEXT NOT NULL DEFAULT 'local',
+    kind TEXT NOT NULL DEFAULT 'LOCAL',
     -- FK circular/opcional aplicada pela camada de serviço: assets é criada em V4.
     avatar_asset_id TEXT,
     created_at DATETIME NOT NULL,
