@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS rpg_systems (
     missing_component_policy TEXT NOT NULL CHECK(missing_component_policy IN ('WARN_AND_SKIP_STEP', 'FAIL_EVENT', 'IGNORE_SILENTLY')) DEFAULT 'WARN_AND_SKIP_STEP',
     cycle_limit_behavior TEXT NOT NULL CHECK(cycle_limit_behavior IN ('ABORT_AND_WARN', 'ABORT_AND_FAIL')) DEFAULT 'ABORT_AND_WARN',
     snapshot_frequency TEXT NOT NULL CHECK(snapshot_frequency IN ('DISABLED', 'EVERY_TURN_END', 'EVERY_COMBAT_END', 'EVERY_SESSION_END')) DEFAULT 'EVERY_SESSION_END',
-    session_log_level TEXT NOT NULL CHECK(session_log_level IN ('DEBUG', 'INFO', 'WARN', 'ERROR')) DEFAULT 'INFO',
+    session_log_level TEXT NOT NULL CHECK(session_log_level IN ('DEBUG', 'INFO')) DEFAULT 'INFO',
     conflict_resolution_strategy TEXT NOT NULL CHECK(conflict_resolution_strategy IN ('ASK_USER', 'SKIP', 'OVERWRITE', 'CREATE_COPY')) DEFAULT 'ASK_USER',
     created_at DATETIME NOT NULL,
     updated_at DATETIME
