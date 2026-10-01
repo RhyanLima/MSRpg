@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS cooldown_states (
     skill_definition_id TEXT NOT NULL,
     remaining_turns INTEGER NOT NULL DEFAULT 0,
     remaining_sessions INTEGER NOT NULL DEFAULT 0,
-    reset_policy TEXT NOT NULL DEFAULT 'manual_or_session',
+    reset_policy TEXT NOT NULL DEFAULT 'MANUAL_OR_SESSION',
     data JSON,
     updated_at DATETIME,
     FOREIGN KEY (entity_id) REFERENCES entity_instances(id),

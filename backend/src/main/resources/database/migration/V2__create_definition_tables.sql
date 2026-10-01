@@ -211,7 +211,7 @@ CREATE TABLE IF NOT EXISTS resolution_policies (
     default_order JSON NOT NULL,
     overrides JSON,
     modifier_layer_order JSON,
-    commit_strategy TEXT NOT NULL DEFAULT 'BATCHED',
+    modifier_commit_strategy TEXT NOT NULL CHECK(modifier_commit_strategy IN ('BATCHED', 'IMMEDIATE')) DEFAULT 'BATCHED',
     data JSON,
     version INTEGER NOT NULL DEFAULT 1,
     content_hash TEXT,
