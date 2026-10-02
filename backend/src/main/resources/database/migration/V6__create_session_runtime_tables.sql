@@ -242,6 +242,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS ux_pending_roll_requests_session_request
 CREATE TABLE IF NOT EXISTS session_logs (
     id TEXT PRIMARY KEY,
     session_id TEXT NOT NULL,
+    schema_version TEXT NOT NULL,
     sequence_number INTEGER NOT NULL,
     timestamp DATETIME NOT NULL,
     turn INTEGER,
