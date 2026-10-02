@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS rpg_systems (
     description TEXT,
     engine_version TEXT,
     content_version TEXT NOT NULL DEFAULT '1.0.0',
-    -- FK circular/opcional aplicada pela camada de serviço: resolution_policies é criada em V2.
+    -- FK circular/opcional: resolution_policies é criada em V2.
     default_resolution_policy_id TEXT,
     default_sync_policy TEXT NOT NULL CHECK(default_sync_policy IN ('APPLY_TO_NEW_ONLY', 'APPLY_TO_NEXT_CAMPAIGN', 'APPLY_TO_NEXT_SESSION')) DEFAULT 'APPLY_TO_NEW_ONLY',
     missing_component_policy TEXT NOT NULL CHECK(missing_component_policy IN ('WARN_AND_SKIP_STEP', 'FAIL_EVENT', 'IGNORE_SILENTLY')) DEFAULT 'WARN_AND_SKIP_STEP',
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS campaigns (
     system_id TEXT NOT NULL,
     name TEXT NOT NULL,
     description TEXT,
-    -- FK circular/opcional aplicada pela camada de serviço: sessions é criada em V6.
+    -- FK circular/opcional: sessions é criada em V6.
     current_session_id TEXT,
     session_snapshot_policy JSON,
     session_snapshot_frequency TEXT CHECK(session_snapshot_frequency IN ('DISABLED', 'EVERY_TURN_END', 'EVERY_COMBAT_END', 'EVERY_SESSION_END')) DEFAULT 'EVERY_SESSION_END',
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS local_users (
     id TEXT PRIMARY KEY,
     display_name TEXT NOT NULL,
     kind TEXT NOT NULL DEFAULT 'LOCAL',
-    -- FK circular/opcional aplicada pela camada de serviço: assets é criada em V4.
+    -- FK circular/opcional: assets é criada em V4.
     avatar_asset_id TEXT,
     created_at DATETIME NOT NULL,
     updated_at DATETIME
