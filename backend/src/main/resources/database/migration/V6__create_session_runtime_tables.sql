@@ -170,7 +170,7 @@ CREATE TABLE IF NOT EXISTS runtime_modifiers (
     resolved_expression TEXT,
     layer TEXT NOT NULL,
     priority INTEGER NOT NULL DEFAULT 0,
-    result_value JSON,
+    result_value REAL,
     source_type TEXT,
     source_id TEXT,
     created_at DATETIME NOT NULL,
