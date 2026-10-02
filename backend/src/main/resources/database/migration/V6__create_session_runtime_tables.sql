@@ -280,6 +280,7 @@ CREATE TABLE IF NOT EXISTS session_snapshots (
     session_id TEXT NOT NULL,
     campaign_id TEXT NOT NULL,
     snapshot_type TEXT NOT NULL DEFAULT 'MANUAL',
+    schema_version TEXT NOT NULL 
     turn INTEGER,
     phase TEXT,
     full_state JSON NOT NULL,
