@@ -10,9 +10,8 @@ CREATE TABLE IF NOT EXISTS spatial_states (
     y REAL,
     q REAL,
     r REAL,
-    zone_id TEXT,
     facing TEXT,
-    updated_at DATETIME NOT NULL,
+    updated_at TEXT NOT NULL,
     FOREIGN KEY (session_id) REFERENCES sessions(id),
     FOREIGN KEY (entity_id) REFERENCES entity_instances(id),
     FOREIGN KEY (map_asset_id) REFERENCES assets(id)

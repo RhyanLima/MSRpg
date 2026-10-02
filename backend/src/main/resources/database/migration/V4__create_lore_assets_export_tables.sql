@@ -14,8 +14,8 @@ CREATE TABLE IF NOT EXISTS lore_documents (
     data JSON,
     version INTEGER NOT NULL DEFAULT 1,
     content_hash TEXT,
-    created_at DATETIME NOT NULL,
-    updated_at DATETIME,
+    created_at TEXT NOT NULL,
+    updated_at TEXT,
     FOREIGN KEY (system_id) REFERENCES rpg_systems(id),
     FOREIGN KEY (campaign_id) REFERENCES campaigns(id),
     FOREIGN KEY (parent_document_id) REFERENCES lore_documents(id)
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS lore_links (
     target_type TEXT NOT NULL,
     target_id TEXT NOT NULL,
     label TEXT,
-    created_at DATETIME NOT NULL,
+    created_at TEXT NOT NULL,
     FOREIGN KEY (document_id) REFERENCES lore_documents(id)
 );
 
@@ -52,8 +52,8 @@ CREATE TABLE IF NOT EXISTS assets (
     size_bytes INTEGER,
     content_hash TEXT,
     metadata JSON,
-    created_at DATETIME NOT NULL,
-    updated_at DATETIME,
+    created_at TEXT NOT NULL,
+    updated_at TEXT,
     FOREIGN KEY (system_id) REFERENCES rpg_systems(id),
     FOREIGN KEY (campaign_id) REFERENCES campaigns(id)
 );
@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS export_manifests (
     root_id TEXT NOT NULL,
     format TEXT NOT NULL DEFAULT 'msrpkg/1.0',
     manifest_json JSON NOT NULL,
-    created_at DATETIME NOT NULL,
+    created_at TEXT NOT NULL,
     FOREIGN KEY (system_id) REFERENCES rpg_systems(id)
 );
 
@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS import_conflicts (
     incoming_definition_id TEXT NOT NULL,
     conflict_reason TEXT NOT NULL,
     resolution TEXT,
-    resolved_at DATETIME,
+    resolved_at TEXT,
     FOREIGN KEY (manifest_id) REFERENCES export_manifests(id)
 );
 

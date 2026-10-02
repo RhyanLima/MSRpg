@@ -11,10 +11,10 @@ CREATE TABLE IF NOT EXISTS sessions (
     current_turn INTEGER NOT NULL DEFAULT 0,
     current_phase TEXT,
     runtime_settings JSON,
-    started_at DATETIME,
-    ended_at DATETIME,
-    created_at DATETIME NOT NULL,
-    updated_at DATETIME,
+    started_at TEXT,
+    ended_at TEXT,
+    created_at TEXT NOT NULL,
+    updated_at TEXT,
     FOREIGN KEY (system_id) REFERENCES rpg_systems(id),
     FOREIGN KEY (campaign_id) REFERENCES campaigns(id),
     FOREIGN KEY (resolution_policy_id) REFERENCES resolution_policies(id)
@@ -29,8 +29,8 @@ CREATE TABLE IF NOT EXISTS session_participants (
     user_id TEXT NOT NULL,
     role_definition_id TEXT,
     connection_status TEXT NOT NULL DEFAULT 'OFFLINE',
-    joined_at DATETIME,
-    left_at DATETIME,
+    joined_at TEXT,
+    left_at TEXT,
     FOREIGN KEY (session_id) REFERENCES sessions(id),
     FOREIGN KEY (user_id) REFERENCES local_users(id),
     FOREIGN KEY (role_definition_id) REFERENCES role_definitions(id)
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS entity_runtime_states (
     cooldowns JSON,
     actions_used JSON,
     data JSON,
-    updated_at DATETIME NOT NULL,
+    updated_at TEXT NOT NULL,
     FOREIGN KEY (session_id) REFERENCES sessions(id),
     FOREIGN KEY (entity_id) REFERENCES entity_instances(id)
 );
@@ -84,8 +84,8 @@ CREATE TABLE IF NOT EXISTS active_states (
     stacks INTEGER NOT NULL DEFAULT 1,
     state_data JSON,
     applied_at_turn INTEGER,
-    created_at DATETIME NOT NULL,
-    updated_at DATETIME,
+    created_at TEXT NOT NULL,
+    updated_at TEXT,
     FOREIGN KEY (session_id) REFERENCES sessions(id),
     FOREIGN KEY (entity_id) REFERENCES entity_instances(id),
     FOREIGN KEY (effect_definition_id) REFERENCES effect_definitions(id),
@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS active_listeners (
     listener_event_key TEXT NOT NULL,
     listener_type TEXT NOT NULL,
     priority INTEGER NOT NULL DEFAULT 0,
-    created_at DATETIME NOT NULL,
+    created_at TEXT NOT NULL,
     FOREIGN KEY (session_id) REFERENCES sessions(id),
     FOREIGN KEY (active_state_id) REFERENCES active_states(id)
 );
@@ -126,8 +126,8 @@ CREATE TABLE IF NOT EXISTS event_queue_entries (
     params JSON,
     depth INTEGER NOT NULL DEFAULT 0,
     status TEXT NOT NULL DEFAULT 'PENDING',
-    created_at DATETIME NOT NULL,
-    processed_at DATETIME,
+    created_at TEXT NOT NULL,
+    processed_at TEXT,
     FOREIGN KEY (session_id) REFERENCES sessions(id),
     FOREIGN KEY (event_definition_id) REFERENCES event_definitions(id),
     FOREIGN KEY (source_entity_id) REFERENCES entity_instances(id),
@@ -146,8 +146,8 @@ CREATE TABLE IF NOT EXISTS modifier_batches (
     status TEXT NOT NULL DEFAULT 'PENDING',
     state_before JSON,
     state_after JSON,
-    created_at DATETIME NOT NULL,
-    committed_at DATETIME,
+    created_at TEXT NOT NULL,
+    committed_at TEXT,
     FOREIGN KEY (session_id) REFERENCES sessions(id),
     FOREIGN KEY (event_queue_entry_id) REFERENCES event_queue_entries(id)
 );
@@ -171,7 +171,7 @@ CREATE TABLE IF NOT EXISTS runtime_modifiers (
     result_value REAL,
     source_type TEXT,
     source_id TEXT,
-    created_at DATETIME NOT NULL,
+    created_at TEXT NOT NULL,
     FOREIGN KEY (batch_id) REFERENCES modifier_batches(id),
     FOREIGN KEY (target_entity_id) REFERENCES entity_instances(id)
 );
@@ -205,7 +205,7 @@ CREATE TABLE IF NOT EXISTS action_history (
     action_key TEXT NOT NULL,
     params JSON,
     result JSON,
-    created_at DATETIME NOT NULL,
+    created_at TEXT NOT NULL,
     FOREIGN KEY (session_id) REFERENCES sessions(id),
     FOREIGN KEY (entity_id) REFERENCES entity_instances(id)
 );
@@ -227,8 +227,8 @@ CREATE TABLE IF NOT EXISTS pending_roll_requests (
     resolved_expr TEXT,
     rolls JSON,
     total REAL,
-    created_at DATETIME NOT NULL,
-    resolved_at DATETIME,
+    created_at TEXT NOT NULL,
+    resolved_at TEXT,
     FOREIGN KEY (session_id) REFERENCES sessions(id),
     FOREIGN KEY (entity_id) REFERENCES entity_instances(id)
 );
@@ -241,7 +241,7 @@ CREATE TABLE IF NOT EXISTS session_logs (
     session_id TEXT NOT NULL,
     schema_version TEXT NOT NULL,
     sequence_number INTEGER NOT NULL,
-    timestamp DATETIME NOT NULL,
+    timestamp TEXT NOT NULL,
     turn INTEGER,
     phase TEXT,
     level TEXT NOT NULL DEFAULT 'INFO',
@@ -283,7 +283,7 @@ CREATE TABLE IF NOT EXISTS session_snapshots (
     full_state JSON NOT NULL,
     log_sequence_number INTEGER,
     created_by_user_id TEXT,
-    created_at DATETIME NOT NULL,
+    created_at TEXT NOT NULL,
     note TEXT,
     FOREIGN KEY (session_id) REFERENCES sessions(id),
     FOREIGN KEY (campaign_id) REFERENCES campaigns(id),

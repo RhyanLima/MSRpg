@@ -13,8 +13,8 @@ CREATE TABLE IF NOT EXISTS entity_instances (
     base_attributes JSON,
     data JSON,
     version INTEGER NOT NULL DEFAULT 1,
-    created_at DATETIME NOT NULL,
-    updated_at DATETIME,
+    created_at TEXT NOT NULL,
+    updated_at TEXT,
     FOREIGN KEY (system_id) REFERENCES rpg_systems(id),
     FOREIGN KEY (campaign_id) REFERENCES campaigns(id),
     FOREIGN KEY (template_id) REFERENCES entity_templates(id)
@@ -34,8 +34,8 @@ CREATE TABLE IF NOT EXISTS entity_instance_components (
     entity_id TEXT NOT NULL,
     component_definition_id TEXT NOT NULL,
     component_key TEXT NOT NULL,
-    created_at DATETIME NOT NULL,
-    updated_at DATETIME,
+    created_at TEXT NOT NULL,
+    updated_at TEXT,
     FOREIGN KEY (entity_id) REFERENCES entity_instances(id),
     FOREIGN KEY (component_definition_id) REFERENCES component_definitions(id)
 );
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS entity_instance_categories (
     category_definition_id TEXT NOT NULL,
     applied_snapshot_version INTEGER,
     source TEXT,
-    created_at DATETIME NOT NULL,
+    created_at TEXT NOT NULL,
     FOREIGN KEY (entity_id) REFERENCES entity_instances(id),
     FOREIGN KEY (category_definition_id) REFERENCES category_definitions(id)
 );
@@ -68,8 +68,8 @@ CREATE TABLE IF NOT EXISTS item_instances (
     durability_current INTEGER,
     stack_count INTEGER NOT NULL DEFAULT 1,
     data JSON,
-    created_at DATETIME NOT NULL,
-    updated_at DATETIME,
+    created_at TEXT NOT NULL,
+    updated_at TEXT,
     FOREIGN KEY (system_id) REFERENCES rpg_systems(id),
     FOREIGN KEY (campaign_id) REFERENCES campaigns(id),
     FOREIGN KEY (item_definition_id) REFERENCES item_definitions(id),
@@ -89,8 +89,8 @@ CREATE TABLE IF NOT EXISTS inventory_states (
     slots INTEGER,
     weight_limit REAL,
     data JSON,
-    created_at DATETIME NOT NULL,
-    updated_at DATETIME,
+    created_at TEXT NOT NULL,
+    updated_at TEXT,
     FOREIGN KEY (entity_id) REFERENCES entity_instances(id)
 );
 
@@ -116,8 +116,8 @@ CREATE TABLE IF NOT EXISTS equipment_states (
     id TEXT PRIMARY KEY,
     entity_id TEXT NOT NULL,
     data JSON,
-    created_at DATETIME NOT NULL,
-    updated_at DATETIME,
+    created_at TEXT NOT NULL,
+    updated_at TEXT,
     FOREIGN KEY (entity_id) REFERENCES entity_instances(id)
 );
 
@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS cooldown_states (
     remaining_turns INTEGER NOT NULL DEFAULT 0,
     remaining_sessions INTEGER NOT NULL DEFAULT 0,
     reset_policy TEXT NOT NULL DEFAULT 'MANUAL_OR_SESSION',
-    updated_at DATETIME,
+    updated_at TEXT,
     FOREIGN KEY (entity_id) REFERENCES entity_instances(id),
     FOREIGN KEY (skill_definition_id) REFERENCES skill_definitions(id)
 );
@@ -159,8 +159,8 @@ CREATE TABLE IF NOT EXISTS relation_states (
     target_entity_id TEXT NOT NULL,
     relation_type TEXT NOT NULL,
     value REAL,
-    created_at DATETIME NOT NULL,
-    updated_at DATETIME,
+    created_at TEXT NOT NULL,
+    updated_at TEXT,
     FOREIGN KEY (campaign_id) REFERENCES campaigns(id),
     FOREIGN KEY (source_entity_id) REFERENCES entity_instances(id),
     FOREIGN KEY (target_entity_id) REFERENCES entity_instances(id)

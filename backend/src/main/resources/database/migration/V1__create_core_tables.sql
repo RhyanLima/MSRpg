@@ -18,8 +18,8 @@ CREATE TABLE IF NOT EXISTS rpg_systems (
     missing_component_policy TEXT NOT NULL CHECK(missing_component_policy IN ('WARN_AND_SKIP_STEP', 'FAIL_EVENT', 'IGNORE_SILENTLY')) DEFAULT 'WARN_AND_SKIP_STEP',
     default_session_snapshot_frequency TEXT NOT NULL CHECK(default_session_snapshot_frequency IN ('DISABLED', 'EVERY_TURN_END', 'EVERY_COMBAT_END', 'EVERY_SESSION_END')) DEFAULT 'EVERY_SESSION_END',
     conflict_resolution_strategy TEXT NOT NULL CHECK(conflict_resolution_strategy IN ('ASK_USER', 'SKIP', 'OVERWRITE', 'CREATE_COPY')) DEFAULT 'ASK_USER',
-    created_at DATETIME NOT NULL,
-    updated_at DATETIME
+    created_at TEXT NOT NULL,
+    updated_at TEXT
 );
 
 CREATE TABLE IF NOT EXISTS campaigns (
@@ -33,8 +33,8 @@ CREATE TABLE IF NOT EXISTS campaigns (
     session_snapshot_frequency TEXT CHECK(session_snapshot_frequency IN ('DISABLED', 'EVERY_TURN_END', 'EVERY_COMBAT_END', 'EVERY_SESSION_END')) DEFAULT 'EVERY_SESSION_END',
     sync_policy TEXT CHECK(sync_policy IN ('APPLY_TO_NEW_ONLY', 'APPLY_TO_NEXT_CAMPAIGN', 'APPLY_TO_NEXT_SESSION')) DEFAULT 'APPLY_TO_NEW_ONLY',
     settings JSON, -- Não tá bem claro o que esse settings teria...
-    created_at DATETIME NOT NULL,
-    updated_at DATETIME,
+    created_at TEXT NOT NULL,
+    updated_at TEXT,
     FOREIGN KEY (system_id) REFERENCES rpg_systems(id)
 );
 
@@ -47,8 +47,8 @@ CREATE TABLE IF NOT EXISTS local_users (
     kind TEXT NOT NULL DEFAULT 'LOCAL',
     -- FK circular/opcional: assets é criada em V4.
     avatar_asset_id TEXT,
-    created_at DATETIME NOT NULL,
-    updated_at DATETIME
+    created_at TEXT NOT NULL,
+    updated_at TEXT
 );
 
 CREATE TABLE IF NOT EXISTS role_definitions (
@@ -58,8 +58,8 @@ CREATE TABLE IF NOT EXISTS role_definitions (
     name TEXT NOT NULL,
     description TEXT,
     permissions JSON NOT NULL,
-    created_at DATETIME NOT NULL,
-    updated_at DATETIME,
+    created_at TEXT NOT NULL,
+    updated_at TEXT,
     FOREIGN KEY (system_id) REFERENCES rpg_systems(id)
 );
 
@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS campaign_members (
     user_id TEXT NOT NULL,
     member_type TEXT NOT NULL DEFAULT 'PLAYER',
     permissions_override JSON,
-    created_at DATETIME NOT NULL,
+    created_at TEXT NOT NULL,
     FOREIGN KEY (campaign_id) REFERENCES campaigns(id),
     FOREIGN KEY (user_id) REFERENCES local_users(id),
     FOREIGN KEY (role_definition_id) REFERENCES role_definitions(id)

@@ -9,8 +9,8 @@ CREATE TABLE IF NOT EXISTS definition_registry (
     key TEXT NOT NULL,
     content_hash TEXT,
     version INTEGER NOT NULL DEFAULT 1,
-    created_at DATETIME NOT NULL,
-    updated_at DATETIME,
+    created_at TEXT NOT NULL,
+    updated_at TEXT,
     FOREIGN KEY (system_id) REFERENCES rpg_systems(id)
 );
 
@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS definition_dependencies (
     to_definition_type TEXT NOT NULL,
     to_definition_id TEXT NOT NULL,
     dependency_kind TEXT NOT NULL DEFAULT 'requires',
-    created_at DATETIME NOT NULL,
+    created_at TEXT NOT NULL,
     FOREIGN KEY (system_id) REFERENCES rpg_systems(id)
 );
 

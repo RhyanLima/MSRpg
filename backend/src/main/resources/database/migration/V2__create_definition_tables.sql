@@ -14,8 +14,8 @@ CREATE TABLE IF NOT EXISTS attribute_definitions (
     data JSON,
     version INTEGER NOT NULL DEFAULT 1,
     content_hash TEXT,
-    created_at DATETIME NOT NULL,
-    updated_at DATETIME,
+    created_at TEXT NOT NULL,
+    updated_at TEXT,
     FOREIGN KEY (system_id) REFERENCES rpg_systems(id)
 );
 
@@ -33,8 +33,8 @@ CREATE TABLE IF NOT EXISTS component_definitions (
     is_core INTEGER NOT NULL DEFAULT 0 CHECK (is_core IN (0, 1)),
     version INTEGER NOT NULL DEFAULT 1,
     content_hash TEXT,
-    created_at DATETIME NOT NULL,
-    updated_at DATETIME,
+    created_at TEXT NOT NULL,
+    updated_at TEXT,
     FOREIGN KEY (system_id) REFERENCES rpg_systems(id)
 );
 
@@ -65,8 +65,8 @@ CREATE TABLE IF NOT EXISTS entity_templates (
     data JSON,
     version INTEGER NOT NULL DEFAULT 1,
     content_hash TEXT,
-    created_at DATETIME NOT NULL,
-    updated_at DATETIME,
+    created_at TEXT NOT NULL,
+    updated_at TEXT,
     FOREIGN KEY (system_id) REFERENCES rpg_systems(id)
 );
 
@@ -87,8 +87,8 @@ CREATE TABLE IF NOT EXISTS category_definitions (
     data JSON,
     version INTEGER NOT NULL DEFAULT 1,
     content_hash TEXT,
-    created_at DATETIME NOT NULL,
-    updated_at DATETIME,
+    created_at TEXT NOT NULL,
+    updated_at TEXT,
     FOREIGN KEY (system_id) REFERENCES rpg_systems(id)
 );
 
@@ -107,8 +107,8 @@ CREATE TABLE IF NOT EXISTS dice_definitions (
     expression TEXT,
     version INTEGER NOT NULL DEFAULT 1,
     content_hash TEXT,
-    created_at DATETIME NOT NULL,
-    updated_at DATETIME,
+    created_at TEXT NOT NULL,
+    updated_at TEXT,
     FOREIGN KEY (system_id) REFERENCES rpg_systems(id)
 );
 
@@ -124,8 +124,8 @@ CREATE TABLE IF NOT EXISTS pipeline_definitions (
     data JSON,
     version INTEGER NOT NULL DEFAULT 1,
     content_hash TEXT,
-    created_at DATETIME NOT NULL,
-    updated_at DATETIME,
+    created_at TEXT NOT NULL,
+    updated_at TEXT,
     FOREIGN KEY (system_id) REFERENCES rpg_systems(id)
 );
 
@@ -143,8 +143,8 @@ CREATE TABLE IF NOT EXISTS action_definitions (
     required_components JSON,
     version INTEGER NOT NULL DEFAULT 1,
     content_hash TEXT,
-    created_at DATETIME NOT NULL,
-    updated_at DATETIME,
+    created_at TEXT NOT NULL,
+    updated_at TEXT,
     FOREIGN KEY (system_id) REFERENCES rpg_systems(id),
     FOREIGN KEY (pipeline_definition_id) REFERENCES pipeline_definitions(id)
 );
@@ -162,8 +162,8 @@ CREATE TABLE IF NOT EXISTS event_definitions (
     emits JSON,
     version INTEGER NOT NULL DEFAULT 1,
     content_hash TEXT,
-    created_at DATETIME NOT NULL,
-    updated_at DATETIME,
+    created_at TEXT NOT NULL,
+    updated_at TEXT,
     FOREIGN KEY (system_id) REFERENCES rpg_systems(id)
 );
 
@@ -210,8 +210,8 @@ CREATE TABLE IF NOT EXISTS resolution_policies (
     modifier_commit_strategy TEXT NOT NULL CHECK(modifier_commit_strategy IN ('BATCHED', 'IMMEDIATE')) DEFAULT 'BATCHED',
     version INTEGER NOT NULL DEFAULT 1,
     content_hash TEXT,
-    created_at DATETIME NOT NULL,
-    updated_at DATETIME,
+    created_at TEXT NOT NULL,
+    updated_at TEXT,
     FOREIGN KEY (system_id) REFERENCES rpg_systems(id)
 );
 
@@ -233,8 +233,8 @@ CREATE TABLE IF NOT EXISTS rule_definitions (
     data JSON,
     version INTEGER NOT NULL DEFAULT 1,
     content_hash TEXT,
-    created_at DATETIME NOT NULL,
-    updated_at DATETIME,
+    created_at TEXT NOT NULL,
+    updated_at TEXT,
     FOREIGN KEY (system_id) REFERENCES rpg_systems(id)
 );
 
@@ -260,8 +260,8 @@ CREATE TABLE IF NOT EXISTS skill_definitions (
     data JSON,
     version INTEGER NOT NULL DEFAULT 1,
     content_hash TEXT,
-    created_at DATETIME NOT NULL,
-    updated_at DATETIME,
+    created_at TEXT NOT NULL,
+    updated_at TEXT,
     FOREIGN KEY (system_id) REFERENCES rpg_systems(id),
     FOREIGN KEY (pipeline_definition_id) REFERENCES pipeline_definitions(id)
 );
@@ -283,8 +283,8 @@ CREATE TABLE IF NOT EXISTS effect_definitions (
     data JSON,
     version INTEGER NOT NULL DEFAULT 1,
     content_hash TEXT,
-    created_at DATETIME NOT NULL,
-    updated_at DATETIME,
+    created_at TEXT NOT NULL,
+    updated_at TEXT,
     FOREIGN KEY (system_id) REFERENCES rpg_systems(id),
     FOREIGN KEY (pipeline_definition_id) REFERENCES pipeline_definitions(id)
 );
@@ -305,8 +305,8 @@ CREATE TABLE IF NOT EXISTS item_definitions (
     data JSON,
     version INTEGER NOT NULL DEFAULT 1,
     content_hash TEXT,
-    created_at DATETIME NOT NULL,
-    updated_at DATETIME,
+    created_at TEXT NOT NULL,
+    updated_at TEXT,
     FOREIGN KEY (system_id) REFERENCES rpg_systems(id)
 );
 
