@@ -12,7 +12,6 @@ CREATE TABLE IF NOT EXISTS spatial_states (
     r REAL,
     zone_id TEXT,
     facing TEXT,
-    data JSON,
     updated_at DATETIME NOT NULL,
     FOREIGN KEY (session_id) REFERENCES sessions(id),
     FOREIGN KEY (entity_id) REFERENCES entity_instances(id),
@@ -29,7 +28,6 @@ CREATE TABLE IF NOT EXISTS cycle_detection_configs (
     max_depth INTEGER NOT NULL DEFAULT 20,
     on_limit_reached TEXT NOT NULL CHECK(on_limit_reached IN ('ABORT_AND_WARN', 'ABORT_AND_FAIL')) DEFAULT 'ABORT_AND_WARN',
     allow_intentional_loops INTEGER NOT NULL DEFAULT 0 CHECK (allow_intentional_loops IN (0, 1)),
-    data JSON,
     FOREIGN KEY (system_id) REFERENCES rpg_systems(id)
 );
 

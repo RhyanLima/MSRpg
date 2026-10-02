@@ -105,7 +105,6 @@ CREATE TABLE IF NOT EXISTS dice_definitions (
     name TEXT NOT NULL,
     sides INTEGER,
     expression TEXT,
-    data JSON,
     version INTEGER NOT NULL DEFAULT 1,
     content_hash TEXT,
     created_at DATETIME NOT NULL,
@@ -142,7 +141,6 @@ CREATE TABLE IF NOT EXISTS action_definitions (
     params_schema JSON,
     pipeline_definition_id TEXT,
     required_components JSON,
-    data JSON,
     version INTEGER NOT NULL DEFAULT 1,
     content_hash TEXT,
     created_at DATETIME NOT NULL,
@@ -162,7 +160,6 @@ CREATE TABLE IF NOT EXISTS event_definitions (
     description TEXT,
     params_schema JSON,
     emits JSON,
-    data JSON,
     version INTEGER NOT NULL DEFAULT 1,
     content_hash TEXT,
     created_at DATETIME NOT NULL,
@@ -182,7 +179,6 @@ CREATE TABLE IF NOT EXISTS modifier_definitions (
     layer TEXT NOT NULL DEFAULT 'ADDITIVE',
     priority INTEGER NOT NULL DEFAULT 0,
     condition_expr TEXT,
-    data JSON,
     FOREIGN KEY (event_definition_id) REFERENCES event_definitions(id)
 );
 
@@ -212,7 +208,6 @@ CREATE TABLE IF NOT EXISTS resolution_policies (
     overrides JSON,
     modifier_layer_order JSON,
     modifier_commit_strategy TEXT NOT NULL CHECK(modifier_commit_strategy IN ('BATCHED', 'IMMEDIATE')) DEFAULT 'BATCHED',
-    data JSON,
     version INTEGER NOT NULL DEFAULT 1,
     content_hash TEXT,
     created_at DATETIME NOT NULL,

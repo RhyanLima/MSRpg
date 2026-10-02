@@ -145,7 +145,6 @@ CREATE TABLE IF NOT EXISTS cooldown_states (
     remaining_turns INTEGER NOT NULL DEFAULT 0,
     remaining_sessions INTEGER NOT NULL DEFAULT 0,
     reset_policy TEXT NOT NULL DEFAULT 'MANUAL_OR_SESSION',
-    data JSON,
     updated_at DATETIME,
     FOREIGN KEY (entity_id) REFERENCES entity_instances(id),
     FOREIGN KEY (skill_definition_id) REFERENCES skill_definitions(id)
@@ -161,7 +160,6 @@ CREATE TABLE IF NOT EXISTS relation_states (
     target_entity_id TEXT NOT NULL,
     relation_type TEXT NOT NULL,
     value REAL,
-    data JSON,
     created_at DATETIME NOT NULL,
     updated_at DATETIME,
     FOREIGN KEY (campaign_id) REFERENCES campaigns(id),

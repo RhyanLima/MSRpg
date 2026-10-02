@@ -46,7 +46,6 @@ CREATE TABLE IF NOT EXISTS session_entities (
     is_active INTEGER NOT NULL DEFAULT 1 CHECK (is_active IN (0, 1)),
     joined_turn INTEGER,
     left_turn INTEGER,
-    data JSON,
     FOREIGN KEY (session_id) REFERENCES sessions(id),
     FOREIGN KEY (entity_id) REFERENCES entity_instances(id)
 );
@@ -106,7 +105,6 @@ CREATE TABLE IF NOT EXISTS active_listeners (
     listener_event_key TEXT NOT NULL,
     listener_type TEXT NOT NULL,
     priority INTEGER NOT NULL DEFAULT 0,
-    data JSON,
     created_at DATETIME NOT NULL,
     FOREIGN KEY (session_id) REFERENCES sessions(id),
     FOREIGN KEY (active_state_id) REFERENCES active_states(id)
@@ -188,7 +186,6 @@ CREATE TABLE IF NOT EXISTS turn_order_entries (
     order_index INTEGER NOT NULL,
     initiative_value REAL,
     is_current INTEGER NOT NULL DEFAULT 0 CHECK (is_current IN (0, 1)),
-    data JSON,
     FOREIGN KEY (session_id) REFERENCES sessions(id),
     FOREIGN KEY (entity_id) REFERENCES entity_instances(id)
 );
