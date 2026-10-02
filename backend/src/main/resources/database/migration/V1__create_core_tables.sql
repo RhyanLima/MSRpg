@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS campaigns (
     session_snapshot_policy JSON,
     session_snapshot_frequency TEXT CHECK(session_snapshot_frequency IN ('DISABLED', 'EVERY_TURN_END', 'EVERY_COMBAT_END', 'EVERY_SESSION_END')) DEFAULT 'EVERY_SESSION_END',
     sync_policy TEXT CHECK(sync_policy IN ('APPLY_TO_NEW_ONLY', 'APPLY_TO_NEXT_CAMPAIGN', 'APPLY_TO_NEXT_SESSION')) DEFAULT 'APPLY_TO_NEW_ONLY',
-    settings JSON,
+    settings JSON, -- Não tá bem claro o que esse settings teria...
     created_at DATETIME NOT NULL,
     updated_at DATETIME,
     FOREIGN KEY (system_id) REFERENCES rpg_systems(id)
@@ -70,7 +70,6 @@ CREATE TABLE IF NOT EXISTS campaign_members (
     id TEXT PRIMARY KEY,
     campaign_id TEXT NOT NULL,
     user_id TEXT NOT NULL,
-    role_definition_id TEXT,
     member_type TEXT NOT NULL DEFAULT 'PLAYER',
     permissions_override JSON,
     created_at DATETIME NOT NULL,

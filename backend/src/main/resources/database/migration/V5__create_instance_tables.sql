@@ -34,7 +34,6 @@ CREATE TABLE IF NOT EXISTS entity_instance_components (
     entity_id TEXT NOT NULL,
     component_definition_id TEXT NOT NULL,
     component_key TEXT NOT NULL,
-    data JSON,
     created_at DATETIME NOT NULL,
     updated_at DATETIME,
     FOREIGN KEY (entity_id) REFERENCES entity_instances(id),
