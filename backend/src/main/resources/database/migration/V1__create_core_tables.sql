@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS local_users (
     avatar_asset_id TEXT,
     created_at TEXT NOT NULL,
     updated_at TEXT,
-    FOREIGN KEY (avatar_asset_id) REFERENCES assets(id)          -- assets é criada em V4
+    FOREIGN KEY (avatar_asset_id) REFERENCES assets(id)          
 );
 
 CREATE TABLE IF NOT EXISTS role_definitions (
