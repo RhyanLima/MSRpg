@@ -2,6 +2,7 @@ package com.rcl.msrpg.bootstrap;
 
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
+import org.sqlite.SQLiteConfig;
 import org.sqlite.SQLiteDataSource;
 
 import com.rcl.msrpg.shared.configuration.AppConfig;
@@ -10,6 +11,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public final class DatabaseBootstrap {
+
+    private static final int CACHE_SIZE_KIB = -64000;
 
     private DatabaseBootstrap() {}
 
@@ -42,27 +45,23 @@ public final class DatabaseBootstrap {
     }
 
     public static Jdbi createJdbi(String databasePath) {
-
-        SQLiteDataSource dataSource = new SQLiteDataSource();
-
+        SQLiteDataSource dataSource = new SQLiteDataSource(connectionConfig());
         dataSource.setUrl("jdbc:sqlite:" + databasePath);
 
         Jdbi jdbi = Jdbi.create(dataSource);
         jdbi.installPlugin(new SqlObjectPlugin());
 
-        applyPragmas(jdbi);
-
         return jdbi;
     }
 
-    private static void applyPragmas(Jdbi jdbi) {
-        jdbi.useHandle(handle -> {
-            handle.execute("PRAGMA journal_mode = WAL");
-            handle.execute("PRAGMA foreign_keys = ON");
-            handle.execute("PRAGMA synchronous = NORMAL");
-            handle.execute("PRAGMA cache_size = -64000");
-            handle.execute("PRAGMA temp_store = MEMORY");
-        });
+    static SQLiteConfig connectionConfig() {
+        SQLiteConfig config = new SQLiteConfig();
+        config.enforceForeignKeys(true);
+        config.setJournalMode(SQLiteConfig.JournalMode.WAL);       // persistente no arquivo
+        config.setSynchronous(SQLiteConfig.SynchronousMode.NORMAL);
+        config.setCacheSize(CACHE_SIZE_KIB);
+        config.setTempStore(SQLiteConfig.TempStore.MEMORY);
+        return config;
     }
 
     private static void createParentDirectories(Path databasePath) {
