@@ -1,4 +1,4 @@
-package com.rcl.msrpg.shared.configuration;
+package com.rcl.msrpg.core.configuration;
 
 import java.io.InputStream;
 import java.util.Properties;

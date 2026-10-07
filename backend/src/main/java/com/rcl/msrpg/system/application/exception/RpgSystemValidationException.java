@@ -1,6 +1,6 @@
 package com.rcl.msrpg.system.application.exception;
 
-import com.rcl.msrpg.shared.exception.api.BadRequestException;
+import com.rcl.msrpg.core.exception.api.BadRequestException;
 
 public class RpgSystemValidationException extends BadRequestException {
 

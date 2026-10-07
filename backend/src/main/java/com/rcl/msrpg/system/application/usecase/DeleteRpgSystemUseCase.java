@@ -1,6 +1,6 @@
 package com.rcl.msrpg.system.application.usecase;
 
-import com.rcl.msrpg.shared.identifier.RpgSystemId;
+import com.rcl.msrpg.core.identifier.RpgSystemId;
 import com.rcl.msrpg.system.application.exception.RpgSystemNotFoundException;
 import com.rcl.msrpg.system.application.exception.RpgSystemValidationException;
 import com.rcl.msrpg.system.domain.port.RpgSystemRepository;

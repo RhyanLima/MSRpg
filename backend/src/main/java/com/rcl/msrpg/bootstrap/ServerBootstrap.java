@@ -4,11 +4,11 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.rcl.msrpg.shared.configuration.AppConfig;
-import com.rcl.msrpg.shared.configuration.AppContainer;
-import com.rcl.msrpg.shared.exception.ResponseError;
-import com.rcl.msrpg.shared.exception.api.RuntimeExceptionHandler;
-import com.rcl.msrpg.shared.log.RuntimeLogHandler;
+import com.rcl.msrpg.core.configuration.AppConfig;
+import com.rcl.msrpg.core.configuration.AppContainer;
+import com.rcl.msrpg.core.exception.ResponseError;
+import com.rcl.msrpg.core.exception.api.RuntimeExceptionHandler;
+import com.rcl.msrpg.core.log.RuntimeLogHandler;
 
 import io.javalin.Javalin;
 import io.javalin.json.JavalinJackson;

@@ -2,7 +2,7 @@ package com.rcl.msrpg.system.application.usecase;
 
 import java.util.List;
 
-import com.rcl.msrpg.shared.identifier.ResolutionPolicyId;
+import com.rcl.msrpg.core.identifier.ResolutionPolicyId;
 import com.rcl.msrpg.system.application.RpgSystemApplicationMapper;
 import com.rcl.msrpg.system.application.dto.RpgSystemFilterCommand;
 import com.rcl.msrpg.system.application.dto.RpgSystemSummaryResult;

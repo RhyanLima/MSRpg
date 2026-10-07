@@ -1,4 +1,4 @@
-package com.rcl.msrpg.shared.exception.api;
+package com.rcl.msrpg.core.exception.api;
 
 public class UnauthorizedException extends ApiException {
     public UnauthorizedException(String message) {

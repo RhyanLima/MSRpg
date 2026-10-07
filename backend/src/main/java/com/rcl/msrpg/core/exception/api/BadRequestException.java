@@ -1,4 +1,4 @@
-package com.rcl.msrpg.shared.exception.api;
+package com.rcl.msrpg.core.exception.api;
 
 public class BadRequestException extends ApiException {
     public BadRequestException(String message) {

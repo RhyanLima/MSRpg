@@ -2,8 +2,8 @@ package com.rcl.msrpg.system.domain.port;
 
 import java.util.List;
 
-import com.rcl.msrpg.shared.identifier.ResolutionPolicyId;
 import com.rcl.msrpg.system.domain.model.RpgSystem.SyncPolicy;
+import com.rcl.msrpg.core.identifier.ResolutionPolicyId;
 import com.rcl.msrpg.system.domain.model.RpgSystemSummary;
 
 public interface RpgSystemQueryRepository {

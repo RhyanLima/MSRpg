@@ -5,7 +5,7 @@ import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 import org.sqlite.SQLiteConfig;
 import org.sqlite.SQLiteDataSource;
 
-import com.rcl.msrpg.shared.configuration.AppConfig;
+import com.rcl.msrpg.core.configuration.AppConfig;
 
 import java.nio.file.Files;
 import java.nio.file.Path;

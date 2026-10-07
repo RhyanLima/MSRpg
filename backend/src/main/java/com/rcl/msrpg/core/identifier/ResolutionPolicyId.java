@@ -1,4 +1,4 @@
-package com.rcl.msrpg.shared.identifier;
+package com.rcl.msrpg.core.identifier;
 
 import java.util.UUID;
 

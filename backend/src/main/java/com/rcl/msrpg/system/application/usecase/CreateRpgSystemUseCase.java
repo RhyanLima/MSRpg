@@ -2,7 +2,7 @@ package com.rcl.msrpg.system.application.usecase;
 
 import java.util.UUID;
 
-import com.rcl.msrpg.shared.identifier.RpgSystemId;
+import com.rcl.msrpg.core.identifier.RpgSystemId;
 import com.rcl.msrpg.system.application.RpgSystemApplicationMapper;
 import com.rcl.msrpg.system.application.dto.CreateRpgSystemCommand;
 import com.rcl.msrpg.system.application.dto.RpgSystemResult;

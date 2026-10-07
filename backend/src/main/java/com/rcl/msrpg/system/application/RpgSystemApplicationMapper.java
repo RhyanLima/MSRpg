@@ -1,7 +1,7 @@
 package com.rcl.msrpg.system.application;
 
-import com.rcl.msrpg.shared.identifier.ResolutionPolicyId;
-import com.rcl.msrpg.shared.identifier.RpgSystemId;
+import com.rcl.msrpg.core.identifier.ResolutionPolicyId;
+import com.rcl.msrpg.core.identifier.RpgSystemId;
 import com.rcl.msrpg.system.application.dto.CreateRpgSystemCommand;
 import com.rcl.msrpg.system.application.dto.RpgSystemResult;
 import com.rcl.msrpg.system.application.dto.RpgSystemSummaryResult;

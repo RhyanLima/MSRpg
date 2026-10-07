@@ -1,6 +1,6 @@
-package com.rcl.msrpg.shared.exception.api;
+package com.rcl.msrpg.core.exception.api;
 
-import com.rcl.msrpg.shared.exception.ResponseError;
+import com.rcl.msrpg.core.exception.ResponseError;
 
 public class ApiErrorResponse extends ResponseError {
 

@@ -2,7 +2,7 @@ package com.rcl.msrpg.system.domain.port;
 
 import java.util.Optional;
 
-import com.rcl.msrpg.shared.identifier.RpgSystemId;
+import com.rcl.msrpg.core.identifier.RpgSystemId;
 import com.rcl.msrpg.system.domain.model.RpgSystem;
 
 public interface RpgSystemRepository {

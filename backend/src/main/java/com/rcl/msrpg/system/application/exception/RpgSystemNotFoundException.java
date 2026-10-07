@@ -1,6 +1,6 @@
 package com.rcl.msrpg.system.application.exception;
 
-import com.rcl.msrpg.shared.exception.api.NotFoundException;
+import com.rcl.msrpg.core.exception.api.NotFoundException;
 
 public class RpgSystemNotFoundException extends NotFoundException {
     

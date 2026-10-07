@@ -1,4 +1,4 @@
-package com.rcl.msrpg.shared.exception.api;
+package com.rcl.msrpg.core.exception.api;
 
 public class ForbiddenException extends ApiException {
     public ForbiddenException(String message) {

@@ -1,6 +1,6 @@
 package com.rcl.msrpg.system.application.exception;
 
-import com.rcl.msrpg.shared.exception.api.ConflictException;
+import com.rcl.msrpg.core.exception.api.ConflictException;
 
 public class RpgSystemAlreadyExistsException extends ConflictException {
 

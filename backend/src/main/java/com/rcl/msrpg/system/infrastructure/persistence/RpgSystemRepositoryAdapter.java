@@ -5,8 +5,8 @@ import java.util.Optional;
 
 import org.jdbi.v3.core.Jdbi;
 
-import com.rcl.msrpg.shared.identifier.ResolutionPolicyId;
-import com.rcl.msrpg.shared.identifier.RpgSystemId;
+import com.rcl.msrpg.core.identifier.ResolutionPolicyId;
+import com.rcl.msrpg.core.identifier.RpgSystemId;
 import com.rcl.msrpg.system.domain.model.RpgSystem;
 import com.rcl.msrpg.system.domain.model.RpgSystem.SyncPolicy;
 import com.rcl.msrpg.system.domain.model.RpgSystemSummary;

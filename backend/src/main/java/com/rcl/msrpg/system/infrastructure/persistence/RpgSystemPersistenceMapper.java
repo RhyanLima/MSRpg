@@ -2,8 +2,8 @@ package com.rcl.msrpg.system.infrastructure.persistence;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rcl.msrpg.shared.identifier.ResolutionPolicyId;
-import com.rcl.msrpg.shared.identifier.RpgSystemId;
+import com.rcl.msrpg.core.identifier.ResolutionPolicyId;
+import com.rcl.msrpg.core.identifier.RpgSystemId;
 import com.rcl.msrpg.system.domain.model.RpgSystem;
 import com.rcl.msrpg.system.domain.model.RpgSystemSummary;
 import com.rcl.msrpg.system.domain.model.RpgSystem.SyncPolicy;

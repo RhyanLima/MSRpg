@@ -1,4 +1,4 @@
-package com.rcl.msrpg.shared.infrastructure.web;
+package com.rcl.msrpg.core.infrastructure.web;
 
 import io.javalin.Javalin;
 

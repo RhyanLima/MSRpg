@@ -1,4 +1,4 @@
-package com.rcl.msrpg.shared.log;
+package com.rcl.msrpg.core.log;
 
 public enum LogLevel {
 

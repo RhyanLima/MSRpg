@@ -1,4 +1,4 @@
-package com.rcl.msrpg.shared.exception;
+package com.rcl.msrpg.core.exception;
 
 import java.util.Date;
 

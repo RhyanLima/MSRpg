@@ -1,4 +1,4 @@
-package com.rcl.msrpg.shared.log;
+package com.rcl.msrpg.core.log;
 
 import java.util.Set;
 import java.util.UUID;

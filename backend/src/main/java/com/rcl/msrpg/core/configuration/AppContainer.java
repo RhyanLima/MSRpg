@@ -1,10 +1,10 @@
-package com.rcl.msrpg.shared.configuration;
+package com.rcl.msrpg.core.configuration;
 
 import java.util.List;
 
 import org.jdbi.v3.core.Jdbi;
 
-import com.rcl.msrpg.shared.infrastructure.web.WebController;
+import com.rcl.msrpg.core.infrastructure.web.WebController;
 import com.rcl.msrpg.system.infrastructure.configuration.RpgSystemModule;
 
 public class AppContainer {
