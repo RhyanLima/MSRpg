@@ -1,71 +1,83 @@
 package com.rcl.msrpg.system.application;
 
-import com.rcl.msrpg.core.identifier.ResolutionPolicyId;
 import com.rcl.msrpg.core.identifier.RpgSystemId;
-import com.rcl.msrpg.system.application.dto.CreateRpgSystemCommand;
+import com.rcl.msrpg.core.valueobject.SemanticVersion;
+import com.rcl.msrpg.system.application.dto.RpgSystemFilterCommand;
 import com.rcl.msrpg.system.application.dto.RpgSystemResult;
 import com.rcl.msrpg.system.application.dto.RpgSystemSummaryResult;
+import com.rcl.msrpg.system.application.exception.RpgSystemValidationException;
+import com.rcl.msrpg.system.domain.enumeration.SyncPolicy;
 import com.rcl.msrpg.system.domain.model.RpgSystem;
+import com.rcl.msrpg.system.domain.model.RpgSystemSearchCriteria;
 import com.rcl.msrpg.system.domain.model.RpgSystemSummary;
-import com.rcl.msrpg.system.domain.model.RpgSystem.SyncPolicy;
-import com.rcl.msrpg.system.domain.valueobject.RpgSystemSettings;
 
-public class RpgSystemApplicationMapper {
+public final class RpgSystemApplicationMapper {
 
     private RpgSystemApplicationMapper() {}
 
-    public static RpgSystem toDomain(CreateRpgSystemCommand request, RpgSystemId id) {
-        return RpgSystem.create(
-            id,
-            request.name(),
-            request.description(),
-            request.engineVersion(),
-            request.contentVersion(),
-            toResolutionPolicyId(request.defaultResolutionPolicyId()),
-            toSyncPolicy(request.syncPolicy()),
-            toSettings(request.settingsJson())
-        );
-    }
+    public static RpgSystemResult toResult(RpgSystem system) {
+        var profile = system.profile();
+        var versioning = system.versioning();
+        var behavior = system.behavior();
+        var timestamps = system.timestamps();
 
-    public static RpgSystemResult toResult(RpgSystem rpgSystem) {
         return new RpgSystemResult(
-            rpgSystem.id().toString(),
-            rpgSystem.name(),
-            rpgSystem.description(),
-            rpgSystem.engineVersion(),
-            rpgSystem.contentVersion(),
-            rpgSystem.defaultResolutionPolicyId().toString(),
-            rpgSystem.syncPolicy().name(),
-            rpgSystem.settings().toJson(),
-            rpgSystem.createdAt(),
-            rpgSystem.updatedAt()
+            system.id().toString(),
+            profile.name().value(),
+            profile.description().text().orElse(null),
+            versioning.engineVersion().value(),
+            versioning.contentVersion().value(),
+            system.defaultSyncPolicy().name(),
+            behavior.missingComponentPolicy().name(),
+            behavior.conflictResolutionStrategy().name(),
+            timestamps.createdAt(),
+            timestamps.updatedAt()
         );
     }
 
-    public static RpgSystemSummaryResult toSummaryResult(RpgSystemSummary rpgSystem) {
+    public static RpgSystemSummaryResult toSummaryResult(RpgSystemSummary summary) {
         return new RpgSystemSummaryResult(
-            rpgSystem.id().toString(),
-            rpgSystem.name(),
-            rpgSystem.description(),
-            rpgSystem.engineVersion(),
-            rpgSystem.contentVersion(),
-            rpgSystem.syncPolicy().name(),
-            rpgSystem.createdAt(),
-            rpgSystem.updatedAt()
+            summary.id().toString(),
+            summary.profile().name().value(),
+            summary.profile().description().text().orElse(null),
+            summary.versioning().engineVersion().value(),
+            summary.versioning().contentVersion().value(),
+            summary.timestamps().createdAt(),
+            summary.timestamps().updatedAt()
         );
     }
 
-    public static ResolutionPolicyId toResolutionPolicyId(String value) {
-        return ResolutionPolicyId.of(value);
+    public static RpgSystemSearchCriteria toCriteria(RpgSystemFilterCommand filter) {
+        if (filter == null) {
+            return RpgSystemSearchCriteria.any();
+        }
+        var criteria = RpgSystemSearchCriteria.any().withNameContaining(filter.name());
+        if (hasText(filter.engineVersion())) {
+            criteria = criteria.withEngineVersion(SemanticVersion.of(filter.engineVersion()));
+        }
+        if (hasText(filter.contentVersion())) {
+            criteria = criteria.withContentVersion(SemanticVersion.of(filter.contentVersion()));
+        }
+        if (hasText(filter.defaultSyncPolicy())) {
+            criteria = criteria.withSyncPolicy(SyncPolicy.parse(filter.defaultSyncPolicy()));
+        }
+        return criteria;
     }
 
-    public static SyncPolicy toSyncPolicy(String value) {
-        return SyncPolicy.valueOf(value);
+    /** UUID malformado vira 400 (antes chegava como 500). */
+    public static RpgSystemId toRpgSystemId(String raw) {
+        if (!hasText(raw)) {
+            throw new RpgSystemValidationException("RPG system id is required.");
+        }
+        try {
+            return RpgSystemId.of(raw.strip());
+        } catch (IllegalArgumentException exception) {
+            throw new RpgSystemValidationException("RPG system id must be a valid UUID.");
+        }
     }
 
-    public static RpgSystemSettings toSettings(String settingsJson) {
-        return RpgSystemSettings.fromJson(settingsJson);
+    public static boolean hasText(String value) {
+        return value != null && !value.isBlank();
     }
-
 
 }
