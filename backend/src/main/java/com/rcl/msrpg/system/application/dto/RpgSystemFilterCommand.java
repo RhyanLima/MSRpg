@@ -4,35 +4,10 @@ public record RpgSystemFilterCommand(
     String name,
     String engineVersion,
     String contentVersion,
-    String syncPolicy,
-    String defaultResolutionPolicyId
+    String defaultSyncPolicy
 ) {
 
-    public boolean hasName() {
-        return name != null && !name.isBlank();
-    }
-
-    public boolean hasEngineVersion() {
-        return engineVersion != null && !engineVersion.isBlank();
-    }
-
-    public boolean hasContentVersion() {
-        return contentVersion != null && !contentVersion.isBlank();
-    }
-
-    public boolean hasSyncPolicy() {
-        return syncPolicy != null && !syncPolicy.isBlank();
-    }
-
-    public boolean hasDefaultResolutionPolicyId() {
-        return defaultResolutionPolicyId != null && !defaultResolutionPolicyId.isBlank();
-    }
-
-    public boolean isEmpty() {
-        return !hasName()
-            && !hasEngineVersion()
-            && !hasContentVersion()
-            && !hasSyncPolicy()
-            && !hasDefaultResolutionPolicyId();
+    public static RpgSystemFilterCommand none() {
+        return new RpgSystemFilterCommand(null, null, null, null);
     }
 }

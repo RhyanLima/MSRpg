@@ -8,11 +8,10 @@ public record RpgSystemResult(
     String description,
     String engineVersion,
     String contentVersion,
-    String defaultResolutionPolicyId,
-    String syncPolicy,
-    String settingsJson,
+    String defaultSyncPolicy,
+    String missingComponentPolicy,
+    String conflictResolutionStrategy,
     Instant createdAt,
     Instant updatedAt
 ) {
-
 }

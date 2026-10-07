@@ -8,9 +8,7 @@ public record RpgSystemSummaryResult(
     String description,
     String engineVersion,
     String contentVersion,
-    String syncPolicy,
     Instant createdAt,
     Instant updatedAt
 ) {
-
 }
