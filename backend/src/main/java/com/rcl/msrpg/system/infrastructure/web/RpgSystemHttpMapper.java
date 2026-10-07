@@ -1,5 +1,7 @@
 package com.rcl.msrpg.system.infrastructure.web;
 
+import java.time.Instant;
+
 import com.rcl.msrpg.system.application.dto.CreateRpgSystemCommand;
 import com.rcl.msrpg.system.application.dto.RpgSystemFilterCommand;
 import com.rcl.msrpg.system.application.dto.RpgSystemResult;
@@ -17,11 +19,10 @@ public class RpgSystemHttpMapper {
         return new CreateRpgSystemCommand(
             request.name(),
             request.description(),
-            request.engineVersion(),
             request.contentVersion(),
-            request.defaultResolutionPolicyId(),
-            request.syncPolicy(),
-            request.settingsJson()
+            request.defaultSyncPolicy(),
+            request.missingComponentPolicy(),
+            request.conflictResolutionStrategy()
         );
     }
 
@@ -29,25 +30,22 @@ public class RpgSystemHttpMapper {
         return new UpdateRpgSystemCommand(
             request.name(),
             request.description(),
-            request.engineVersion(),
             request.contentVersion(),
-            request.defaultResolutionPolicyId(),
-            request.syncPolicy(),
-            request.settingsJson()
+            request.defaultSyncPolicy(),
+            request.missingComponentPolicy(),
+            request.conflictResolutionStrategy()
         );
     }
 
     public RpgSystemFilterCommand toCommand(RpgSystemFilterRequest request) {
         if (request == null) {
-            return new RpgSystemFilterCommand(null, null, null, null, null);
+            return RpgSystemFilterCommand.none();
         }
-
         return new RpgSystemFilterCommand(
             request.name(),
             request.engineVersion(),
             request.contentVersion(),
-            request.syncPolicy(),
-            request.defaultResolutionPolicyId()
+            request.defaultSyncPolicy()
         );
     }
 
@@ -58,11 +56,11 @@ public class RpgSystemHttpMapper {
             result.description(),
             result.engineVersion(),
             result.contentVersion(),
-            result.defaultResolutionPolicyId(),
-            result.syncPolicy(),
-            result.settingsJson(),
-            result.createdAt(),
-            result.updatedAt()
+            result.defaultSyncPolicy(),
+            result.missingComponentPolicy(),
+            result.conflictResolutionStrategy(),
+            iso(result.createdAt()),
+            iso(result.updatedAt())
         );
     }
 
@@ -73,10 +71,13 @@ public class RpgSystemHttpMapper {
             result.description(),
             result.engineVersion(),
             result.contentVersion(),
-            result.syncPolicy(),
-            result.createdAt(),
-            result.updatedAt()
+            iso(result.createdAt()),
+            iso(result.updatedAt())
         );
+    }
+
+    private static String iso(Instant instant) {
+        return instant == null ? null : instant.toString();
     }
 
 }

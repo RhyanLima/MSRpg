@@ -2,6 +2,7 @@ package com.rcl.msrpg.system.infrastructure.web;
 
 import java.util.List;
 
+import com.rcl.msrpg.system.application.exception.RpgSystemValidationException;
 import com.rcl.msrpg.system.application.usecase.CreateRpgSystemUseCase;
 import com.rcl.msrpg.system.application.usecase.DeleteRpgSystemUseCase;
 import com.rcl.msrpg.system.application.usecase.FindRpgSystemByIdUseCase;
@@ -19,6 +20,7 @@ import io.javalin.http.HttpStatus;
 public class RpgSystemController {
 
     private static final String BASE_PATH = "/api/v1/rpg-systems";
+    private static final String ID_PATH = BASE_PATH + "/{id}";
 
     private final CreateRpgSystemUseCase createUseCase;
     private final FindRpgSystemByIdUseCase findByIdUseCase;
@@ -46,33 +48,30 @@ public class RpgSystemController {
     public void registerRoutes(Javalin app) {
         app.post(BASE_PATH, this::create);
         app.get(BASE_PATH, this::list);
-        app.get(BASE_PATH + "/{id}", this::findById);
-        app.put(BASE_PATH + "/{id}", this::update);
-        app.delete(BASE_PATH + "/{id}", this::delete);
+        app.get(ID_PATH, this::findById);
+        app.put(ID_PATH, this::update);
+        app.delete(ID_PATH, this::delete);
     }
 
-    private void create(Context ctx) {
-        CreateRpgSystemRequest request = ctx.bodyAsClass(CreateRpgSystemRequest.class);
+    // Handlers com visibilidade de pacote: testáveis com um Context mockado, sem subir o Javalin.
 
-        var command = mapper.toCommand(request);
-        var result = createUseCase.execute(command);
-        var response = mapper.toResponse(result);
+    void create(Context ctx) {
+        CreateRpgSystemRequest request = readBody(ctx, CreateRpgSystemRequest.class);
 
-        ctx.status(HttpStatus.CREATED).json(response);
+        var result = createUseCase.execute(mapper.toCommand(request));
+
+        ctx.status(HttpStatus.CREATED).json(mapper.toResponse(result));
     }
 
-    private void list(Context ctx) {
+    void list(Context ctx) {
         var filterRequest = new RpgSystemFilterRequest(
             ctx.queryParam("name"),
             ctx.queryParam("engineVersion"),
             ctx.queryParam("contentVersion"),
-            ctx.queryParam("syncPolicy"),
-            ctx.queryParam("defaultResolutionPolicyId")
+            ctx.queryParam("defaultSyncPolicy")
         );
 
-        var filter = mapper.toCommand(filterRequest);
-
-        List<RpgSystemSummaryResponse> response = listUseCase.execute(filter)
+        List<RpgSystemSummaryResponse> response = listUseCase.execute(mapper.toCommand(filterRequest))
             .stream()
             .map(mapper::toResponse)
             .toList();
@@ -80,32 +79,38 @@ public class RpgSystemController {
         ctx.status(HttpStatus.OK).json(response);
     }
 
-    private void findById(Context ctx) {
-        String id = ctx.pathParam("id");
+    void findById(Context ctx) {
+        var result = findByIdUseCase.execute(ctx.pathParam("id"));
 
-        var result = findByIdUseCase.execute(id);
-        var response = mapper.toResponse(result);
-
-        ctx.status(HttpStatus.OK).json(response);
+        ctx.status(HttpStatus.OK).json(mapper.toResponse(result));
     }
 
-    private void update(Context ctx) {
-        String id = ctx.pathParam("id");
-        UpdateRpgSystemRequest request = ctx.bodyAsClass(UpdateRpgSystemRequest.class);
+    void update(Context ctx) {
+        UpdateRpgSystemRequest request = readBody(ctx, UpdateRpgSystemRequest.class);
 
-        var command = mapper.toCommand(request);
-        var result = updateUseCase.execute(id, command);
-        var response = mapper.toResponse(result);
+        var result = updateUseCase.execute(ctx.pathParam("id"), mapper.toCommand(request));
 
-        ctx.status(HttpStatus.OK).json(response);
+        ctx.status(HttpStatus.OK).json(mapper.toResponse(result));
     }
 
-    private void delete(Context ctx) {
-        String id = ctx.pathParam("id");
-
-        deleteUseCase.execute(id);
+    void delete(Context ctx) {
+        deleteUseCase.execute(ctx.pathParam("id"));
 
         ctx.status(HttpStatus.NO_CONTENT);
+    }
+
+    private static <T> T readBody(Context ctx, Class<T> type) {
+        try {
+            T body = ctx.bodyAsClass(type);
+            if (body == null) {
+                throw new RpgSystemValidationException("Request body is required.");
+            }
+            return body;
+        } catch (RpgSystemValidationException error) {
+            throw error;
+        } catch (RuntimeException error) {
+            throw new RpgSystemValidationException("Malformed request body.");
+        }
     }
 
 }
