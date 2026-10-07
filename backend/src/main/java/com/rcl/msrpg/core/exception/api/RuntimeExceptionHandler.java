@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.rcl.msrpg.core.exception.DomainValidationException;
+
 import io.javalin.Javalin;
 
 public class RuntimeExceptionHandler {
@@ -31,6 +33,28 @@ public class RuntimeExceptionHandler {
                     ApiErrorResponse.of(
                             exception.getStatusCode(),
                             exception.getCode(),
+                            exception.getMessage(),
+                            context.path(),
+                            requestId
+                    )
+            );
+        });
+
+        // Invariantes de domínio (Value Objects). Mensagens geradas pelo domínio,
+        app.exception(DomainValidationException.class, (exception, context) -> {
+            String requestId = getRequestId(context);
+
+            log.warn(
+                "Domain validation failed. requestId={}, path={}, message={}",
+                requestId,
+                context.path(),
+                exception.getMessage()
+            );
+
+            context.status(400).json(
+                    ApiErrorResponse.of(
+                            400,
+                            "VALIDATION_ERROR",
                             exception.getMessage(),
                             context.path(),
                             requestId
