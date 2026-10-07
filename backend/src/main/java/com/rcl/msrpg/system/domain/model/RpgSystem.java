@@ -1,124 +1,109 @@
 package com.rcl.msrpg.system.domain.model;
 
 import java.time.Instant;
+import java.util.Objects;
 
-import com.rcl.msrpg.core.identifier.ResolutionPolicyId;
 import com.rcl.msrpg.core.identifier.RpgSystemId;
-import com.rcl.msrpg.system.domain.valueobject.RpgSystemSettings;
+import com.rcl.msrpg.core.valueobject.AuditTimestamps;
+import com.rcl.msrpg.core.valueobject.SemanticVersion;
+import com.rcl.msrpg.system.domain.enumeration.SyncPolicy;
+import com.rcl.msrpg.system.domain.valueobject.RpgSystemBehavior;
+import com.rcl.msrpg.system.domain.valueobject.RpgSystemProfile;
+import com.rcl.msrpg.system.domain.valueobject.RpgSystemVersioning;
 
-public class RpgSystem {
+public final class RpgSystem {
 
     private final RpgSystemId id;
-    private String name;
-    private String description;
-    private String engineVersion;
-    private String contentVersion;
-    private ResolutionPolicyId defaultResolutionPolicyId;
-    private SyncPolicy syncPolicy; // Politica de sincronia não precisa ficar no summary nem no RpgSystem solto, pode fazer parte do RpgSystemSettings, ajustar depois.
-    private RpgSystemSettings settings;
-    private final Instant createdAt;
-    private Instant updatedAt;
+    private RpgSystemProfile profile;
+    private RpgSystemVersioning versioning;
+    private SyncPolicy defaultSyncPolicy;
+    private RpgSystemBehavior behavior;
+    private AuditTimestamps timestamps;
 
-    private RpgSystem(RpgSystemId id, String name, String description, String engineVersion, String contentVersion, ResolutionPolicyId defaultResolutionPolicyId, SyncPolicy syncPolicy, RpgSystemSettings settings, Instant createdAt, Instant updatedAt) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.engineVersion = engineVersion;
-        this.contentVersion = contentVersion;
-        this.defaultResolutionPolicyId = defaultResolutionPolicyId;
-        this.syncPolicy = syncPolicy;
-        this.settings = settings;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+    private RpgSystem(
+        RpgSystemId id,
+        RpgSystemProfile profile,
+        RpgSystemVersioning versioning,
+        SyncPolicy defaultSyncPolicy,
+        RpgSystemBehavior behavior,
+        AuditTimestamps timestamps
+    ) {
+        this.id = Objects.requireNonNull(id, "id");
+        this.profile = Objects.requireNonNull(profile, "profile");
+        this.versioning = Objects.requireNonNull(versioning, "versioning");
+        this.defaultSyncPolicy = Objects.requireNonNull(defaultSyncPolicy, "defaultSyncPolicy");
+        this.behavior = Objects.requireNonNull(behavior, "behavior");
+        this.timestamps = Objects.requireNonNull(timestamps, "timestamps");
     }
 
-    public static RpgSystem create(RpgSystemId id, String name, String description, String engineVersion, String contentVersion, ResolutionPolicyId defaultResolutionPolicyId, SyncPolicy syncPolicy, RpgSystemSettings settings) {
-        return new RpgSystem(id, name, description, engineVersion, contentVersion, defaultResolutionPolicyId, syncPolicy, settings, Instant.now(), null);
+    public static RpgSystem create(
+        RpgSystemId id,
+        RpgSystemProfile profile,
+        RpgSystemVersioning versioning,
+        SyncPolicy defaultSyncPolicy,
+        RpgSystemBehavior behavior,
+        Instant now
+    ) {
+        return new RpgSystem(id, profile, versioning, defaultSyncPolicy, behavior, AuditTimestamps.createdAt(now));
     }
 
-    public static RpgSystem reconstruct(RpgSystemId id, String name, String description, String engineVersion, String contentVersion, ResolutionPolicyId defaultResolutionPolicyId, SyncPolicy syncPolicy, RpgSystemSettings settings, Instant createdAt, Instant updatedAt) {
-        return new RpgSystem(id, name, description, engineVersion, contentVersion, defaultResolutionPolicyId, syncPolicy, settings, createdAt, updatedAt);
+    public static RpgSystem reconstruct(
+        RpgSystemId id,
+        RpgSystemProfile profile,
+        RpgSystemVersioning versioning,
+        SyncPolicy defaultSyncPolicy,
+        RpgSystemBehavior behavior,
+        AuditTimestamps timestamps
+    ) {
+        return new RpgSystem(id, profile, versioning, defaultSyncPolicy, behavior, timestamps);
     }
 
     public RpgSystemId id() {
         return id;
     }
 
-    public String name() {
-        return name;
+    public RpgSystemProfile profile() {
+        return profile;
     }
 
-    public String description() {
-        return description;
+    public RpgSystemVersioning versioning() {
+        return versioning;
     }
 
-    public String engineVersion() {
-        return engineVersion;
+    public SyncPolicy defaultSyncPolicy() {
+        return defaultSyncPolicy;
     }
 
-    public String contentVersion() {
-        return contentVersion;
+    public RpgSystemBehavior behavior() {
+        return behavior;
     }
 
-    public ResolutionPolicyId defaultResolutionPolicyId() {
-        return defaultResolutionPolicyId;
+    public AuditTimestamps timestamps() {
+        return timestamps;
     }
 
-    public SyncPolicy syncPolicy() {
-        return syncPolicy;
+    public void changeProfile(RpgSystemProfile newProfile, Instant now) {
+        this.profile = Objects.requireNonNull(newProfile, "profile");
+        touch(now);
     }
 
-    public RpgSystemSettings settings() {
-        return settings;
+    public void changeContentVersion(SemanticVersion contentVersion, Instant now) {
+        this.versioning = versioning.withContentVersion(Objects.requireNonNull(contentVersion, "contentVersion"));
+        touch(now);
     }
 
-    public Instant createdAt() {
-        return createdAt;
+    public void changeDefaultSyncPolicy(SyncPolicy syncPolicy, Instant now) {
+        this.defaultSyncPolicy = Objects.requireNonNull(syncPolicy, "defaultSyncPolicy");
+        touch(now);
     }
 
-    public Instant updatedAt() {
-        return updatedAt;
+    public void changeBehavior(RpgSystemBehavior newBehavior, Instant now) {
+        this.behavior = Objects.requireNonNull(newBehavior, "behavior");
+        touch(now);
     }
 
-    public void updateName(String name) {
-        this.name = name;
-        this.updatedAt = Instant.now();
+    private void touch(Instant now) {
+        this.timestamps = timestamps.touchedAt(now);
     }
-
-    public void updateDescription(String description) {
-        this.description = description;
-        this.updatedAt = Instant.now();
-    }
-
-    public void updateEngineVersion(String engineVersion) {
-        this.engineVersion = engineVersion;
-        this.updatedAt = Instant.now();
-    }
-
-    public void updateContentVersion(String contentVersion) {
-        this.contentVersion = contentVersion;
-        this.updatedAt = Instant.now();
-    }
-
-    public void updateDefaultResolutionPolicyId(ResolutionPolicyId defaultResolutionPolicyId) {
-        this.defaultResolutionPolicyId = defaultResolutionPolicyId;
-        this.updatedAt = Instant.now();
-    }
-
-    public void updateSyncPolicy(SyncPolicy syncPolicy) {
-        this.syncPolicy = syncPolicy;
-        this.updatedAt = Instant.now();
-    }
-
-    public void updateSettings(RpgSystemSettings settings) {
-        this.settings = settings;
-        this.updatedAt = Instant.now();
-    }
-
-    public static enum SyncPolicy { 
-        APPLY_TO_NEW_ONLY,
-        APPLY_TO_NEXT_CAMPAIGN, 
-        APPLY_TO_NEXT_SESSION
-    } 
 
 }
