@@ -1,72 +1,93 @@
 package com.rcl.msrpg.system.application.usecase;
 
-import java.util.UUID;
+import static com.rcl.msrpg.system.application.RpgSystemApplicationMapper.hasText;
 
+import java.time.Clock;
+import java.util.Objects;
+
+import com.rcl.msrpg.core.engine.EngineVersionProvider;
 import com.rcl.msrpg.core.identifier.RpgSystemId;
+import com.rcl.msrpg.core.valueobject.SemanticVersion;
 import com.rcl.msrpg.system.application.RpgSystemApplicationMapper;
 import com.rcl.msrpg.system.application.dto.CreateRpgSystemCommand;
 import com.rcl.msrpg.system.application.dto.RpgSystemResult;
 import com.rcl.msrpg.system.application.exception.RpgSystemAlreadyExistsException;
 import com.rcl.msrpg.system.application.exception.RpgSystemValidationException;
+import com.rcl.msrpg.system.domain.enumeration.ConflictResolutionStrategy;
+import com.rcl.msrpg.system.domain.enumeration.MissingComponentPolicy;
+import com.rcl.msrpg.system.domain.enumeration.SyncPolicy;
 import com.rcl.msrpg.system.domain.model.RpgSystem;
 import com.rcl.msrpg.system.domain.port.RpgSystemRepository;
+import com.rcl.msrpg.system.domain.valueobject.RpgSystemBehavior;
+import com.rcl.msrpg.system.domain.valueobject.RpgSystemDescription;
+import com.rcl.msrpg.system.domain.valueobject.RpgSystemName;
+import com.rcl.msrpg.system.domain.valueobject.RpgSystemProfile;
+import com.rcl.msrpg.system.domain.valueobject.RpgSystemVersioning;
 
 public class CreateRpgSystemUseCase {
 
     private final RpgSystemRepository repository;
+    private final EngineVersionProvider engineVersion;
+    private final Clock clock;
 
-    public CreateRpgSystemUseCase(RpgSystemRepository repository) {
-        this.repository = repository;
+    public CreateRpgSystemUseCase(RpgSystemRepository repository, EngineVersionProvider engineVersion, Clock clock) {
+        this.repository = Objects.requireNonNull(repository, "repository");
+        this.engineVersion = Objects.requireNonNull(engineVersion, "engineVersion");
+        this.clock = Objects.requireNonNull(clock, "clock");
     }
 
     public RpgSystemResult execute(CreateRpgSystemCommand command) {
-        validate(command);
-
-        if (repository.existsByName(command.name())) {
-            throw new RpgSystemAlreadyExistsException(command.name());
-        }
-
-        RpgSystemId id = RpgSystemId.generate();
-
-        RpgSystem rpgSystem = RpgSystemApplicationMapper.toDomain(command, id);
-
-        repository.save(rpgSystem);
-
-        return RpgSystemApplicationMapper.toResult(rpgSystem);
-    }
-
-    private void validate(CreateRpgSystemCommand command) {
         if (command == null) {
             throw new RpgSystemValidationException("Command cannot be null.");
         }
 
-        if (isBlank(command.name())) {
-            throw new RpgSystemValidationException("RPG system name is required.");
+        RpgSystemName name = RpgSystemName.of(command.name());
+        RpgSystemProfile profile = new RpgSystemProfile(name, RpgSystemDescription.of(command.description()));
+        SemanticVersion contentVersion = toContentVersion(command);
+        SyncPolicy syncPolicy = toSyncPolicy(command);
+        RpgSystemBehavior behavior = toBehavior(command);
+
+        if (repository.existsByName(name)) {
+            throw new RpgSystemAlreadyExistsException(name.value());
         }
 
-        if (isBlank(command.engineVersion())) {
-            throw new RpgSystemValidationException("Engine version is required.");
-        }
+        RpgSystem system = RpgSystem.create(
+            RpgSystemId.generate(),
+            profile,
+            new RpgSystemVersioning(engineVersion.current(), contentVersion),
+            syncPolicy,
+            behavior,
+            clock.instant()
+        );
 
-        if (isBlank(command.contentVersion())) {
-            throw new RpgSystemValidationException("Content version is required.");
-        }
+        repository.add(system);
 
-        if (isBlank(command.defaultResolutionPolicyId())) {
-            throw new RpgSystemValidationException("Default resolution policy id is required.");
-        }
-
-        if (isBlank(command.syncPolicy())) {
-            throw new RpgSystemValidationException("Sync policy is required.");
-        }
-
-        if (isBlank(command.settingsJson())) {
-            throw new RpgSystemValidationException("Settings JSON is required.");
-        }
+        return RpgSystemApplicationMapper.toResult(system);
     }
 
-    private boolean isBlank(String value) {
-        return value == null || value.isBlank();
+    private SemanticVersion toContentVersion(CreateRpgSystemCommand command) {
+        return hasText(command.contentVersion())
+            ? SemanticVersion.of(command.contentVersion())
+            : SemanticVersion.initialContent();
+    }
+
+    private SyncPolicy toSyncPolicy(CreateRpgSystemCommand command) {
+        return hasText(command.defaultSyncPolicy())
+            ? SyncPolicy.parse(command.defaultSyncPolicy())
+            : SyncPolicy.defaultPolicy();
+    }
+
+    private RpgSystemBehavior toBehavior(CreateRpgSystemCommand command) {
+        RpgSystemBehavior behavior = RpgSystemBehavior.defaults();
+        if (hasText(command.missingComponentPolicy())) {
+            behavior = behavior.withMissingComponentPolicy(
+                MissingComponentPolicy.parse(command.missingComponentPolicy()));
+        }
+        if (hasText(command.conflictResolutionStrategy())) {
+            behavior = behavior.withConflictResolutionStrategy(
+                ConflictResolutionStrategy.parse(command.conflictResolutionStrategy()));
+        }
+        return behavior;
     }
 
 }
