@@ -269,6 +269,7 @@ CREATE TABLE IF NOT EXISTS resolution_policies (
     cycle_max_depth INTEGER NOT NULL DEFAULT 20 CHECK (cycle_max_depth >= 1),
     cycle_on_limit_reached TEXT NOT NULL DEFAULT 'ABORT_AND_WARN'
         CHECK (cycle_on_limit_reached IN ('ABORT_AND_WARN', 'ABORT_AND_FAIL')),
+    is_default INTEGER NOT NULL DEFAULT 0 CHECK (is_default IN (0, 1)),
     version INTEGER NOT NULL DEFAULT 1 CHECK (version >= 1),
     content_hash TEXT,
     created_at TEXT NOT NULL,
@@ -280,6 +281,9 @@ CREATE TABLE IF NOT EXISTS resolution_policies (
 CREATE UNIQUE INDEX IF NOT EXISTS ux_resolution_policies_system_key
     ON resolution_policies(system_id, key);
 
+CREATE UNIQUE INDEX IF NOT EXISTS ux_resolution_policies_system_default
+    ON resolution_policies(system_id) WHERE is_default = 1;
+
 CREATE TABLE IF NOT EXISTS snapshot_policies (
     id TEXT PRIMARY KEY,
     system_id TEXT NOT NULL,
@@ -290,6 +294,7 @@ CREATE TABLE IF NOT EXISTS snapshot_policies (
         CHECK (auto_trigger IN ('DISABLED', 'EVERY_TURN_END', 'EVERY_N_TURNS', 'EVERY_COMBAT_END', 'EVERY_SESSION_END')),
     auto_interval_turns INTEGER NOT NULL DEFAULT 0,
     max_to_keep INTEGER NOT NULL DEFAULT 10 CHECK (max_to_keep >= 1),
+    is_default INTEGER NOT NULL DEFAULT 0 CHECK (is_default IN (0, 1)),
     version INTEGER NOT NULL DEFAULT 1 CHECK (version >= 1),
     content_hash TEXT,
     created_at TEXT NOT NULL,
@@ -301,6 +306,9 @@ CREATE TABLE IF NOT EXISTS snapshot_policies (
 
 CREATE UNIQUE INDEX IF NOT EXISTS ux_snapshot_policies_system_key
     ON snapshot_policies(system_id, key);
+
+CREATE UNIQUE INDEX IF NOT EXISTS ux_snapshot_policies_system_default
+    ON snapshot_policies(system_id) WHERE is_default = 1;
 
 CREATE TABLE IF NOT EXISTS rule_definitions (
     id TEXT PRIMARY KEY,

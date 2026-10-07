@@ -13,8 +13,6 @@ CREATE TABLE IF NOT EXISTS rpg_systems (
     content_version TEXT NOT NULL DEFAULT '1.0.0'
         CHECK (content_version GLOB '[0-9]*.[0-9]*.[0-9]*' AND content_version NOT GLOB '*[^0-9.]*'
                AND length(content_version) - length(replace(content_version, '.', '')) = 2),
-    default_resolution_policy_id TEXT NOT NULL,
-    default_snapshot_policy_id TEXT NOT NULL,
     default_sync_policy TEXT NOT NULL DEFAULT 'APPLY_TO_NEW_ONLY'
         CHECK (default_sync_policy IN ('APPLY_TO_NEW_ONLY', 'APPLY_TO_NEXT_CAMPAIGN', 'APPLY_TO_NEXT_SESSION')),
     missing_component_policy TEXT NOT NULL DEFAULT 'WARN_AND_SKIP_STEP'
@@ -22,11 +20,7 @@ CREATE TABLE IF NOT EXISTS rpg_systems (
     conflict_resolution_strategy TEXT NOT NULL DEFAULT 'ASK_USER'
         CHECK (conflict_resolution_strategy IN ('ASK_USER', 'SKIP', 'OVERWRITE', 'CREATE_COPY')),
     created_at TEXT NOT NULL,
-    updated_at TEXT,
-    FOREIGN KEY (id, default_resolution_policy_id)
-        REFERENCES resolution_policies(system_id, id) DEFERRABLE INITIALLY DEFERRED,
-    FOREIGN KEY (id, default_snapshot_policy_id)
-        REFERENCES snapshot_policies(system_id, id) DEFERRABLE INITIALLY DEFERRED
+    updated_at TEXT
 );
 
 CREATE TABLE IF NOT EXISTS campaigns (
