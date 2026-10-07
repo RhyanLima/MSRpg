@@ -1,16 +1,12 @@
 package com.rcl.msrpg.system.infrastructure.persistence;
 
-public record RpgSystemEntity(
+public record RpgSystemSummaryRow(
     String id,
     String name,
     String description,
     String engineVersion,
     String contentVersion,
-    String defaultSyncPolicy,
-    String missingComponentPolicy,
-    String conflictResolutionStrategy,
     String createdAt,
     String updatedAt
 ) {
 }
-
