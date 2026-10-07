@@ -37,8 +37,4 @@ public class RpgSystemModule {
         return controller::registerRoutes;
     }
 
-    public WebController controller() {
-        return controller::registerRoutes;
-    }
-
 }
