@@ -4,8 +4,6 @@ public record RpgSystemFilterRequest(
     String name,
     String engineVersion,
     String contentVersion,
-    String syncPolicy,
-    String defaultResolutionPolicyId
+    String defaultSyncPolicy
 ) {
-
 }
