@@ -1,90 +1,78 @@
 package com.rcl.msrpg.system.infrastructure.persistence;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rcl.msrpg.core.identifier.ResolutionPolicyId;
+import java.time.Instant;
+
 import com.rcl.msrpg.core.identifier.RpgSystemId;
+import com.rcl.msrpg.core.valueobject.AuditTimestamps;
+import com.rcl.msrpg.core.valueobject.SemanticVersion;
+import com.rcl.msrpg.system.domain.enumeration.ConflictResolutionStrategy;
+import com.rcl.msrpg.system.domain.enumeration.MissingComponentPolicy;
+import com.rcl.msrpg.system.domain.enumeration.SyncPolicy;
 import com.rcl.msrpg.system.domain.model.RpgSystem;
 import com.rcl.msrpg.system.domain.model.RpgSystemSummary;
-import com.rcl.msrpg.system.domain.model.RpgSystem.SyncPolicy;
-import com.rcl.msrpg.system.domain.valueobject.RpgSystemSettings;
+import com.rcl.msrpg.system.domain.valueobject.RpgSystemBehavior;
+import com.rcl.msrpg.system.domain.valueobject.RpgSystemDescription;
+import com.rcl.msrpg.system.domain.valueobject.RpgSystemName;
+import com.rcl.msrpg.system.domain.valueobject.RpgSystemProfile;
+import com.rcl.msrpg.system.domain.valueobject.RpgSystemVersioning;
 
 public class RpgSystemPersistenceMapper {
 
-    private final ObjectMapper objectMapper;
-
-
-    public RpgSystemPersistenceMapper(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
-
     public RpgSystemEntity toEntity(RpgSystem system) {
+        var profile = system.profile();
+        var versioning = system.versioning();
+        var behavior = system.behavior();
+
         return new RpgSystemEntity(
             system.id().toString(),
-            system.name(),
-            system.description(),
-            system.engineVersion(),
-            system.contentVersion(),
-            system.defaultResolutionPolicyId() != null
-                ? system.defaultResolutionPolicyId().toString()
-                : null,
-            system.syncPolicy().name(),
-            toJson(system.settings()),
-            system.createdAt(),
-            system.updatedAt()
+            profile.name().value(),
+            profile.description().text().orElse(null),
+            versioning.engineVersion().value(),
+            versioning.contentVersion().value(),
+            system.defaultSyncPolicy().name(),
+            behavior.missingComponentPolicy().name(),
+            behavior.conflictResolutionStrategy().name(),
+            system.timestamps().createdAt().toString(),
+            system.timestamps().lastUpdate().map(Instant::toString).orElse(null)
         );
     }
 
     public RpgSystem toDomain(RpgSystemEntity entity) {
         return RpgSystem.reconstruct(
             RpgSystemId.of(entity.id()),
-            entity.name(),
-            entity.description(),
-            entity.engineVersion(),
-            entity.contentVersion(),
-            entity.defaultResolutionPolicyId() != null
-                ? ResolutionPolicyId.of(entity.defaultResolutionPolicyId())
-                : null,
-            SyncPolicy.valueOf(entity.syncPolicy()),
-            fromJson(entity.settingsJson()),
-            entity.createdAt(),
-            entity.updatedAt()
+            toProfile(entity.name(), entity.description()),
+            toVersioning(entity.engineVersion(), entity.contentVersion()),
+            SyncPolicy.valueOf(entity.defaultSyncPolicy()),
+            new RpgSystemBehavior(
+                MissingComponentPolicy.valueOf(entity.missingComponentPolicy()),
+                ConflictResolutionStrategy.valueOf(entity.conflictResolutionStrategy())
+            ),
+            toTimestamps(entity.createdAt(), entity.updatedAt())
         );
     }
 
-    public RpgSystemSummary toSummary(RpgSystemEntity entity) {
+    public RpgSystemSummary toSummary(RpgSystemSummaryRow row) {
         return new RpgSystemSummary(
-            RpgSystemId.of(entity.id()), 
-            entity.name(), 
-            entity.description(), 
-            entity.engineVersion(), 
-            entity.contentVersion(), 
-            SyncPolicy.valueOf(entity.syncPolicy()), 
-            entity.createdAt(), 
-            entity.updatedAt()
+            RpgSystemId.of(row.id()),
+            toProfile(row.name(), row.description()),
+            toVersioning(row.engineVersion(), row.contentVersion()),
+            toTimestamps(row.createdAt(), row.updatedAt())
         );
     }
 
-    private String toJson(RpgSystemSettings settings) {
-        try {
-            return objectMapper.writeValueAsString(
-                settings != null ? settings : RpgSystemSettings.defaults()
-            );
-        } catch (JsonProcessingException e) {
-            throw new IllegalStateException("Failed to serialize RPG system settings.", e);
-        }
+    private RpgSystemProfile toProfile(String name, String description) {
+        return new RpgSystemProfile(RpgSystemName.of(name), RpgSystemDescription.of(description));
     }
 
-    private RpgSystemSettings fromJson(String json) {
-        if (json == null || json.isBlank()) {
-            return RpgSystemSettings.defaults();
-        }
+    private RpgSystemVersioning toVersioning(String engineVersion, String contentVersion) {
+        return new RpgSystemVersioning(SemanticVersion.of(engineVersion), SemanticVersion.of(contentVersion));
+    }
 
-        try {
-            return objectMapper.readValue(json, RpgSystemSettings.class);
-        } catch (JsonProcessingException e) {
-            throw new IllegalStateException("Failed to deserialize RPG system settings.", e);
-        }
+    private AuditTimestamps toTimestamps(String createdAt, String updatedAt) {
+        return new AuditTimestamps(
+            Instant.parse(createdAt),
+            updatedAt == null ? null : Instant.parse(updatedAt)
+        );
     }
 
 }
