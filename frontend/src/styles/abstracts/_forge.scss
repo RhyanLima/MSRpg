@@ -1,0 +1,123 @@
+@use "tokens" as t;
+@use "mixins" as m;
+
+@mixin forge-field-label {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  @include m.heading-caps(0.52rem, 0.16em);
+  color: rgba(t.$color-parchment, 0.32);
+  margin-bottom: 0.38rem;
+  user-select: none;
+}
+
+@mixin forge-field-input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(t.$color-rune, 0.18);
+  border-radius: t.$radius-sm;
+  padding: 0.7rem 0.9rem;
+  color: t.$color-parchment;
+  font-family: t.$font-body;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.22s, background 0.22s, box-shadow 0.22s;
+  -webkit-appearance: none;
+
+  &::placeholder {
+    color: rgba(t.$color-parchment, 0.18);
+    font-style: italic;
+  }
+
+  &:focus {
+    border-color: rgba(t.$color-rune, 0.5);
+    background: rgba(255, 255, 255, 0.04);
+    box-shadow: 0 0 0 3px rgba(t.$color-rune, 0.08), inset 0 1px 3px rgba(0, 0, 0, 0.3);
+  }
+
+  &[aria-invalid='true'] {
+    border-color: rgba(t.$color-ember, 0.45);
+    background: rgba(t.$color-ember, 0.03);
+  }
+}
+
+@mixin forge-select {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath fill='%23c9922a' opacity='0.5' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.9rem center;
+  background-size: 10px 7px;
+  padding-right: 2.2rem;
+
+  option {
+    background: t.$color-ash-deep;
+    color: t.$color-parchment;
+  }
+}
+
+@mixin forge-btn-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  @include m.heading-caps(0.58rem, 0.18em);
+  padding: 0.75rem 1.4rem;
+  border-radius: t.$radius-sm;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.22s, border-color 0.22s, color 0.22s, transform t.$transition-fast;
+
+  &:hover:not(:disabled) { transform: translateY(-1px); }
+  &:active:not(:disabled) { transform: translateY(0); }
+  &:disabled { opacity: 0.45; cursor: not-allowed; }
+  &:focus-visible { outline: 2px solid rgba(t.$color-rune, 0.5); outline-offset: 2px; }
+}
+
+@mixin forge-btn-primary {
+  @include forge-btn-base;
+  background: linear-gradient(135deg, rgba(t.$color-rune, 0.85), rgba(t.$color-rune, 0.65));
+  border: 1px solid rgba(t.$color-rune-soft, 0.4);
+  color: #fff;
+
+  &:hover:not(:disabled) {
+    background: linear-gradient(135deg, t.$color-rune, rgba(t.$color-rune, 0.8));
+    box-shadow: 0 4px 20px rgba(t.$color-rune, 0.3);
+  }
+}
+
+@mixin forge-btn-ghost {
+  @include forge-btn-base;
+  background: transparent;
+  border: 1px solid rgba(t.$color-gold, 0.25);
+  color: rgba(t.$color-gold, 0.85);
+
+  &:hover:not(:disabled) {
+    background: rgba(t.$color-gold, 0.08);
+    border-color: rgba(t.$color-gold, 0.45);
+  }
+}
+
+@mixin forge-btn-danger {
+  @include forge-btn-base;
+  background: rgba(t.$color-ember, 0.12);
+  border: 1px solid rgba(t.$color-ember, 0.35);
+  color: rgba(t.$color-ember-glow, 0.9);
+
+  &:hover:not(:disabled) {
+    background: rgba(t.$color-ember, 0.22);
+    border-color: rgba(t.$color-ember-glow, 0.55);
+  }
+}
+
+@mixin forge-alert($accent: t.$color-ember) {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  background: rgba($accent, 0.08);
+  border: 1px solid rgba($accent, 0.25);
+  border-radius: t.$radius-sm;
+  padding: 0.75rem 1rem;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: rgba(t.$color-parchment, 0.8);
+}
