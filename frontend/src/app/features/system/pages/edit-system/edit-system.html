@@ -1,0 +1,50 @@
+<app-system-shell eyebrow="Sistema" heading="Editar Sistema de RPG"
+  subtitle="Ajuste identidade, versão de conteúdo e comportamento">
+
+  @if (invalidId()) {
+    <div class="alert" role="alert">
+      <span aria-hidden="true">⚠</span>
+      <span>Identificador de sistema inválido.</span>
+    </div>
+  } @else if (system.isLoading()) {
+    <p class="state" role="status" aria-live="polite">Invocando sistema…</p>
+  } @else if (loadError(); as message) {
+    <div class="alert" role="alert">
+      <span aria-hidden="true">⚠</span>
+      <span>{{ message }}</span>
+      <button class="btn-link" type="button" (click)="system.reload()">Tentar novamente</button>
+    </div>
+  } @else if (system.hasValue()) {
+    @let current = system.value();
+
+    <dl class="facts">
+      <div class="fact">
+        <dt>Engine</dt>
+        <dd>{{ current.engineVersion }}</dd>
+      </div>
+      <div class="fact">
+        <dt>Criado em</dt>
+        <dd>{{ current.createdAt | date: 'dd/MM/yyyy HH:mm' }}</dd>
+      </div>
+      <div class="fact">
+        <dt>Atualizado em</dt>
+        <dd>{{ current.updatedAt ? (current.updatedAt | date: 'dd/MM/yyyy HH:mm') : '—' }}</dd>
+      </div>
+    </dl>
+
+    @if (saveError(); as message) {
+      <div class="alert" role="alert" aria-live="polite">
+        <span aria-hidden="true">⚠</span>
+        <span>{{ message }}</span>
+      </div>
+    }
+
+    @if (draft(); as initial) {
+      <app-system-form submitLabel="Salvar Alterações" [initial]="initial" [busy]="saving()"
+        (saved)="save($event)" />
+    }
+  }
+
+  <a shellFooter class="foot-link" routerLink="/systems">← Voltar aos sistemas</a>
+
+</app-system-shell>

@@ -1,0 +1,60 @@
+@use 'styles/abstracts' as a;
+
+:host { display: contents; }
+
+.alert {
+  @include a.forge-alert(a.$color-ember);
+  align-items: center;
+  margin-bottom: 1.2rem;
+}
+
+.btn-link {
+  margin-left: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  @include a.heading-caps(0.5rem, 0.14em);
+  color: rgba(a.$color-rune-soft, 0.75);
+}
+
+.state {
+  padding: 2rem;
+  text-align: center;
+  @include a.heading-caps(0.55rem, 0.16em);
+  color: rgba(a.$color-parchment, 0.35);
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+  margin-bottom: 1.4rem;
+
+  @include a.respond-to(520px) { grid-template-columns: 1fr; }
+}
+
+.fact {
+  padding: 0.6rem 0.75rem;
+  border: 1px solid rgba(a.$color-rune, 0.14);
+  border-radius: a.$radius-sm;
+  background: rgba(255, 255, 255, 0.015);
+
+  dt {
+    @include a.heading-caps(0.42rem, 0.16em);
+    color: rgba(a.$color-parchment, 0.3);
+    margin-bottom: 0.2rem;
+  }
+
+  dd {
+    font-family: a.$font-heading;
+    font-size: 0.75rem;
+    color: rgba(a.$color-parchment, 0.75);
+  }
+}
+
+.foot-link {
+  font-size: 0.85rem;
+  color: rgba(a.$color-parchment, 0.35);
+
+  &:hover { color: a.$color-gold; }
+}
