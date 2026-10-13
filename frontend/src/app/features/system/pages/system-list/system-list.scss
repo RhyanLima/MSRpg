@@ -1,0 +1,166 @@
+@use 'styles/abstracts' as a;
+
+:host { display: contents; }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-bottom: 1.3rem;
+  flex-wrap: wrap;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+  min-width: 260px;
+}
+
+.search-input {
+  @include a.forge-field-input;
+  flex: 1;
+}
+
+.btn--primary { @include a.forge-btn-primary; }
+.btn--ghost { @include a.forge-btn-ghost; }
+.btn--danger { @include a.forge-btn-danger; }
+
+.btn--sm { padding: 0.45rem 0.85rem; font-size: 0.5rem; }
+
+.btn--link {
+  background: none;
+  border: none;
+  padding: 0.3rem;
+  cursor: pointer;
+  @include a.heading-caps(0.5rem, 0.14em);
+  color: rgba(a.$color-rune-soft, 0.75);
+
+  &:hover { color: a.$color-rune-soft; }
+}
+
+.alert {
+  @include a.forge-alert(a.$color-ember);
+  align-items: center;
+  margin-bottom: 1rem;
+
+  .btn--link { margin-left: auto; }
+}
+
+.state {
+  padding: 2rem;
+  text-align: center;
+  @include a.heading-caps(0.55rem, 0.16em);
+  color: rgba(a.$color-parchment, 0.35);
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 2.4rem 1rem;
+  border: 1px dashed rgba(a.$color-gold, 0.18);
+  border-radius: a.$radius-md;
+  text-align: center;
+}
+
+.empty-icon { font-size: 1.8rem; margin-bottom: 0.3rem; }
+
+.empty-title {
+  font-family: a.$font-heading;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  color: rgba(a.$color-parchment, 0.7);
+}
+
+.empty-sub {
+  font-size: 0.9rem;
+  color: rgba(a.$color-parchment, 0.35);
+  margin-bottom: 0.6rem;
+}
+
+.list {
+  list-style: none;
+  border: 1px solid rgba(a.$color-gold, 0.1);
+  border-radius: a.$radius-md;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.95rem 1.1rem;
+  border-bottom: 1px solid rgba(a.$color-parchment, 0.05);
+  transition: background 0.15s;
+
+  &:last-child { border-bottom: none; }
+  &:hover { background: rgba(a.$color-gold, 0.03); }
+
+  @include a.respond-to(600px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.row-main { flex: 1; min-width: 0; }
+
+.row-name {
+  font-family: a.$font-heading;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  color: a.$color-gold;
+
+  &:hover, &:focus-visible { color: a.$color-gold-light; text-decoration: underline; }
+}
+
+.row-desc {
+  margin-top: 0.2rem;
+  font-size: 0.9rem;
+  color: rgba(a.$color-parchment, 0.45);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.row-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+  font-size: 0.78rem;
+  color: rgba(a.$color-parchment, 0.3);
+}
+
+.tag {
+  @include a.heading-caps(0.42rem, 0.12em);
+  padding: 0.12rem 0.4rem;
+  border: 1px solid rgba(a.$color-rune, 0.25);
+  border-radius: 2px;
+  color: rgba(a.$color-rune-soft, 0.7);
+}
+
+.row-actions {
+  display: flex;
+  gap: 0.45rem;
+  flex-shrink: 0;
+}
+
+.foot-link {
+  font-size: 0.85rem;
+  color: rgba(a.$color-parchment, 0.35);
+
+  &:hover { color: a.$color-gold; }
+}

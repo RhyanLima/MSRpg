@@ -1,0 +1,90 @@
+<app-system-shell eyebrow="Sistemas" heading="Sistemas de RPG"
+  subtitle="Os mundos de regras que você forjou" width="wide">
+
+  <div class="toolbar">
+    <form class="search" role="search" (submit)="applySearch($event)">
+      <label class="visually-hidden" for="system-search">Buscar sistema por nome</label>
+      <input class="search-input" id="system-search" type="search" autocomplete="off"
+        placeholder="Buscar por nome…" [attr.maxlength]="searchMax"
+        [value]="searchText()" (input)="onSearchInput($event)" />
+      <button class="btn btn--ghost" type="submit">Buscar</button>
+      @if (hasActiveFilter()) {
+        <button class="btn btn--link" type="button" (click)="clearSearch()">Limpar</button>
+      }
+    </form>
+
+    <a class="btn btn--primary" routerLink="/systems/new">
+      <span aria-hidden="true">✦</span> Novo Sistema
+    </a>
+  </div>
+
+  @if (deleteError(); as message) {
+    <div class="alert" role="alert">
+      <span aria-hidden="true">⚠</span>
+      <span>{{ message }}</span>
+    </div>
+  }
+
+  @if (systems.isLoading()) {
+    <p class="state" role="status" aria-live="polite">Invocando sistemas…</p>
+  } @else if (loadError(); as message) {
+    <div class="alert" role="alert">
+      <span aria-hidden="true">⚠</span>
+      <span>{{ message }}</span>
+      <button class="btn btn--link" type="button" (click)="systems.reload()">Tentar novamente</button>
+    </div>
+  } @else if (rows().length === 0) {
+    <div class="empty">
+      <span class="empty-icon" aria-hidden="true">📜</span>
+      @if (hasActiveFilter()) {
+        <p class="empty-title">Nenhum sistema encontrado</p>
+        <p class="empty-sub">Nenhum nome corresponde à busca.</p>
+      } @else {
+        <p class="empty-title">Nenhum sistema forjado ainda</p>
+        <p class="empty-sub">Crie seu primeiro sistema de RPG para começar.</p>
+        <a class="btn btn--primary" routerLink="/systems/new">+ Criar Sistema</a>
+      }
+    </div>
+  } @else {
+    <ul class="list" aria-label="Sistemas cadastrados">
+      @for (system of rows(); track system.id) {
+        <li class="row">
+          <div class="row-main">
+            <a class="row-name" [routerLink]="['/systems', system.id]">{{ system.name }}</a>
+            @if (system.description) {
+              <p class="row-desc">{{ system.description }}</p>
+            }
+            <p class="row-meta">
+              <span class="tag">engine {{ system.engineVersion }}</span>
+              <span class="tag">conteúdo {{ system.contentVersion }}</span>
+              <span>
+                @if (system.updatedAt) {
+                  atualizado em {{ system.updatedAt | date: 'dd/MM/yyyy HH:mm' }}
+                } @else {
+                  criado em {{ system.createdAt | date: 'dd/MM/yyyy HH:mm' }}
+                }
+              </span>
+            </p>
+          </div>
+          <div class="row-actions">
+            <a class="btn btn--ghost btn--sm" [routerLink]="['/systems', system.id]"
+              [attr.aria-label]="'Editar ' + system.name">Editar</a>
+            <button class="btn btn--danger btn--sm" type="button"
+              [attr.aria-label]="'Excluir ' + system.name" (click)="askDelete(system)">Excluir</button>
+          </div>
+        </li>
+      }
+    </ul>
+  }
+
+  <a shellFooter class="foot-link" routerLink="/home">← Voltar ao início</a>
+
+</app-system-shell>
+
+@if (pendingDelete(); as target) {
+  <app-confirm-dialog heading="Excluir sistema" confirmLabel="Excluir" variant="danger"
+    [busy]="deleting()" (confirmed)="confirmDelete()" (cancelled)="cancelDelete()">
+    <p>Excluir <strong>{{ target.name }}</strong> permanentemente?</p>
+    <p>Sistemas que ainda possuem políticas, definições ou campanhas não podem ser excluídos.</p>
+  </app-confirm-dialog>
+}
