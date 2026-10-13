@@ -1,37 +1,63 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { CreateSystem } from './create-system';
 import { provideHttpClient } from '@angular/common/http';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Router, provideRouter } from '@angular/router';
+import { CreateSystem } from './create-system';
+import { API, aSystem, stubShellDecorations, typeInto } from '../../testing/system-testing';
 
 describe('CreateSystem', () => {
-  let component: CreateSystem;
   let fixture: ComponentFixture<CreateSystem>;
+  let element: HTMLElement;
+  let httpMock: HttpTestingController;
+  let navigate: ReturnType<typeof vi.spyOn>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [CreateSystem],
-      providers: [provideHttpClient()],
-    }).compileComponents();
-
+    TestBed.configureTestingModule({
+      providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])],
+    });
+    stubShellDecorations();
+    httpMock = TestBed.inject(HttpTestingController);
+    navigate = vi.spyOn(TestBed.inject(Router), 'navigate').mockResolvedValue(true);
     fixture = TestBed.createComponent(CreateSystem);
-    component = fixture.componentInstance;
+    element = fixture.nativeElement;
     await fixture.whenStable();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  afterEach(() => httpMock.verify());
+
+  async function fillAndSubmit(name: string): Promise<void> {
+    typeInto(element.querySelector<HTMLInputElement>('#system-name')!, name);
+    await fixture.whenStable();
+    element.querySelector<HTMLButtonElement>('button[type="submit"]')!.click();
+    await fixture.whenStable();
+  }
+
+  it('envia apenas campos editáveis (sem engineVersion) e volta para a lista', async () => {
+    await fillAndSubmit('  Tormenta  ');
+
+    const request = httpMock.expectOne(API);
+    expect(request.request.method).toBe('POST');
+    expect(request.request.body).toEqual({
+      name: 'Tormenta',
+      description: '',
+      contentVersion: '1.0.0',
+      defaultSyncPolicy: 'APPLY_TO_NEW_ONLY',
+      missingComponentPolicy: 'WARN_AND_SKIP_STEP',
+      conflictResolutionStrategy: 'ASK_USER',
+    });
+    request.flush(aSystem());
+    await fixture.whenStable();
+
+    expect(navigate).toHaveBeenCalledWith(['/systems']);
   });
 
-  it('deve exigir nome, engine version, content version e resolution policy id', () => {
-    component.form.controls.name.setValue('');
-    component.form.controls.engineVersion.setValue('');
-    component.form.controls.contentVersion.setValue('');
-    component.form.controls.defaultResolutionPolicyId.setValue('');
+  it('mostra mensagem de nome duplicado em 409 e permanece na tela', async () => {
+    await fillAndSubmit('Tormenta');
 
-    expect(component.form.invalid).toBeTruthy();
-  });
+    httpMock.expectOne(API).flush({ message: 'exists' }, { status: 409, statusText: 'Conflict' });
+    await fixture.whenStable();
 
-  it('deve enviar settingsJson como "{}" quando definições avançadas não estiverem marcadas', () => {
-    expect(component.advancedSettings()).toBeFalsy();
+    expect(element.querySelector('[role="alert"]')?.textContent).toContain('Já existe um sistema com esse nome');
+    expect(navigate).not.toHaveBeenCalled();
   });
 });
