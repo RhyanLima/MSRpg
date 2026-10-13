@@ -26,7 +26,24 @@ export const routes: Routes = [
     loadComponent: () => import('./features/admin/pages/admin-dashboard/admin-dashboard').then(m => m.AdminDashboard)
   },
   {
-    path: 'create-system',
+    path: 'systems',
+    title: 'Sistemas de RPG',
+    loadComponent: () => import('./features/system/pages/system-list/system-list').then(m => m.SystemList)
+  },
+  {
+    path: 'systems/new',
+    title: 'Novo Sistema',
     loadComponent: () => import('./features/system/pages/create-system/create-system').then(m => m.CreateSystem)
+  },
+  {
+    path: 'systems/:id',
+    title: 'Editar Sistema',
+    loadComponent: () => import('./features/system/pages/edit-system/edit-system').then(m => m.EditSystem)
+  },
+  {
+    // Rota antiga mantida por compatibilidade com links existentes (WIP: Atualizar links depois).
+    path: 'create-system',
+    redirectTo: 'systems/new',
+    pathMatch: 'full'
   }
 ];
