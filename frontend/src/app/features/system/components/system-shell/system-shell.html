@@ -1,0 +1,39 @@
+<div class="bg-texture" aria-hidden="true"></div>
+<div class="noise" aria-hidden="true"></div>
+<div class="rune-line" aria-hidden="true"></div>
+
+<main class="page">
+
+  <app-ember-particles />
+
+  <div class="brand">
+    <div class="bmark" aria-hidden="true">
+      <div class="bmark-ring"></div>
+      <div class="bmark-ring bmark-ring2"></div>
+      <span class="bmark-icon">📖</span>
+    </div>
+    <span class="brand-name">MS<em>Rpg</em></span>
+    <span class="brand-tagline">Forja de Sistemas</span>
+  </div>
+
+  <section class="card" [class.card--wide]="width() === 'wide'" [attr.aria-label]="heading()">
+
+    <header class="card-head">
+      <p class="card-eyebrow">— {{ eyebrow() }} —</p>
+      <h1 class="card-title">{{ heading() }}</h1>
+      @if (subtitle()) {
+        <p class="card-sub">{{ subtitle() }}</p>
+      }
+    </header>
+
+    <div class="card-body">
+      <ng-content />
+    </div>
+
+    <footer class="card-foot">
+      <ng-content select="[shellFooter]" />
+    </footer>
+
+  </section>
+
+</main>

@@ -1,0 +1,103 @@
+<form class="form" (submit)="onSubmit($event)" novalidate>
+
+  <div class="div-rune" aria-hidden="true">
+    <span class="div-rune-sym">✦ Identidade ✦</span>
+  </div>
+
+  <div class="field" [class.is-error]="systemForm.name().touched() && systemForm.name().invalid()">
+    <label class="field-label" for="system-name">
+      Nome do Sistema <span class="field-req" aria-hidden="true">*</span>
+      <span class="field-hint">{{ limits.nameMin }}–{{ limits.nameMax }} caracteres</span>
+    </label>
+    <input class="field-input" id="system-name" type="text" autocomplete="off"
+      placeholder="Ex: Fantasia Sombria" aria-describedby="system-name-msg"
+      [attr.aria-invalid]="systemForm.name().touched() && systemForm.name().invalid()"
+      [formField]="systemForm.name" />
+    <div class="field-msg" id="system-name-msg" aria-live="polite">
+      @if (systemForm.name().touched()) {
+        @for (error of systemForm.name().errors(); track error.kind) {
+          <span>{{ error.message }}</span>
+        }
+      }
+    </div>
+  </div>
+
+  <div class="field" [class.is-error]="systemForm.description().invalid()">
+    <label class="field-label" for="system-description">
+      Descrição
+      <span class="field-hint">{{ systemForm.description().value().length }} / {{ limits.descriptionMax }}</span>
+    </label>
+    <textarea class="field-input field-textarea" id="system-description" rows="3"
+      placeholder="Do que trata este sistema?" aria-describedby="system-description-msg"
+      [attr.aria-invalid]="systemForm.description().invalid()"
+      [formField]="systemForm.description"></textarea>
+    <div class="field-msg" id="system-description-msg" aria-live="polite">
+      @for (error of systemForm.description().errors(); track error.kind) {
+        <span>{{ error.message }}</span>
+      }
+    </div>
+  </div>
+
+  <div class="field" [class.is-error]="systemForm.contentVersion().touched() && systemForm.contentVersion().invalid()">
+    <label class="field-label" for="system-content-version">
+      Versão do Conteúdo <span class="field-req" aria-hidden="true">*</span>
+      <span class="field-hint">a versão do engine é definida pelo servidor</span>
+    </label>
+    <input class="field-input field-input--short" id="system-content-version" type="text"
+      inputmode="decimal" autocomplete="off" placeholder="1.0.0" aria-describedby="system-content-version-msg"
+      [attr.aria-invalid]="systemForm.contentVersion().touched() && systemForm.contentVersion().invalid()"
+      [formField]="systemForm.contentVersion" />
+    <div class="field-msg" id="system-content-version-msg" aria-live="polite">
+      @if (systemForm.contentVersion().touched()) {
+        @for (error of systemForm.contentVersion().errors(); track error.kind) {
+          <span>{{ error.message }}</span>
+        }
+      }
+    </div>
+  </div>
+
+  <div class="div-rune" aria-hidden="true">
+    <span class="div-rune-sym">✦ Comportamento ✦</span>
+  </div>
+
+  <div class="field">
+    <label class="field-label" for="system-sync-policy">Sincronização padrão de definições</label>
+    <select class="field-input field-select" id="system-sync-policy" [formField]="systemForm.defaultSyncPolicy">
+      @for (option of syncPolicies; track option.value) {
+        <option [value]="option.value">{{ option.label }}</option>
+      }
+    </select>
+    <p class="field-help">Herdada pelas campanhas em modo INHERIT.</p>
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label class="field-label" for="system-missing-component">Componente ausente</label>
+      <select class="field-input field-select" id="system-missing-component"
+        [formField]="systemForm.missingComponentPolicy">
+        @for (option of missingComponentPolicies; track option.value) {
+          <option [value]="option.value">{{ option.label }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="field">
+      <label class="field-label" for="system-conflict-strategy">Conflitos na importação</label>
+      <select class="field-input field-select" id="system-conflict-strategy"
+        [formField]="systemForm.conflictResolutionStrategy">
+        @for (option of conflictStrategies; track option.value) {
+          <option [value]="option.value">{{ option.label }}</option>
+        }
+      </select>
+    </div>
+  </div>
+
+  <button class="btn-submit" type="submit" [disabled]="!canSubmit()" [attr.aria-busy]="busy()">
+    @if (busy()) {
+      <span class="spin-ring" aria-hidden="true"></span> Forjando…
+    } @else {
+      <span aria-hidden="true">⚔</span> {{ submitLabel() }}
+    }
+  </button>
+
+</form>

@@ -1,0 +1,200 @@
+@use 'styles/abstracts' as a;
+
+:host { display: contents; }
+
+.bg-texture {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(a.$color-gold, 0.018) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(a.$color-gold, 0.018) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 15% 20%, rgba(a.$color-rune, 0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 85% 80%, rgba(a.$color-ember, 0.05) 0%, transparent 55%),
+      radial-gradient(ellipse 80% 40% at 50% 100%, rgba(a.$color-ink, 0.9) 0%, transparent 70%);
+  }
+}
+
+.noise {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.022;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+}
+
+.rune-line {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 100;
+  background: linear-gradient(90deg, transparent 0%, a.$color-rune 30%, a.$color-gold 50%, a.$color-rune 70%, transparent 100%);
+  opacity: 0.7;
+}
+
+.page {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.25rem 4rem;
+  min-height: 100vh;
+  background: a.$color-ink;
+  color: a.$color-parchment;
+  font-family: a.$font-body;
+
+  @include a.respond-to(640px) { padding: 2rem 0.75rem 3rem; }
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 2.2rem;
+}
+
+.bmark {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bmark-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(a.$color-rune, 0.3);
+  animation: shell-spin 22s linear infinite;
+}
+
+.bmark-ring2 {
+  inset: 8px;
+  border-color: rgba(a.$color-gold, 0.22);
+  animation-duration: 14s;
+  animation-direction: reverse;
+}
+
+@keyframes shell-spin { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .bmark-ring { animation: none; }
+}
+
+.bmark-icon {
+  position: relative;
+  z-index: 1;
+  font-size: 1.3rem;
+  filter: drop-shadow(0 0 10px rgba(a.$color-rune, 0.45));
+}
+
+.brand-name {
+  font-family: a.$font-display;
+  font-size: 1.35rem;
+  color: a.$color-gold;
+  letter-spacing: 0.04em;
+  text-shadow: 0 0 28px rgba(a.$color-gold, 0.22);
+
+  em { font-style: normal; color: a.$color-ember; }
+}
+
+.brand-tagline {
+  font-family: a.$font-italic;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: rgba(a.$color-parchment, 0.28);
+}
+
+.card {
+  width: 100%;
+  max-width: 640px;
+  background: a.$color-ash-deep;
+  border: 1px solid rgba(a.$color-rune, 0.16);
+  border-radius: a.$radius-md;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.5),
+    0 24px 64px rgba(0, 0, 0, 0.6),
+    0 0 80px rgba(a.$color-rune, 0.05);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 12%;
+    right: 12%;
+    height: 1.5px;
+    background: linear-gradient(90deg, transparent, a.$color-rune, a.$color-gold, a.$color-rune, transparent);
+    opacity: 0.6;
+  }
+
+  &--wide { max-width: 920px; }
+}
+
+.card-head {
+  padding: 1.8rem 2rem 0;
+  text-align: center;
+  margin-bottom: 1.6rem;
+
+  @include a.respond-to(520px) { padding: 1.4rem 1.4rem 0; }
+}
+
+.card-eyebrow {
+  @include a.heading-caps(0.48rem, 0.28em);
+  color: rgba(a.$color-parchment, 0.22);
+  margin-bottom: 0.45rem;
+}
+
+.card-title {
+  font-family: a.$font-display;
+  font-size: 1.15rem;
+  color: a.$color-parchment;
+  line-height: 1.2;
+}
+
+.card-sub {
+  font-family: a.$font-italic;
+  font-style: italic;
+  font-size: 0.88rem;
+  color: rgba(a.$color-parchment, 0.28);
+  margin-top: 0.3rem;
+}
+
+.card-body {
+  padding: 0 2rem 1.5rem;
+
+  @include a.respond-to(520px) { padding: 0 1.4rem 1.25rem; }
+}
+
+.card-foot {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 2rem 1.4rem;
+  border-top: 1px solid rgba(a.$color-rune, 0.08);
+
+  &:empty { display: none; }
+}
