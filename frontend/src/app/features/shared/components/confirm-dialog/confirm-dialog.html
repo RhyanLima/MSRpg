@@ -1,0 +1,24 @@
+<div class="overlay" (click)="cancel()" aria-hidden="true"></div>
+
+<div class="box" [class.box--danger]="variant() === 'danger'"
+  role="dialog" aria-modal="true" [attr.aria-labelledby]="titleId">
+
+  <h2 class="title" [id]="titleId">{{ heading() }}</h2>
+
+  <div class="body">
+    <ng-content />
+  </div>
+
+  <div class="actions">
+    <button #cancelButton class="btn btn--ghost" type="button" [disabled]="busy()" (click)="cancel()">
+      Cancelar
+    </button>
+    <button class="btn" type="button"
+      [class.btn--danger]="variant() === 'danger'"
+      [class.btn--primary]="variant() !== 'danger'"
+      [disabled]="busy()" [attr.aria-busy]="busy()" (click)="confirm()">
+      {{ busy() ? 'Aguarde…' : confirmLabel() }}
+    </button>
+  </div>
+
+</div>

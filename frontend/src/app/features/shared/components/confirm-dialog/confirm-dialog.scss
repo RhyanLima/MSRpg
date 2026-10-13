@@ -1,0 +1,56 @@
+@use 'styles/abstracts' as a;
+
+:host {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(a.$color-ink, 0.72);
+  backdrop-filter: blur(3px);
+}
+
+.box {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  padding: 1.6rem 1.7rem 1.4rem;
+  background: a.$color-ash-deep;
+  border: 1px solid rgba(a.$color-gold, 0.2);
+  border-radius: a.$radius-md;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.65);
+
+  &--danger { border-color: rgba(a.$color-ember, 0.35); }
+}
+
+.title {
+  font-family: a.$font-heading;
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  color: a.$color-parchment;
+  margin-bottom: 0.8rem;
+}
+
+.body {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: rgba(a.$color-parchment, 0.7);
+  margin-bottom: 1.4rem;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+}
+
+.btn--ghost { @include a.forge-btn-ghost; }
+.btn--primary { @include a.forge-btn-primary; }
+.btn--danger { @include a.forge-btn-danger; }

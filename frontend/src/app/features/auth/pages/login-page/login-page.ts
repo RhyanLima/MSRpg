@@ -3,7 +3,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth-service';
 import { EmailVerificationService } from '../../services/email-verification-service';
-import { EmberParticles } from '../../../../core/components/ember-particles/ember-particles';
+import { EmberParticles } from '../../../shared/components/ember-particles/ember-particles';
 
 type LoginStatus = 'idle' | 'loading' | 'error';
 

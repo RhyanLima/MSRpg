@@ -3,7 +3,7 @@ import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angula
 import { Router, RouterLink } from '@angular/router';
 import { RpgSystemService } from '../../services/rpg-system.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { EmberParticles } from '../../../../core/components/ember-particles/ember-particles';
+import { EmberParticles } from '../../../shared/components/ember-particles/ember-particles';
 
 type Status = 'idle' | 'loading' | 'error';
 
