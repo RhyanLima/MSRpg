@@ -1,12 +1,8 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { EmberParticles } from '../../../../core/components/ember-particles/ember-particles';
+import { EmberParticles } from '../../../shared/components/ember-particles/ember-particles';
 
 export type ShellWidth = 'narrow' | 'wide';
 
-/**
- * Moldura visual das telas de sistemas: fundo, brand e card com cabeçalho.
- * O conteúdo do card entra por projeção; ações de rodapé via [shellFooter].
- */
 @Component({
   selector: 'app-system-shell',
   changeDetection: ChangeDetectionStrategy.OnPush,

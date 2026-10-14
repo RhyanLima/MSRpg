@@ -1,11 +1,11 @@
 import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ConfirmDialog } from '../../../../shared/components/confirm-dialog/confirm-dialog';
 import { SystemShell } from '../../components/system-shell/system-shell';
 import { RpgSystemFilter, RpgSystemSummary } from '../../models/rpg-system.model';
 import { describeHttpError } from '../../services/rpg-system-errors';
 import { RpgSystemService } from '../../services/rpg-system.service';
+import { ConfirmDialog } from '../../../shared/components/confirm-dialog/confirm-dialog';
 
 const SEARCH_MAX = 100;
 
