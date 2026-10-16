@@ -49,15 +49,39 @@ CREATE TABLE IF NOT EXISTS campaigns (
 CREATE UNIQUE INDEX IF NOT EXISTS ux_campaigns_system_id
     ON campaigns(system_id, id);
 
-CREATE TABLE IF NOT EXISTS local_users (
+CREATE TABLE IF NOT EXISTS profiles (
     id TEXT PRIMARY KEY,
     display_name TEXT NOT NULL,
-    kind TEXT NOT NULL DEFAULT 'LOCAL' CHECK (kind IN ('LOCAL', 'GUEST')),
     avatar_asset_id TEXT,
     created_at TEXT NOT NULL,
     updated_at TEXT,
-    FOREIGN KEY (avatar_asset_id) REFERENCES assets(id)          
+    FOREIGN KEY (avatar_asset_id) REFERENCES assets(id)
 );
+
+
+CREATE TABLE IF NOT EXISTS profile_credentials (
+    profile_id TEXT PRIMARY KEY,
+    password_hash TEXT NOT NULL CHECK (password_hash LIKE '$argon2id$%'),
+    recovery_code_hash TEXT NOT NULL CHECK (recovery_code_hash LIKE '$argon2id$%'),
+    failed_attempts INTEGER NOT NULL DEFAULT 0 CHECK (failed_attempts >= 0),
+    locked_until TEXT,
+    created_at TEXT NOT NULL,
+    updated_at TEXT,
+    FOREIGN KEY (profile_id) REFERENCES profiles(id) ON DELETE CASCADE
+);
+
+-- Vinculo 1:1 com uma conta externa. Tokens da conta nunca sao gravados no banco.
+CREATE TABLE IF NOT EXISTS profile_linked_accounts (
+    profile_id TEXT PRIMARY KEY,
+    provider TEXT NOT NULL DEFAULT 'MSR_ACCOUNT' CHECK (provider IN ('MSR_ACCOUNT')),
+    external_account_id TEXT NOT NULL,
+    account_label TEXT,
+    linked_at TEXT NOT NULL,
+    FOREIGN KEY (profile_id) REFERENCES profiles(id) ON DELETE CASCADE
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS ux_profile_linked_accounts_account
+    ON profile_linked_accounts(provider, external_account_id);
 
 CREATE TABLE IF NOT EXISTS role_definitions (
     id TEXT PRIMARY KEY,
@@ -86,15 +110,15 @@ CREATE TABLE IF NOT EXISTS role_permissions (
 CREATE TABLE IF NOT EXISTS campaign_members (
     id TEXT PRIMARY KEY,
     campaign_id TEXT NOT NULL,
-    user_id TEXT NOT NULL,
+    profile_id TEXT NOT NULL,
     member_type TEXT NOT NULL DEFAULT 'PLAYER' CHECK (member_type IN ('MASTER', 'PLAYER', 'SPECTATOR')),
     created_at TEXT NOT NULL,
     FOREIGN KEY (campaign_id) REFERENCES campaigns(id),
-    FOREIGN KEY (user_id) REFERENCES local_users(id)
+    FOREIGN KEY (profile_id) REFERENCES profiles(id)
 );
 
-CREATE UNIQUE INDEX IF NOT EXISTS ux_campaign_members_campaign_user
-    ON campaign_members(campaign_id, user_id);
+CREATE UNIQUE INDEX IF NOT EXISTS ux_campaign_members_campaign_profile
+    ON campaign_members(campaign_id, profile_id);
 
 CREATE TABLE IF NOT EXISTS campaign_member_permission_overrides (
     campaign_member_id TEXT NOT NULL,

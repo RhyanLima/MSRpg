@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS assets (
     system_id TEXT,
     campaign_id TEXT,
     owner_type TEXT CHECK (owner_type IN (
-        'RPG_SYSTEM', 'CAMPAIGN', 'LOCAL_USER', 'LORE_DOCUMENT',
+        'RPG_SYSTEM', 'CAMPAIGN', 'PROFILE', 'LORE_DOCUMENT',
         'ENTITY_INSTANCE', 'ITEM_INSTANCE', 'ENTITY_TEMPLATE', 'ITEM')),
     owner_id TEXT,
     asset_type TEXT NOT NULL CHECK (asset_type IN ('IMAGE', 'AUDIO', 'MAP', 'TOKEN', 'DOCUMENT')),

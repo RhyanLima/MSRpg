@@ -32,19 +32,19 @@ CREATE INDEX IF NOT EXISTS idx_sessions_campaign_status
 CREATE TABLE IF NOT EXISTS session_participants (
     id TEXT PRIMARY KEY,
     session_id TEXT NOT NULL,
-    user_id TEXT NOT NULL,
+    profile_id TEXT NOT NULL,
     role_definition_id TEXT,
     connection_status TEXT NOT NULL DEFAULT 'OFFLINE'
         CHECK (connection_status IN ('OFFLINE', 'CONNECTING', 'ONLINE')),
     joined_at TEXT,
     left_at TEXT,
     FOREIGN KEY (session_id) REFERENCES sessions(id),
-    FOREIGN KEY (user_id) REFERENCES local_users(id),
+    FOREIGN KEY (profile_id) REFERENCES profiles(id),
     FOREIGN KEY (role_definition_id) REFERENCES role_definitions(id)
 );
 
-CREATE UNIQUE INDEX IF NOT EXISTS ux_session_participants_session_user
-    ON session_participants(session_id, user_id);
+CREATE UNIQUE INDEX IF NOT EXISTS ux_session_participants_session_profile
+    ON session_participants(session_id, profile_id);
 
 CREATE TABLE IF NOT EXISTS session_entities (
     id TEXT PRIMARY KEY,
@@ -307,11 +307,11 @@ CREATE TABLE IF NOT EXISTS session_snapshots (
     phase TEXT,
     full_state JSON NOT NULL,
     log_sequence_number INTEGER,
-    created_by_user_id TEXT,
+    created_by_profile_id TEXT,
     created_at TEXT NOT NULL,
     note TEXT,
     FOREIGN KEY (campaign_id, session_id) REFERENCES sessions(campaign_id, id),
-    FOREIGN KEY (created_by_user_id) REFERENCES local_users(id)
+    FOREIGN KEY (created_by_profile_id) REFERENCES profiles(id)
 );
 
 CREATE INDEX IF NOT EXISTS idx_session_snapshots_session_created_at
