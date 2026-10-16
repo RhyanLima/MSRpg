@@ -1,6 +1,18 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, protocol, net } = require('electron');
 const { spawn } = require('child_process');
+const { pathToFileURL } = require('url');
+const fs = require('fs');
 const path = require('path');
+
+// O Angular é servido por um protocolo próprio (app://msrpg) em produção. Com file://
+// o <base href="/"> resolve os assets na raiz do disco e o roteador não casa nenhuma rota
+// (tela em branco), além de o Origin ser "null", bloqueado pelo CORS do backend.
+const APP_SCHEME = 'app';
+const APP_HOST = 'msrpg';
+
+protocol.registerSchemesAsPrivileged([
+  { scheme: APP_SCHEME, privileges: { standard: true, secure: true, supportFetchAPI: true } }
+]);
 
 let mainWindow = null;
 let javaProcess = null;
@@ -34,11 +46,41 @@ async function createWindow() {
     return;
   }
 
+  registerAppProtocol();
   javaProcess = startJavaBackend();
+  javaProcess.on('error', showStartupError);
   serverInfo = await readServerInfo(javaProcess.stdout);
 
-  const indexPath = path.join(process.resourcesPath, 'frontend', 'browser', 'index.html');
-  await mainWindow.loadFile(indexPath);
+  await mainWindow.loadURL(`${APP_SCHEME}://${APP_HOST}/`);
+}
+
+function registerAppProtocol() {
+  const root = path.join(process.resourcesPath, 'frontend', 'browser');
+  const indexPath = path.join(root, 'index.html');
+
+  protocol.handle(APP_SCHEME, request => {
+    const { pathname } = new URL(request.url);
+    const requested = path.normalize(path.join(root, decodeURIComponent(pathname)));
+
+    const insideRoot = requested === root || requested.startsWith(root + path.sep);
+    const isFile = insideRoot && fs.existsSync(requested) && fs.statSync(requested).isFile();
+
+    // Rotas do Angular (ex.: /auth/login) não são arquivos: devolve o index.html.
+    return net.fetch(pathToFileURL(isFile ? requested : indexPath).toString());
+  });
+}
+
+function showStartupError(error) {
+  console.error('[startup]', error);
+  if (!mainWindow || mainWindow.isDestroyed()) {
+    return;
+  }
+  const message = String(error && error.message ? error.message : error)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;');
+  const html = `<body style="background:#0a0806;color:#f5ead6;font-family:serif;padding:2rem">
+    <h2>MSRpg não pôde ser iniciado</h2><p>${message}</p></body>`;
+  mainWindow.loadURL(`data:text/html;charset=utf-8,${encodeURIComponent(html)}`);
 }
 
 function startJavaBackend() {
@@ -78,6 +120,11 @@ function readServerInfo(stdout) {
       reject(new Error('Timeout waiting for Java backend startup'));
     }, 30000);
 
+    stdout.once('close', () => {
+      clearTimeout(timeout);
+      reject(new Error('O backend Java encerrou antes de ficar pronto.'));
+    });
+
     stdout.on('data', data => {
       buffer += data.toString();
 
@@ -102,7 +149,7 @@ function readServerInfo(stdout) {
 
 ipcMain.handle('get-server-info', () => serverInfo);
 
-app.whenReady().then(createWindow);
+app.whenReady().then(() => createWindow().catch(showStartupError));
 
 app.on('before-quit', () => {
   if (javaProcess) {

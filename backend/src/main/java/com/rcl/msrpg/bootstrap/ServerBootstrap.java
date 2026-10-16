@@ -40,6 +40,7 @@ public class ServerBootstrap {
                 cors.addRule(rule -> {
                     rule.allowHost("http://localhost:4200");
                     rule.allowHost("http://127.0.0.1:4200");
+                    rule.allowHost("app://msrpg");
                     rule.allowCredentials = true;
                 });
             });
